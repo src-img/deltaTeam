@@ -28,31 +28,37 @@ class databaseManager():
     # Functions are subject to change
     
     # Adding to database
+    def addUser(self):
+        pass
+
     def addSong(self):
         pass
 
     def addMeasure(self):
         pass
 
-    def addNote(self):
-        pass
-    
     # Removing from database
+    def removeUser(self):
+        pass
+
     def removeSong(self):
         pass
 
     def removeMeasure(self):
         pass
 
-    def removeNote(self):
-        pass
-    
     # Fetching from database
+    def fetchUser(self): 
+        pass
+
     def fetchSong(self):
         pass
 
     def fetchMeasure(self):
         pass
 
-    def fetchNote(self):
+
+    # Commiting changes to database 
+
+    def commit(self):
         pass

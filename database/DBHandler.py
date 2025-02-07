@@ -20,7 +20,9 @@ class databaseManager():
 
         if success:
             self.cursor = self.connection.cursor()
-            # Add cursor.execute here after DB is designed
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS User(user_id INTEGER PRIMARY KEY, email VARCHAR(50), password VARCHAR(50), username VARCHAR(50))")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS Song(song_id INTEGER PRIMARY KEY, user_id INTEGER, song_name VARCHAR(50), length INTEGER, measures JSON)")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS Measure(measure_id INTEGER PRIMARY KEY, measure_number INTEGER, notes VARCHAR(50))")
 
         return success, error
 
@@ -28,10 +30,20 @@ class databaseManager():
     # Functions are subject to change
     
     # Adding to database
-    def addUser(self):
-        pass
+    def addUser(self, user_id, email, password, username):
+        success = True
+        error = None
 
-    def addSong(self):
+        try:
+            self.cursor.execute("INSERT INTO User(user_id, email, password, username) VALUES (?, ?, ?, ?)", (user_id, email, password, username))
+            print(f"Added user with values {user_id}, {email}, {password}, {username}")
+        except sqlite3.Error as e:
+            success = False
+            error = e
+
+        return success, error
+
+    def addSong(self, ID):
         pass
 
     def addMeasure(self):
@@ -57,8 +69,21 @@ class databaseManager():
     def fetchMeasure(self):
         pass
 
+    def printAll(self):
+        fetch = self.cursor.execute(f"SELECT * FROM User")
+
+        for item in fetch:
+            print({item})
 
     # Commiting changes to database 
 
     def commit(self):
         pass
+
+if __name__ == "__main__":
+    print("Testing databaseManager...")
+    db = databaseManager("test")
+    success, error = db.connect()
+    print(f"db.connect() return: {success},{error}")
+    db.addUser(0, "d@d", "pp", "ppp")
+    db.printAll()

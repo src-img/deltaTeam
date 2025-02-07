@@ -15,14 +15,15 @@ class databaseManager():
         try:
             self.connection = sqlite3.connect(self.database)
         except sqlite3.Error as e:
+            print("There was an error")
             success = False
             error = e
 
         if success:
             self.cursor = self.connection.cursor()
-            self.cursor.execute("CREATE TABLE IF NOT EXISTS User(user_id INTEGER PRIMARY KEY, email VARCHAR(50), password VARCHAR(50), username VARCHAR(50))")
-            self.cursor.execute("CREATE TABLE IF NOT EXISTS Song(song_id INTEGER PRIMARY KEY, user_id INTEGER, song_name VARCHAR(50), length INTEGER, measures JSON)")
-            self.cursor.execute("CREATE TABLE IF NOT EXISTS Measure(measure_id INTEGER PRIMARY KEY, measure_number INTEGER, notes VARCHAR(50))")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS User(user_id INTEGER PRIMARY KEY AUTOINCREMENT, email VARCHAR(50), password VARCHAR(50), username VARCHAR(50))")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS Song(song_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, song_name VARCHAR(50), length INTEGER, measures TEXT)")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS Measure(measure_id INTEGER PRIMARY KEY AUTOINCREMENT, measure_number INTEGER, notes VARCHAR(50))")
 
         return success, error
 
@@ -30,21 +31,35 @@ class databaseManager():
     # Functions are subject to change
     
     # Adding to database
-    def addUser(self, user_id, email, password, username):
+    def addUser(self, email, password, username):
         success = True
         error = None
 
         try:
-            self.cursor.execute("INSERT INTO User(user_id, email, password, username) VALUES (?, ?, ?, ?)", (user_id, email, password, username))
-            print(f"Added user with values {user_id}, {email}, {password}, {username}")
+            self.cursor.execute("INSERT INTO User(email, password, username) VALUES (?, ?, ?)", (email, password, username))
+            print(f"Added user with values, '{email}', '{password}', '{username}'")
         except sqlite3.Error as e:
+            print("There was an error")
+            success = False
+            error = e
+         
+        id = self.cursor.lastrowid
+        #print(id)
+        return success, error, id 
+
+    def addSong(self, user_id, song_name):
+        success = True
+        error = None
+
+        try:
+            self.cursor.execute("INSERT INTO Song(user_id, song_name) VALUES (?, ?)", (user_id, song_name))
+            print(f"Added song with values, {user_id}, '{song_name}'")
+        except sqlite3.Error as e:
+            print("There was an error")
             success = False
             error = e
 
-        return success, error
 
-    def addSong(self, ID):
-        pass
 
     def addMeasure(self):
         pass
@@ -78,12 +93,26 @@ class databaseManager():
     # Commiting changes to database 
 
     def commit(self):
-        pass
+        success = True
+        error = None
+
+        try:
+            self.connection.commit()
+        except sqlite3.Error as e:
+            print("There was an error")
+            success = False
+            error = e
+        
+        return success, error
 
 if __name__ == "__main__":
     print("Testing databaseManager...")
     db = databaseManager("test")
     success, error = db.connect()
     print(f"db.connect() return: {success},{error}")
-    db.addUser(0, "d@d", "pp", "ppp")
+    succ, err, lastid = db.addUser("ben@delta", "bbben", "benben")
+    db.addSong(lastid, "fire.mp3")
+    succ, err, lastid = db.addUser("peyton@delta", "ppppn", "ppddee")
+    db.addSong(lastid, "Utena <3 Himemiya")
+    #db.commit()
     db.printAll()

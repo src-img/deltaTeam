@@ -76,15 +76,43 @@ class databaseManager():
     """
 
 
-    def addMeasure(self, song_id):
+    def addMeasure(self, song_id, notes):
+        # Check if notes is a valid notes string
+
+        # Add measure to the database if it does not already exist
+        # If it does exist then only get the ID and insert into song with songid
+
+        # Kind of an expensive process, sorry :/
         pass
 
     # Removing from database
-    def removeUser(self):
-        pass
+    def removeUser(self, user_id):
+        success = True
+        error = None
 
-    def removeSong(self):
-        pass
+        try:
+            self.cursor.execute("DELETE FROM User WHERE user_id=?", [user_id])
+            self.cursor.execute("DELETE FROM Song WHERE user_id=?", [user_id])
+            print("Removing user ", user_id, " from db...")
+        except sqlite3.Error as e:
+            print("There was an error removing user ", user_id)
+            error = e
+
+        return success, error
+        
+
+    def removeSong(self, song_id):
+        success = True
+        error = None
+
+        try:
+            self.cursor.execute("DELETE FROM Song WHERE song_id=?", [song_id])
+            print("Removing song ", song_id, " from db...")
+        except sqlite3.Error as e:
+            print("There was an error removing song ", song_id)
+            error = e
+
+        return success, error
 
     def removeMeasure(self):
         pass
@@ -114,9 +142,10 @@ class databaseManager():
             print("There was an error fetching for song")
             error = e
 
+        # CHANGE THE JSON IN THE RESULT INTO AN ARRAY
         return result, error
 
-    def fetchMeasure(self):
+    def fetchMeasure(self, measure_id):
         pass
 
     def printAll(self):
@@ -125,6 +154,10 @@ class databaseManager():
             print({item})
         
         fetch = self.cursor.execute(f"SELECT * FROM Song")
+        for item in fetch:
+            print({item})
+
+        fetch = self.cursor.execute(f"SELECT * FROM Measure")
         for item in fetch:
             print({item})
     # Commiting changes to database 
@@ -156,6 +189,9 @@ if __name__ == "__main__":
     print("\nAdding Songs test...")
     succ, err, song1_id = db.addSong(user1_id, "fire.mp3")
     succ, err, song2_id = db.addSong(user2_id, "Utena <3 Himemiya.wav")
+    succ, err, song3_id = db.addSong(user1_id, "End Of The World")
+    succ, err, song4_id = db.addSong(user2_id, "Prince Moment")
+
 
     print("\nFetching Users test...")
     #db.commit()
@@ -169,6 +205,15 @@ if __name__ == "__main__":
     print(result)
     result, err = db.fetchSong(song2_id)
     print(result)
-    
+   
+    print("\nPrint all before removal test...")
+    db.printAll()
+
+    print("\nRemoving Users test...")
+    succ, err = db.removeUser(user1_id)
+
+    print("\nRemoving Songs test...")
+    succ, err = db.removeSong(song2_id)
+
     print("\nPrint all test...")
     db.printAll()

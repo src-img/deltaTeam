@@ -27,20 +27,20 @@ class track {
     this.nameField.id("trackName" + holderCount);
     this.nameField.size(100);
     
-    this.recordButton = createImg("skeletonAssets/recordIcon.png", "Record");
+    this.recordButton = createImg("https://src-img.github.io/deltaTeam/noteSkeleton/skeletonAssets/recordIcon.png", "Record");
     this.recordButton.size(25, 25);
     this.recordButton.position(x + 140, y + 22);
     this.recordButton.class("trackRecord");
     this.recordButton.id("trackRecord" + holderCount);
     
-    this.muteButton = createImg("skeletonAssets/unmutedIcon.png", "Mute");
+    this.muteButton = createImg("https://src-img.github.io/deltaTeam/noteSkeleton/skeletonAssets/unmutedIcon.png", "Mute");
     this.muteButton.size(25, 25);
     this.muteButton.mousePressed(() => {
-      if(this.muteButton.attribute("src") == "skeletonAssets/unmutedIcon.png"){
-        this.muteButton.attribute("src", "skeletonAssets/mutedIcon.png");
+      if(this.muteButton.attribute("src") == "https://src-img.github.io/deltaTeam/noteSkeleton/skeletonAssets/unmutedIcon.png"){
+        this.muteButton.attribute("src", "https://src-img.github.io/deltaTeam/noteSkeleton/skeletonAssets/mutedIcon.png");
         this.muted = true;
       } else {
-        this.muteButton.attribute("src", "skeletonAssets/unmutedIcon.png");
+        this.muteButton.attribute("src", "https://src-img.github.io/deltaTeam/noteSkeleton/skeletonAssets/unmutedIcon.png");
         this.muted = false;
       }
     });
@@ -54,7 +54,7 @@ class track {
     this.isoButton.class("trackIso");
     this.isoButton.id("trackIso" + holderCount);
     
-    this.deleteButton = createImg("skeletonAssets/deleteIcon.png", "Delete");
+    this.deleteButton = createImg("https://src-img.github.io/deltaTeam/noteSkeleton/skeletonAssets/deleteIcon.png", "Delete");
     this.deleteButton.size(25, 25);
     //NO FUNCTIONALITY YET
     this.deleteButton.position(x + 125, y + 58);

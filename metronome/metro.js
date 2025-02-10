@@ -11,8 +11,8 @@ const SIZE_Y = 50;
 let timeouts = [];
 
 function preload(){
-  metroSound = loadSound("metro.wav");
-  metroGraphic = loadImage("metroLogo.png");
+  metroSound = loadSound("https://src-img.github.io/deltaTeam/metronome/metro.wav");
+  metroGraphic = loadImage("https://src-img.github.io/deltaTeam/metronome/metroLogo.png");
 }
 
 function setup() {

@@ -23,7 +23,7 @@ class databaseManager():
             self.cursor = self.connection.cursor()
             self.cursor.execute("CREATE TABLE IF NOT EXISTS User(user_id INTEGER PRIMARY KEY AUTOINCREMENT, email VARCHAR(50), password VARCHAR(50), username VARCHAR(50))")
             self.cursor.execute("CREATE TABLE IF NOT EXISTS Song(song_id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, song_name VARCHAR(50), length INTEGER, measures TEXT)")
-            self.cursor.execute("CREATE TABLE IF NOT EXISTS Measure(measure_id INTEGER PRIMARY KEY AUTOINCREMENT, measure_number INTEGER, notes VARCHAR(50))")
+            self.cursor.execute("CREATE TABLE IF NOT EXISTS Measure(measure_id INTEGER PRIMARY KEY AUTOINCREMENT, notes VARCHAR(50))")
 
         return success, error
 
@@ -78,12 +78,29 @@ class databaseManager():
 
     def addMeasure(self, song_id, notes):
         # Check if notes is a valid notes string
+        success = True
+        error = None
 
-        # Add measure to the database if it does not already exist
-        # If it does exist then only get the ID and insert into song with songid
+        try:
+            res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
+            if res == None: 
+                self.cursor.execute("INSERT INTO Measure(notes) VALUES(?)", (notes))
+        except sqlite3.Error as e:
+            print("Error inserting measure")
+            error = e
 
-        # Kind of an expensive process, sorry :/
-        pass
+        id = self.cursor.lastrowid
+        #print("measure ID: ", id)
+
+        try:
+            self.cursor.execute("UPDATE Song SET measures = json_insert(measures, '$.measuresList[#]', (?)) WHERE song_id=(?)", (id, song_id))
+        except sqlite3.Error as e:
+            print("Error inserting measure into song JSON")
+            error = e
+       
+
+        return success, error, id
+
 
     # Removing from database
     def removeUser(self, user_id):
@@ -114,8 +131,18 @@ class databaseManager():
 
         return success, error
 
-    def removeMeasure(self):
-        pass
+    def removeMeasure(self, song_id, position):
+        success = True
+        error = None
+
+        try:
+            self.cursor.execute("UPDATE Song SET measures = json_remove(measures,'$.measuresList[" + str(position) + "]') WHERE song_id=(?)", [song_id])
+        except sqlite3.Error as e:
+            print("Error removing measure in song JSON")
+            error = e
+        
+        return success, error
+
 
     # Fetching from database
     def fetchUser(self, user_id):
@@ -175,6 +202,7 @@ class databaseManager():
         
         return success, error
 
+
 if __name__ == "__main__":
     print("Testing databaseManager...")
     db = databaseManager("test")
@@ -216,4 +244,16 @@ if __name__ == "__main__":
     succ, err = db.removeSong(song2_id)
 
     print("\nPrint all test...")
+    db.printAll()
+
+    print("\nInsert Measure Test...")
+
+    db.addMeasure(4, "W")
+    db.addMeasure(4, "Q")
+    db.addMeasure(4, "P")
+    db.printAll()
+    
+    print("\nRemoving Measure test...")
+    db.removeMeasure(4,1)
+
     db.printAll()

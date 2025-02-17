@@ -77,6 +77,15 @@ function toggle(){
 function play(BPM){  
   if(metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM"){
     metroSound.play();
+
+    fetch('/metronome', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({key: 'value'}),
+  })
+
     timeoutID = setTimeout(() => play(BPM), 60000/BPM);
     timeouts.push(timeoutID);
   } else {

@@ -22,5 +22,11 @@ def login():
 def features():
     return render_template('features.html')
 
+@app.route("/metronome", methods=['POST'])
+def handle_metronome():
+    data = request.get_json()
+    print("metronome received")
+    return jsonify({'message': 'Data received', 'data': data})
+
 if __name__ == "__main__":
     app.run(debug=True)

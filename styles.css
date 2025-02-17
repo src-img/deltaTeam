@@ -1,7 +1,41 @@
+/*sSETUP --------------------------------------------------------------*/
+
+:root {
+  --lightBlue: #47C7BE;
+  --medBlue: #249AA6;
+  --darkBlue: #20657E;
+  --lightOrange: #F18956;
+  --darkOrange: #CC4B29;
+  --textBlack: #212528;
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url(./assets/fonts/futura/Futura\ Medium/Futura\ Medium.ttf) format ('ttf');
+  font-style: normal;
+  font-weight: 400,
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url(./assets/fonts/futura/Futura\ Bold/Futura\ Bold.ttf) format ('ttf');
+  font-style: bold;
+  font-weight: 600,
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url(./assets/fonts/futura/Futura\ Light/Futura\ Light.ttf) format ('ttf');
+  font-style: normal;
+  font-weight: 200,
+}
+
+
 body {
-  font-family: 'Times New Roman', sans-serif; /*majority in this font*/
-  background-color: #7fbaee;
-  color: #333;
+  font-family: 'futura', sans-serif;
+  font-weight: 400;
+  background-color: white;
+  color: var(--textBlack);
   margin: 0;
   padding: 0;
 }
@@ -12,10 +46,9 @@ body {
   padding: 20px;
 }
 
+/*NAV --------------------------------------------------------------*/
 
 header {
-  background-color: #87cefa; /*light blue*/
-  padding: 15px 0;
   text-align: center;
   color: #fff;
   font-size: 1.5rem;
@@ -23,10 +56,39 @@ header {
 }
 
 nav {
-  background-color: #4682b4;
+  background-color: var(--lightBlue);
   padding: 10px;
-  text-align: center;
+  display: flex;
+  position: sticky;
 }
+
+#navList {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 75px;
+}
+
+ul#navList {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+ul#navList > li {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+}
+
+#siteTitle {
+  font-size: 48px;
+  width: 25%;
+  font-weight: 600;
+}
+
 
 nav a {
   color: #fff;
@@ -36,12 +98,18 @@ nav a {
 }
 
 nav a:hover {
-  background-color: #a1c8ca;
+  background-color: var(--medBlue);
   border-radius: 5px;
 }
 
+/*MAIN------------------------------------------------*/
+
+main {
+  margin: 10px;
+}
+
 button {
-  background-color: #87cefa; /* Primary color */
+  background-color: var(--lightOrange); /* Primary color */
   color: white;
   padding: 10px 15px;
   border: none;
@@ -51,7 +119,7 @@ button {
 }
 
 button:hover {
-  background-color: #4682b4;
+  background-color: var(--darkOrange);
 }
 
 /* Card Components */

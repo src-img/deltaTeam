@@ -5,28 +5,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NameOfWeb</title>
+    <title>DeltaBeatz</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/fish_johnson.pngs">
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>NameOfWeb</h1>
-        <nav>
-            <ul class="nav-links">
+        <nav id="navContainer">
+            <ul class="nav-links" id="navList">
+                <li id="siteTitle"><a href="index.html">DeltaBeatz</a></li>
                 <li><a href="templates/about.html">About</a></li>
                 <li><a href="templates/faq.html">FAQ</a></li>
-                <li><a href="templates/login.html">Log In</a></li>
                 <li><a href="templates/features.html">Features</a></li>
+                <li><a href="templates/login.html">Log In</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section class="intro">
-            <h2>Convert Your Beats to Musical Notation</h2>
+            <h2>Convert Your Beats to Musical Notation!</h2>
             <button>Get Started</button>
         </section>
-    </main>
-    <script src="metronome/metro.js"></script>
+        <div id="p5Container">
+            <script src="metronome/metro.js"></script>
     <script src="noteSkeleton/noteSkeleton.js"></script>
-</body>
+        </div>
+    </main>
+    </body>
 </html>

@@ -173,7 +173,17 @@ class databaseManager():
         return result, error
 
     def fetchMeasure(self, measure_id):
-        pass
+        result = []
+        error = None
+
+        try:
+            result = self.cursor.execute("SELECT * FROM Measure WHERE measure_id=?", [measure_id]).fetchone()
+            print("Result of fetch measure ", measure_id," :", result)
+        except sqlite3.Error as e:
+            print("There was an error fetching for measure")
+            error = e
+
+        return result, error
 
     def printAll(self):
         fetch = self.cursor.execute(f"SELECT * FROM User")
@@ -253,6 +263,11 @@ if __name__ == "__main__":
     db.addMeasure(4, "P")
     db.printAll()
     
+    print("\nFetching measure test...")
+    result, err = db.fetchMeasure(1)
+    result, err = db.fetchMeasure(2)
+    result, err = db.fetchMeasure(3)   
+
     print("\nRemoving Measure test...")
     db.removeMeasure(4,1)
 

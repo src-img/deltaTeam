@@ -90,7 +90,9 @@ class databaseManager():
             print("valid string of notes")
         else:
             print("not valid string of notes. error. not adding measure")
-            return
+            error = "Invalid measure note string"
+            success = False
+            return success, error, None
 
         try:
             res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
@@ -167,6 +169,9 @@ class databaseManager():
             print("There was an error fetching for user")
             error = e
 
+
+        if result != None:
+            result = list(result)
         return result, error
 
     def fetchSong(self, song_id):
@@ -199,8 +204,11 @@ class databaseManager():
         except sqlite3.Error as e:
             print("There was an error fetching for measure")
             error = e
-
+        
+        if result != None:
+            result = list(result)
         return result, error
+
 
     def printAll(self):
         fetch = self.cursor.execute(f"SELECT * FROM User")
@@ -231,34 +239,78 @@ class databaseManager():
 
 
 if __name__ == "__main__":
+    print("Starting tests\n")
     print("Testing databaseManager...")
     db = databaseManager("test")
     success, error = db.connect()
     print("Testing for connection...")
     print(f"db.connect() return: {success},{error}")
+    assert(error == None)
     
     print("\nAdding Users test...")
     succ, err, user1_id = db.addUser("ben@delta", "bbben", "benben")
+    assert(succ == True)
+    assert(err == None)
+    assert(user1_id == 1)
+
     succ, err, user2_id = db.addUser("peyton@delta", "ppppn", "ppddee")
+    assert(succ == True)
+    assert(err == None)
+    assert(user2_id == 2)
 
     print("\nAdding Songs test...")
     succ, err, song1_id = db.addSong(user1_id, "fire.mp3")
+    assert(succ == True)
+    assert(err == None)
+    assert(song1_id == 1)
+
     succ, err, song2_id = db.addSong(user2_id, "Utena <3 Himemiya.wav")
+    assert(succ == True)
+    assert(err == None)
+    assert(song2_id == 2)
+
     succ, err, song3_id = db.addSong(user1_id, "End Of The World")
+    assert(succ == True)
+    assert(err == None)
+    assert(song3_id == 3)
+
     succ, err, song4_id = db.addSong(user2_id, "Prince Moment")
+    assert(succ == True)
+    assert(err == None)
+    assert(song4_id == 4)
 
 
     print("\nFetching Users test...")
     #db.commit()
     result, err = db.fetchUser(user1_id)
+    assert(result[0] == 1)
+    assert(result[1] == 'ben@delta')
+    assert(result[2] == 'bbben')
+    assert(result[3] == 'benben')
     print(result)
+
     result, err = db.fetchUser(user2_id)
+    assert(result[0] == 2)
+    assert(result[1] == 'peyton@delta')
+    assert(result[2] == 'ppppn')
+    assert(result[3] == 'ppddee')
     print(result)
 
     print("\nFetching Songs test...")
     result, err = db.fetchSong(song1_id)
+    assert(result[0] == 1)
+    assert(result[1] == 1)
+    assert(result[2] == 'fire.mp3')
+    assert(result[3] == None)
+    assert(result[4] == [])
     print(result)
+
     result, err = db.fetchSong(song2_id)
+    assert(result[0] == 2)
+    assert(result[1] == 2)
+    assert(result[2] == 'Utena <3 Himemiya.wav')
+    assert(result[3] == None)
+    assert(result[4] == [])
     print(result)
    
     print("\nPrint all before removal test...")
@@ -266,32 +318,59 @@ if __name__ == "__main__":
 
     print("\nRemoving Users test...")
     succ, err = db.removeUser(user1_id)
+    assert(succ == True)
+    assert(err == None)
 
     print("\nRemoving Songs test...")
     succ, err = db.removeSong(song2_id)
+    assert(succ == True)
+    assert(err == None)
 
     print("\nPrint all test...")
     db.printAll()
 
     print("\nInsert Measure Test...")
-
-    db.addMeasure(4, "W")
-    db.addMeasure(4, "Q")
-    db.addMeasure(4, "P")
+    succ, err, id = db.addMeasure(4, "W")
+    assert(succ == True)
+    assert(err == None)
+    succ, err, id = db.addMeasure(4, "Q")
+    assert(succ == True)
+    assert(err == None)
+    succ, err, id = db.addMeasure(4, "P")
+    assert(succ == False)
+    assert(err == "Invalid measure note string")
     db.printAll()
     
     print("\nFetching measure test...")
     result, err = db.fetchMeasure(1)
+    print("WTF", result)
+    assert(result[0] == 1)
+    assert(result[1] == None)
+    assert(result[2] == "W")
+
     result, err = db.fetchMeasure(2)
-    result, err = db.fetchMeasure(3)   
+    assert(result[0] == 2)
+    assert(result[1] == None)
+    assert(result[2] == "Q")
+
+    result, err = db.fetchMeasure(3) 
+    assert(result == None)
     
     print("\nFetching Songs with measures test...")
     result, err = db.fetchSong(song3_id)
+    assert(result == None) 
     print(result)
     result, err = db.fetchSong(song4_id)
+    assert(result[0] == 4)
+    assert(result[1] == 2)
+    assert(result[2] == 'Prince Moment')
+    assert(result[3] == None)
+    assert(result[4] == [1, 2])
     print(result)
 
     print("\nRemoving Measure test...")
-    db.removeMeasure(4,1)
+    succ, err = db.removeMeasure(4,1)
+    assert(succ == True)
+    assert(err == None)
 
     db.printAll()

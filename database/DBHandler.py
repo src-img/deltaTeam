@@ -6,6 +6,10 @@ class databaseManager():
         self.database = database
         self.cursor = None
         self.connection = None
+
+        # Regex input validation
+        self.valid = re.compile(r'^[SEQHWseqhw.+|()]*$')
+
     
     # Connecting to database
     def connect(self):
@@ -80,6 +84,11 @@ class databaseManager():
         # Check if notes is a valid notes string
         success = True
         error = None
+        
+        if self.valid.match(notes):
+            print("valid string of notes")
+        else:
+            print("not valid string of notes. error. not adding measure")
 
         try:
             res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()

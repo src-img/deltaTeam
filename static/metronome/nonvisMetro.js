@@ -7,11 +7,13 @@ function setup() {
 }
 
 function inputHandler(){
-   recordingBPM = inputBPM.value() * 4;
+   recordingBPM = inputBPM.value() * 4; 
+  //fetch from here or from play()?
 }
 
 function play(){  
    inputBPM.disabled() = true;
+  //fetch from here or from inputHandler()?
 }
 
 function stop() {

@@ -13,7 +13,14 @@ function inputHandler(){
 
 function play(){  
    inputBPM.disabled() = true;
-  //fetch from here or from inputHandler()?
+  
+  fetch('/metronome', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({key: 'value'}),
+})
 }
 
 function stop() {

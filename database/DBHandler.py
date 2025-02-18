@@ -1,5 +1,6 @@
 import sqlite3
 import re
+import json
 
 class databaseManager():
     def __init__(self, database):
@@ -89,6 +90,7 @@ class databaseManager():
             print("valid string of notes")
         else:
             print("not valid string of notes. error. not adding measure")
+            return
 
         try:
             res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
@@ -173,11 +175,17 @@ class databaseManager():
 
         try:
             result = self.cursor.execute("SELECT * FROM Song WHERE song_id=?", [song_id]).fetchone()
-            print("Result of song ", song_id," :", result)
         except sqlite3.Error as e:
             print("There was an error fetching for song")
             error = e
-
+            return result, error
+        
+        if result != None: 
+            result = list(result)
+            dictofjson = json.loads(result[4])
+            arrayofjson = dictofjson['measuresList']
+            result[4] = arrayofjson
+            print("Result of song ", song_id," :", result)
         # CHANGE THE JSON IN THE RESULT INTO AN ARRAY
         return result, error
 
@@ -206,7 +214,7 @@ class databaseManager():
         fetch = self.cursor.execute(f"SELECT * FROM Measure")
         for item in fetch:
             print({item})
-    # Commiting changes to database 
+     
 
     def commit(self):
         success = True
@@ -276,6 +284,12 @@ if __name__ == "__main__":
     result, err = db.fetchMeasure(1)
     result, err = db.fetchMeasure(2)
     result, err = db.fetchMeasure(3)   
+    
+    print("\nFetching Songs with measures test...")
+    result, err = db.fetchSong(song3_id)
+    print(result)
+    result, err = db.fetchSong(song4_id)
+    print(result)
 
     print("\nRemoving Measure test...")
     db.removeMeasure(4,1)

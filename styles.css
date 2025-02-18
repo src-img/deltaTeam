@@ -1,0 +1,187 @@
+/*sSETUP --------------------------------------------------------------*/
+
+:root {
+  --lightBlue: #47C7BE;
+  --medBlue: #249AA6;
+  --darkBlue: #20657E;
+  --lightOrange: #F18956;
+  --darkOrange: #CC4B29;
+  --textBlack: #212528;
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url(./assets/fonts/futura/Futura\ Medium/Futura\ Medium.ttf) format ('ttf');
+  font-style: normal;
+  font-weight: 400,
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url(./assets/fonts/futura/Futura\ Bold/Futura\ Bold.ttf) format ('ttf');
+  font-style: bold;
+  font-weight: 600,
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url(./assets/fonts/futura/Futura\ Light/Futura\ Light.ttf) format ('ttf');
+  font-style: normal;
+  font-weight: 200,
+}
+
+
+body {
+  font-family: 'futura', sans-serif;
+  font-weight: 400;
+  background-color: white;
+  color: var(--textBlack);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/*NAV --------------------------------------------------------------*/
+
+header {
+  text-align: center;
+  color: #fff;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  background-color: var(--lightBlue);
+  padding: 10px;
+  display: flex;
+  position: sticky;
+}
+
+#navList {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 75px;
+}
+
+ul#navList {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+ul#navList > li {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+}
+
+#siteTitle {
+  font-size: 48px;
+  width: 25%;
+  font-weight: 600;
+}
+
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+}
+
+nav a:hover {
+  background-color: var(--medBlue);
+  border-radius: 5px;
+}
+
+/*MAIN------------------------------------------------*/
+
+main {
+  margin: 10px;
+}
+
+button {
+  background-color: var(--lightOrange); /* Primary color */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: var(--darkOrange);
+}
+
+/* Card Components */
+.card {
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.card-header {
+  background-color: #f0f8ff;
+  padding: 15px;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-content {
+  padding: 15px;
+  color: #666;
+}
+
+/* Forms */
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dcdcdc;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+footer {
+  background-color: #87cefa;
+  padding: 15px 0;
+  text-align: center;
+  color: #fff;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.accent-section {
+  background-color: #d3d3d3; /*gray*/
+  padding: 20px;
+  border-radius: 8px;
+  color: #333;
+}

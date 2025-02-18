@@ -1,3 +1,5 @@
+const SKELETON_DIV = "noteSkeletonContainer";
+
 let skeletonSketch = function(p) {
   let playButton;
   let addButton;
@@ -110,7 +112,7 @@ let skeletonSketch = function(p) {
   }
 
   p.setup = function(){
-    let div = document.getElementById("noteContainer");
+    let div = document.getElementById(SKELETON_DIV);
 
     let canvas = p.createCanvas(canvasSizeX, canvasSizeY);
     p.background(220);
@@ -134,4 +136,4 @@ let skeletonSketch = function(p) {
   }
 }
 
-new p5(skeletonSketch, 'noteSkeletonContainer');
+new p5(skeletonSketch, SKELETON_DIV);

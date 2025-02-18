@@ -1,3 +1,5 @@
+let METRO_DIV = "metroContainer";
+
 let metroSketch = function(p) {
   let metroSound;
   let metroGraphic;
@@ -17,7 +19,7 @@ let metroSketch = function(p) {
   };
 
   p.setup = function() {
-      let div = document.getElementById("metroContainer");
+      let div = document.getElementById(METRO_DIV);
 
       canvas = p.createCanvas(SIZE_X, SIZE_Y);
       canvas.id("metroImg");
@@ -100,4 +102,4 @@ let metroSketch = function(p) {
 };
 
 // Attach this sketch to the "metroContainer" div
-new p5(metroSketch, 'metroContainer');
+new p5(metroSketch, METRO_DIV);

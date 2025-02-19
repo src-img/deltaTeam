@@ -29,11 +29,11 @@ temp = Composition()
 def handle_keyboard_event():
     data = request.get_json()
     keyPressed = data.get("key")
-    # if keyPressed == 'a':
-    #     temp.userInput = InputState.addNote
-    # elif keyPressed == 's':
-    #     temp.userInput = InputState.addRest
-    print(f"Key pressed: {key_pressed}")
+    if keyPressed == 'a':
+        temp.userInput = InputState.addNote
+    elif keyPressed == 's':
+        temp.userInput = InputState.addRest
+    print(f"Key pressed: {keyPressed}")
     return jsonify({"message": "Key received successfully"})
 
 

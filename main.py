@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from importFunction import Composition, modifyComposition
+from inputFunction import Composition, modifyComposition
 
 app = Flask(__name__)
 

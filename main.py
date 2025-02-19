@@ -28,13 +28,13 @@ temp = Composition()
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
     data = request.get_json()
-    print("added Note")
     keyPressed = data.get('key')
-    if keyPressed == 'a':
-        temp.userInput = InputState.addNote
-    elif keyPressed == 's':
-        temp.userInput = InputState.addRest
-    return jsonify({'status': 'success'})
+    # if keyPressed == 'a':
+    #     temp.userInput = InputState.addNote
+    # elif keyPressed == 's':
+    #     temp.userInput = InputState.addRest
+    print(f"Key pressed: {key_pressed}")
+    return jsonify({"message": "Key received successfully"})
 
 
 @app.route("/metronome", methods=['POST'])

@@ -44,7 +44,7 @@ class Composition:
 
     def compose(self):
         #self.randomMeasureGenerator()
-        if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or self.userInput == InputState.addRest:
+        if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or self.userInput == InputState.addRest and self.arrayPtr != restArray:
             self.composition += self.arrayPtr[self.noteSize]
             match self.userInput:
                 case InputState.increaseDuration:

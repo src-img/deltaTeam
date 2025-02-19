@@ -29,9 +29,10 @@ temp = Composition()
 def handle_keyboard_event():
     data = request.get_json()
     print("added Note")
-    if data.get(key) == 'a':
+    keyPressed = data.get('key')
+    if keyPressed == 'a':
         temp.userInput = InputState.addNote
-    elif data.get(key) == 's':
+    elif keyPressed == 's':
         temp.userInput = InputState.addRest
     return jsonify({'status': 'success'})
 

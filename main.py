@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from inputFunction import Composition, modifyComposition
+from inputFunction import Composition, modifyComposition, InputState
 
 app = Flask(__name__)
 
@@ -23,8 +23,18 @@ def login():
 def features():
     return render_template('features.html')
 
-
 temp = Composition()
+
+@app.route("/keyboard_event", methods=['POST'])
+def handle_keyboard_event():
+    data = request.get_json()
+    print("added Note")
+    if data.get(key) == 'a':
+        temp.userInput = InputState.addNote
+    elif data.get(key) == 's':
+        temp.userInput = InputState.addRest
+    return jsonify({'status': 'success'})
+
 
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():

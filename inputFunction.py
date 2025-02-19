@@ -67,13 +67,13 @@ class Composition:
         print(self.composition)
 
 
-def main():
-    newComposition = Composition()
+def modifyComposition(Composition):
+    newComposition = Composition
     counter = 0
     while counter < 160:
         newComposition.compose()
         counter += 1
     newComposition.printComposition()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     modifyComposition()

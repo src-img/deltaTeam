@@ -4,7 +4,7 @@
 
 document.addEventListener('keydown', function(event) {
     const key = event.key; 
-    fetch('/receive_key', {
+    fetch('/keyboard_event', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

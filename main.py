@@ -28,7 +28,7 @@ temp = Composition()
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
     data = request.get_json()
-    keyPressed = data.get('key')
+    keyPressed = data.get("key")
     # if keyPressed == 'a':
     #     temp.userInput = InputState.addNote
     # elif keyPressed == 's':

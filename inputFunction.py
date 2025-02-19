@@ -70,8 +70,8 @@ class Composition:
 def modifyComposition(Composition):
     newComposition = Composition
     
-        newComposition.compose()
-        counter += 1
+    newComposition.compose()
+
     newComposition.printComposition()
 
 # if __name__ == "__main__":

@@ -69,8 +69,7 @@ class Composition:
 
 def modifyComposition(Composition):
     newComposition = Composition
-    counter = 0
-    while counter < 160:
+    
         newComposition.compose()
         counter += 1
     newComposition.printComposition()

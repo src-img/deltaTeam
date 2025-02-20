@@ -32,20 +32,20 @@ let skeletonSketch = function(p) {
       this.nameField.id("trackName" + holderCount);
       this.nameField.size(100);
       
-      this.recordButton = this.p.createImg("skeletonAssets/recordIcon.png", "Record");
+      this.recordButton = this.p.createImg("static/noteSkeleton/skeletonAssets/recordIcon.png", "Record");
       this.recordButton.size(25, 25);
       this.recordButton.position(x + 140, y + 355);
       this.recordButton.class("trackRecord");
       this.recordButton.id("trackRecord" + holderCount);
       
-      this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
+      this.muteButton = this.p.createImg("static/noteSkeleton/skeletonAssets/unmutedIcon.png", "Mute");
       this.muteButton.size(25, 25);
       this.muteButton.mousePressed(() => {
-        if(this.muteButton.attribute("src") == "skeletonAssets/unmutedIcon.png"){
-          this.muteButton.attribute("src", "skeletonAssets/mutedIcon.png");
+        if(this.muteButton.attribute("src") == "static/noteSkeleton/skeletonAssets/unmutedIcon.png"){
+          this.muteButton.attribute("src", "static/noteSkeleton/skeletonAssets/mutedIcon.png");
           this.muted = true;
         } else {
-          this.muteButton.attribute("src", "skeletonAssets/unmutedIcon.png");
+          this.muteButton.attribute("src", "static/noteSkeleton/skeletonAssets/unmutedIcon.png");
           this.muted = false;
         }
       });
@@ -59,7 +59,7 @@ let skeletonSketch = function(p) {
       this.isoButton.class("trackIso");
       this.isoButton.id("trackIso" + holderCount);
       
-      this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");
+      this.deleteButton = this.p.createImg("static/noteSkeleton/skeletonAssets/deleteIcon.png", "Delete");
       this.deleteButton.size(25, 25);
       //NO FUNCTIONALITY YET
       this.deleteButton.position(x + 130, y + 405);

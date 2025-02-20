@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeltaBeatz</title>
-    <link rel="icon" type="image/x-icon" href="../static/assets/img/fish_johnson.png">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/fish_johnson.png')}}.">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css')}}">
 </head>
 <body>
     <header>
@@ -36,7 +36,7 @@
 
     <script src="{{ url_for('static', filename='metronome/metro.js') }}"></script>
     <script src="{{ url_for('static', filename='noteSkeleton/noteSkeleton.js')}}"></script>
-    <script src="../static/millisecondTracker/inputTracker.js"></script>
-    <script src="{{ url_for('static', filename='userInput.js') }}"></script>
+    <!-- <script src="../static/millisecondTracker/inputTracker.js"></script> -->
+    <script src="{{ url_for('static', filename='deltaTeam/userInput.js') }}"></script>
 </body>
 </html>

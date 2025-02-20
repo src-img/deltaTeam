@@ -7,17 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeltaBeatz</title>
     <link rel="icon" type="image/x-icon" href="../static/assets/img/fish_johnson.png">
-    <link rel="stylesheet" type="text/css" href="../static/index.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css')}}">
 </head>
 <body>
     <header>
         <nav id="navContainer">
             <ul class="nav-links" id="navList">
                 <li id="siteTitle"><a href="index.html">DeltaBeatz</a></li>
-                <li><a href="templates/about.html">About</a></li>
-                <li><a href="templates/faq.html">FAQ</a></li>
-                <li><a href="templates/features.html">Features</a></li>
-                <li><a href="templates/login.html">Log In</a></li>
+                <li><a href="{{ url_for('about')}}">About</a></li>
+                <li><a href="{{ url_for('faq')}}">FAQ</a></li>
+                <li><a href="{{ url_for('features')}}">Features</a></li>
+                <li><a href="{{ url_for('login')}}">Log In</a></li>
             </ul>
         </nav>
     </header>
@@ -34,8 +34,9 @@
         <div id="trackerContainer" class="container"></div>
     </div>
 
-    <script src="../static/metronome/metro.js"></script>
-    <script src="../static/noteSkeleton/noteSkeleton.js"></script>
+    <script src="{{ url_for('static', filename='metronome/metro.js') }}"></script>
+    <script src="{{ url_for('static', filename='noteSkeleton/noteSkeleton.js')}}"></script>
     <script src="../static/millisecondTracker/inputTracker.js"></script>
+    <script src="{{ url_for('static', filename='userInput.js') }}"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
     <header>
         <nav id="navContainer">
             <ul class="nav-links" id="navList">
-                <li id="siteTitle"><a href="index.html">DeltaBeatz</a></li>
+                <li id="siteTitle"><a href="{{ url_for('index')}}">DeltaBeatz</a></li>
                 <li><a href="{{ url_for('about')}}">About</a></li>
                 <li><a href="{{ url_for('faq')}}">FAQ</a></li>
                 <li><a href="{{ url_for('features')}}">Features</a></li>
@@ -37,6 +37,6 @@
     <script src="{{ url_for('static', filename='metronome/metro.js') }}"></script>
     <script src="{{ url_for('static', filename='noteSkeleton/noteSkeleton.js')}}"></script>
     <!-- <script src="../static/millisecondTracker/inputTracker.js"></script> -->
-    <script src="{{ url_for('static', filename='deltaTeam/userInput.js') }}"></script>
+    <script src="{{ url_for('static', filename='userInput.js') }}"></script>
 </body>
 </html>

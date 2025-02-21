@@ -32,20 +32,20 @@ let skeletonSketch = function(p) {
       this.nameField.id("trackName" + holderCount);
       this.nameField.size(100);
       
-      this.recordButton = this.p.createImg("https://github.com/src-img/deltaTeam/blob/main/static/noteSkeleton/skeletonAssets/recordIcon.png", "Record");
+      this.recordButton = this.p.createImg("https://src-img.github.io/deltaTeam/static/noteSkeleton/skeletonAssets/recordIcon.png", "Record");
       this.recordButton.size(25, 25);
       this.recordButton.position(x + 140, y + 355);
       this.recordButton.class("trackRecord");
       this.recordButton.id("trackRecord" + holderCount);
       
-      this.muteButton = this.p.createImg("https://github.com/src-img/deltaTeam/blob/main/static/noteSkeleton/skeletonAssets/mutedIcon.png", "Mute");
+      this.muteButton = this.p.createImg("https://src-img.github.io/deltaTeam/static/noteSkeleton/skeletonAssets/mutedIcon.png", "Mute");
       this.muteButton.size(25, 25);
       this.muteButton.mousePressed(() => {
-        if(this.muteButton.attribute("src") == "https://github.com/src-img/deltaTeam/blob/main/static/noteSkeleton/skeletonAssets/unmutedIcon.png"){
-          this.muteButton.attribute("src", "https://github.com/src-img/deltaTeam/blob/main/static/noteSkeleton/skeletonAssets/mutedIcon.png");
+        if(this.muteButton.attribute("src") == "https://src-img.github.io/deltaTeam/static/noteSkeleton/skeletonAssets/unmutedIcon.png"){
+          this.muteButton.attribute("src", "https://src-img.github.io/deltaTeam/static/noteSkeleton/skeletonAssets/mutedIcon.png");
           this.muted = true;
         } else {
-          this.muteButton.attribute("src", "https://github.com/src-img/deltaTeam/blob/main/static/noteSkeleton/skeletonAssets/unmutedIcon.png");
+          this.muteButton.attribute("src", "https://src-img.github.io/deltaTeam/static/noteSkeleton/skeletonAssets/unmutedIcon.png");
           this.muted = false;
         }
       });
@@ -59,7 +59,7 @@ let skeletonSketch = function(p) {
       this.isoButton.class("trackIso");
       this.isoButton.id("trackIso" + holderCount);
       
-      this.deleteButton = this.p.createImg("https://github.com/src-img/deltaTeam/blob/main/static/noteSkeleton/skeletonAssets/deleteIcon.png", "Delete");
+      this.deleteButton = this.p.createImg("https://src-img.github.io/deltaTeam/static/noteSkeleton/skeletonAssets/deleteIcon.png", "Delete");
       this.deleteButton.size(25, 25);
       //NO FUNCTIONALITY YET
       this.deleteButton.position(x + 130, y + 405);

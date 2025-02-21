@@ -14,8 +14,8 @@ let metroSketch = function(p) {
   let timeouts = [];
 
   p.preload = function() {
-      metroSound = p.loadSound("https://src-img.github.io/deltaTeam/metronome/metro.wav");
-      metroGraphic = p.loadImage("https://src-img.github.io/deltaTeam/metronome/metroLogo.png");
+      metroSound = p.loadSound("https://src-img.github.io/deltaTeam//static/metronome/metro.wav");
+      metroGraphic = p.loadImage("https://src-img.github.io/deltaTeam//static/metronome/metroLogo.png");
   };
 
   p.setup = function() {
@@ -87,6 +87,17 @@ let metroSketch = function(p) {
   function play(BPM) {
       if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
           metroSound.play();
+
+          fetch('/metronome', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({key: 'value'}),
+        })
+        
+
+
           timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
           timeouts.push(timeoutID);
       } else {

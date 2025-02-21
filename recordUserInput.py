@@ -22,14 +22,14 @@ class Composition:
         
 
 
-    def randomMeasureGenerator(self):
-        randomState = random.randint(1,10)
-        if randomState == 1:
-            self.userInput = InputState.addNote
-        elif randomState == 2:
-            self.userInput = InputState.addRest
-        else:
-            self.userInput = InputState.increaseDuration
+    # def randomMeasureGenerator(self):
+    #     randomState = random.randint(1,10)
+    #     if randomState == 1:
+    #         self.userInput = InputState.addNote
+    #     elif randomState == 2:
+    #         self.userInput = InputState.addRest
+    #     else:
+    #         self.userInput = InputState.increaseDuration
 
     def setNoteSizeLimit(self):
             match (self.sixteenth % 4):
@@ -43,7 +43,7 @@ class Composition:
                     self.noteSizeLimit = 0
 
     def compose(self):
-        self.randomMeasureGenerator()
+        #self.randomMeasureGenerator()
         if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or self.userInput == InputState.addRest and self.arrayPtr != restArray:
             self.composition += self.arrayPtr[self.noteSize]
             match self.userInput:
@@ -67,13 +67,12 @@ class Composition:
         print(self.composition)
 
 
-def main():
-    newComposition = Composition()
-    counter = 0
-    while counter < 160:
-        newComposition.compose()
-        counter += 1
+def modifyComposition(Composition):
+    newComposition = Composition
+    
+    newComposition.compose()
+
     newComposition.printComposition()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     modifyComposition()

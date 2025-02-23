@@ -87,7 +87,7 @@ let skeletonSketch = function(p) {
       this.deleteButton.id("trackDelete" + holderCount);
       this.deleteButton.parent(this.buttonContainer);
       this.deleteButton.mousePressed(() => {
-        removeTrack(this.trackContainer);
+        removeTrack(this);
       });
       
       this.volumeSlider = this.p.createSlider(0, 200, 100);
@@ -143,8 +143,10 @@ let skeletonSketch = function(p) {
     }
   }
 
-  function removeTrack(track) {
-    track.remove();
+  function removeTrack(obj) {
+    obj.number.remove();
+    obj.trackContainer.remove();
+    
   }
 
   p.setup = function(){

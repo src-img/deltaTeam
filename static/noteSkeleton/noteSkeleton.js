@@ -37,23 +37,20 @@ let skeletonSketch = function(p) {
       this.buttonContainer.parent(this.trackContainer);
       
       this.nameField = this.p.createInput();
-      //this.nameField.position(x + 1, y + 355);
       this.nameField.class("trackName");
+      //this.nameField.placeholder("Track Name");
       this.nameField.id("trackName" + holderCount);
       this.nameField.size(100);
       this.nameField.parent(this.buttonContainer);
       
       this.recordButton = this.p.createButton("-");
       //this.recordButton = this.p.createImg("skeletonAssets/recordIcon.png", "Record");
-      //this.recordButton.size(25, 25);
-      //this.recordButton.position(x + 140, y + 355);
       this.recordButton.class("trackRecord");
       this.recordButton.id("trackRecord" + holderCount);
       this.recordButton.parent(this.buttonContainer);
       
       this.muteButton = this.p.createButton("mute");
       //this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
-      //this.muteButton.size(25, 25);
       this.muteButton.mousePressed(() => {
         if(this.muteButton.attribute("src") == "skeletonAssets/unmutedIcon.png"){
           this.muteButton.attribute("src", "skeletonAssets/mutedIcon.png");
@@ -63,21 +60,18 @@ let skeletonSketch = function(p) {
           this.muted = false;
         }
       });
-      //this.muteButton.position(x + 1, y + 405);
       this.muteButton.class("trackMute");
       this.muteButton.id("trackMute" + holderCount);
       this.muteButton.parent(this.buttonContainer);
       
       this.isoButton = this.p.createButton("Isolate");
       //NO FUNCTIONALITY YET
-      //this.isoButton.position(x + 38, y + 400);
       this.isoButton.class("trackIso");
       this.isoButton.id("trackIso" + holderCount);
       this.isoButton.parent(this.buttonContainer);
       
       this.deleteButton = this.p.createButton("delete");
-      //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");
-      //this.deleteButton.size(25, 25);
+      //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");;
       //THERE IS FUNCTIONALITY BUT IT EATS THE IDS WHEN YOU DELETE SOMETHING 
       //the display is nice but internally your ids are absolutely screwed. only of note if we need them tho lol
       //also for consideration: actually only deleting the final track and shifting everything else's data down. but that seems. harder
@@ -167,12 +161,19 @@ let skeletonSketch = function(p) {
     trackBar.parent(document.getElementsByTagName("header")[0])
 
     //establishing trackbar elements
+    //im gonna be honest this ought to be a different file but thats a problem for next week
     let trackBarPropertyContainer = p.createDiv();
     trackBarPropertyContainer.id("trackBarPropertyContainer");
     trackBarPropertyContainer.parent(trackBar);
+    let bar1 = p.createDiv();
+    bar1.class("trackBarBreak");
+    bar1.parent(trackBar);
     let trackBarBPMContainer = p.createDiv();
     trackBarBPMContainer.id("trackBarBPMContainer");
     trackBarBPMContainer.parent(trackBar);
+    let bar2 = p.createDiv();
+    bar2.class("trackBarBreak");
+    bar2.parent(trackBar);
     let trackBarBackingContainer = p.createDiv();
     trackBarBackingContainer.id("trackBarBackingContainer");
     trackBarBackingContainer.parent(trackBar);
@@ -183,7 +184,7 @@ let skeletonSketch = function(p) {
     playButton.id("playTracks");
     playButton.parent(trackBarPropertyContainer);
   // here you can change the placment of the track .
-    addButton = p.createButton("Add New Track");
+    addButton = p.createButton("Add Track");
     addButton.mousePressed(addTrack);
     //addButton.position(470, 320);
     addButton.size(125);

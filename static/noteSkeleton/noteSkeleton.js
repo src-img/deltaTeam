@@ -43,7 +43,7 @@ let skeletonSketch = function(p) {
       this.nameField.size(100);
       this.nameField.parent(this.buttonContainer);
       
-      this.recordButton = this.p.createButton("record");
+      this.recordButton = this.p.createButton("-");
       //this.recordButton = this.p.createImg("skeletonAssets/recordIcon.png", "Record");
       //this.recordButton.size(25, 25);
       //this.recordButton.position(x + 140, y + 355);
@@ -79,15 +79,20 @@ let skeletonSketch = function(p) {
       //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");
       //this.deleteButton.size(25, 25);
       //THERE IS FUNCTIONALITY BUT IT EATS THE IDS WHEN YOU DELETE SOMETHING 
-      //fix that later ... ideas: element.children().length ?
-      //doesn't solve the element id problem but what can you do
+      //the display is nice but internally your ids are absolutely screwed. only of note if we need them tho lol
       //also for consideration: actually only deleting the final track and shifting everything else's data down. but that seems. harder
       //this.deleteButton.position(x + 130, y + 405);
       this.deleteButton.class("trackDelete");
       this.deleteButton.id("trackDelete" + holderCount);
       this.deleteButton.parent(this.buttonContainer);
       this.deleteButton.mousePressed(() => {
-        removeTrack(this);
+        if (document.getElementsByClassName("trackContainer").length > 1) {
+          removeTrack(this);
+          let trackNums = document.getElementsByClassName("numberDisplay");
+          for (let i = 0; i < trackNums.length; i++) {
+            trackNums[i].innerHTML = i + 1;
+          }
+        }
       });
       
       this.volumeSlider = this.p.createSlider(0, 200, 100);

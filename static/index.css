@@ -149,9 +149,23 @@ button:hover {
   margin: 10px;
 }
 
+.trackRecord {
+  background: url(./noteSkeleton/skeletonAssets/record.svg);
+  background-repeat: no-repeat;
+  color: red;
+  width: 40px;
+  height: 40px;
+}
+
+.trackRecord:hover {
+  filter: brightness(80%);
+  background-color: white;
+}
+
 .noteContainer {
 
 }
+
 
 
 /* Card Components */

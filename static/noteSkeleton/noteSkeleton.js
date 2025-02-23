@@ -157,21 +157,32 @@ let skeletonSketch = function(p) {
     canvas.id("trackCanvas");
     canvas.parent(div);
 
-    trackBar = p.createDiv();
+    let trackBar = p.createDiv();
     trackBar.id("trackBar");
+
+    //establishing trackbar elements
+    let trackBarPropertyContainer = p.createDiv();
+    trackBarPropertyContainer.id("trackBarPropertyContainer");
+    trackBarPropertyContainer.parent(trackBar);
+    let trackBarBPMContainer = p.createDiv();
+    trackBarBPMContainer.id("trackBarBPMContainer");
+    trackBarBPMContainer.parent(trackBar);
+    let trackBarBackingContainer = p.createDiv();
+    trackBarBackingContainer.id("trackBarBackingContainer");
+    trackBarBackingContainer.parent(trackBar);
     
     playButton = p.createButton("Play");
     playButton.mousePressed(togglePlay)
     //playButton.position(5, 320);
     playButton.id("playTracks");
-    playButton.parent(trackBar);
+    playButton.parent(trackBarPropertyContainer);
   // here you can change the placment of the track .
     addButton = p.createButton("Add New Track");
     addButton.mousePressed(addTrack);
     //addButton.position(470, 320);
     addButton.size(125);
     addButton.id("addTrack");
-    addButton.parent(trackBar);
+    addButton.parent(trackBarPropertyContainer);
     
     tracks[0] = new track(p, 10, 35);
   }

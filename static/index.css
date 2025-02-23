@@ -123,6 +123,18 @@ button:hover {
 }
 
 /*MUSIC CONTAINERS------------------------------------------------*/
+
+#trackBar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#trackBarBPMContainer {
+  display: flex;
+  gap: 10px;
+}
+
 .trackContainer {
   border: 3px solid var(--textBlack);
   border-radius: 25px;
@@ -141,9 +153,6 @@ button:hover {
 
 }
 
-.trackName {
-  overflow: scroll;
-}
 
 /* Card Components */
 .card {

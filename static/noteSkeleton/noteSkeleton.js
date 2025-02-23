@@ -164,6 +164,7 @@ let skeletonSketch = function(p) {
 
     let trackBar = p.createDiv();
     trackBar.id("trackBar");
+    trackBar.parent(document.getElementsByTagName("header")[0])
 
     //establishing trackbar elements
     let trackBarPropertyContainer = p.createDiv();

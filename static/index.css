@@ -38,6 +38,7 @@ body {
   color: var(--textBlack);
   margin: 0;
   padding: 0;
+  overflow: scroll;
 }
 
 .container {
@@ -49,6 +50,8 @@ body {
 /*NAV --------------------------------------------------------------*/
 
 header {
+  position: sticky;
+  top: 0;
   text-align: center;
   color: #fff;
   font-size: 1.5rem;
@@ -59,7 +62,7 @@ nav {
   background-color: var(--lightBlue);
   padding: 10px;
   display: flex;
-  position: sticky;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #navList {
@@ -128,6 +131,8 @@ button:hover {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  top: 200;
+  display: sticky;
 }
 
 #trackBarBPMContainer {

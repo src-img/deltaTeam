@@ -14,15 +14,6 @@ let skeletonSketch = function(p) {
     constructor(p5, x, y){
       this.p = p5;
 
-      this.number = this.p.createDiv(holderCount + 1);
-      //this.number.position(x, y - (-310));
-      this.number.class("numberDisplay");
-      this.number.id("numberDisplay" + holderCount);
-
-      this.trackContainer = this.p.createDiv();
-      this.trackContainer.id("trackContainer" + holderCount);
-      this.trackContainer.class("trackContainer");
-
       this.x = x;
       this.y = y;
       this.id = holderCount;
@@ -30,30 +21,25 @@ let skeletonSketch = function(p) {
       this.muted = false;
       this.isolated = false;
 
-      //BUTTON CREATION ---------------------------------------------------------------------------------
-      this.buttonContainer = this.p.createDiv();
-      this.buttonContainer.id("buttonContainer" + holderCount);
-      this.buttonContainer.class("buttonContainer");
-      this.buttonContainer.parent(this.trackContainer);
+      this.number = this.p.createP(holderCount + 1);
+      this.number.position(x, y - (-310));
+      this.number.class("numberDisplay");
+      this.number.id("numberDisplay" + holderCount);
       
       this.nameField = this.p.createInput();
-      //this.nameField.position(x + 1, y + 355);
+      this.nameField.position(x + 1, y + 355);
       this.nameField.class("trackName");
       this.nameField.id("trackName" + holderCount);
       this.nameField.size(100);
-      this.nameField.parent(this.buttonContainer);
       
-      this.recordButton = this.p.createButton("record");
-      //this.recordButton = this.p.createImg("skeletonAssets/recordIcon.png", "Record");
-      //this.recordButton.size(25, 25);
-      //this.recordButton.position(x + 140, y + 355);
+      this.recordButton = this.p.createImg("skeletonAssets/recordIcon.png", "Record");
+      this.recordButton.size(25, 25);
+      this.recordButton.position(x + 140, y + 355);
       this.recordButton.class("trackRecord");
       this.recordButton.id("trackRecord" + holderCount);
-      this.recordButton.parent(this.buttonContainer);
       
-      this.muteButton = this.p.createButton("mute");
-      //this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
-      //this.muteButton.size(25, 25);
+      this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
+      this.muteButton.size(25, 25);
       this.muteButton.mousePressed(() => {
         if(this.muteButton.attribute("src") == "skeletonAssets/unmutedIcon.png"){
           this.muteButton.attribute("src", "skeletonAssets/mutedIcon.png");
@@ -63,38 +49,27 @@ let skeletonSketch = function(p) {
           this.muted = false;
         }
       });
-      //this.muteButton.position(x + 1, y + 405);
+      this.muteButton.position(x + 1, y + 405);
       this.muteButton.class("trackMute");
       this.muteButton.id("trackMute" + holderCount);
-      this.muteButton.parent(this.buttonContainer);
       
       this.isoButton = this.p.createButton("Isolate");
       //NO FUNCTIONALITY YET
-      //this.isoButton.position(x + 38, y + 400);
+      this.isoButton.position(x + 38, y + 400);
       this.isoButton.class("trackIso");
       this.isoButton.id("trackIso" + holderCount);
-      this.isoButton.parent(this.buttonContainer);
       
-      this.deleteButton = this.p.createButton("delete");
-      //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");
-      //this.deleteButton.size(25, 25);
-      //THERE IS FUNCTIONALITY BUT IT EATS THE IDS WHEN YOU DELETE SOMETHING 
-      //fix that later ... ideas: element.children().length ?
-      //doesn't solve the element id problem but what can you do
-      //also for consideration: actually only deleting the final track and shifting everything else's data down. but that seems. harder
-      //this.deleteButton.position(x + 130, y + 405);
+      this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");
+      this.deleteButton.size(25, 25);
+      //NO FUNCTIONALITY YET
+      this.deleteButton.position(x + 130, y + 405);
       this.deleteButton.class("trackDelete");
       this.deleteButton.id("trackDelete" + holderCount);
-      this.deleteButton.parent(this.buttonContainer);
-      this.deleteButton.mousePressed(() => {
-        removeTrack(this.trackContainer);
-      });
       
       this.volumeSlider = this.p.createSlider(0, 200, 100);
-      //this.volumeSlider.position(x + 15, y + 445);
+      this.volumeSlider.position(x + 15, y + 445);
       this.volumeSlider.class("trackVolume");
       this.volumeSlider.id("trackVolume" + holderCount);
-      this.volumeSlider.parent(this.buttonContainer);
       
       this.p.strokeWeight(5);
       this.p.startOfMusic = this.p.line(x + 190, y + 15, x + 190, y + 100);
@@ -102,13 +77,6 @@ let skeletonSketch = function(p) {
       this.p.strokeWeight(2);
       this.p.sequenceLine = this.p.line(x + 200, y + 60, x + 650, y + 60);
       
-      //NOTE CREATION ------------------------------------------------------------------------------
-
-      this.noteContainer = this.p.createDiv();
-      this.noteContainer.id("noteContainer" + holderCount)
-      this.noteContainer.class("noteContainer");
-      this.noteContainer.parent(this.trackContainer);
-
       holderCount += 1;
     }
     
@@ -127,7 +95,7 @@ let skeletonSketch = function(p) {
     current++;
     
     canvasSizeY += 135;
-    //p.resizeCanvas(canvasSizeX, canvasSizeY);
+    p.resizeCanvas(canvasSizeX, canvasSizeY);
     p.background(220);
     
     for(let i = current; i >= 0; i--){
@@ -143,33 +111,26 @@ let skeletonSketch = function(p) {
     }
   }
 
-  function removeTrack(track) {
-    track.remove();
-  }
-
   p.setup = function(){
     let div = document.getElementById(SKELETON_DIV);
 
-    let canvas = p.createCanvas(0, 0);
-    p.background(0);
+    let canvas = p.createCanvas(canvasSizeX, canvasSizeY);
+    p.background(220);
     canvas.id("trackCanvas");
     canvas.parent(div);
-
-    trackBar = p.createDiv();
-    trackBar.id("trackBar");
     
     playButton = p.createButton("Play");
     playButton.mousePressed(togglePlay)
-    //playButton.position(5, 320);
+    playButton.position(5, 320);
     playButton.id("playTracks");
-    playButton.parent(trackBar);
+    playButton.parent(div);
   // here you can change the placment of the track .
     addButton = p.createButton("Add New Track");
     addButton.mousePressed(addTrack);
-    //addButton.position(470, 320);
+    addButton.position(470, 320);
     addButton.size(125);
     addButton.id("addTrack");
-    addButton.parent(trackBar);
+    addButton.parent(div);
     
     tracks[0] = new track(p, 10, 35);
   }

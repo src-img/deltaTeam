@@ -122,6 +122,29 @@ button:hover {
   background-color: var(--darkOrange);
 }
 
+/*MUSIC CONTAINERS------------------------------------------------*/
+.trackContainer {
+  border: 3px solid var(--textBlack);
+  border-radius: 25px;
+  margin: 10px;
+  display: flex;
+  height: 200px;
+}
+
+.buttonContainer {
+  width: 20%;
+  border-right: 3px solid var(--textBlack);
+  margin: 10px;
+}
+
+.noteContainer {
+
+}
+
+.trackName {
+  overflow: scroll;
+}
+
 /* Card Components */
 .card {
   background-color: white;

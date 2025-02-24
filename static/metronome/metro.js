@@ -1,4 +1,4 @@
-let METRO_DIV = "metroContainer";
+let METRO_DIV = "trackBarBPMContainer";
 
 let metroSketch = function(p) {
   let metroSound;
@@ -28,7 +28,7 @@ let metroSketch = function(p) {
       p.image(metroGraphic, 0, 0, SIZE_X, SIZE_Y); // Applied to canvas element
 
       inputBPM = p.createSlider(1, 218);
-      inputBPM.position(50, 280);
+      //inputBPM.position(50, 280);
       inputBPM.size(100);
       inputBPM.input(inputHandler);
       inputBPM.id("metroSlider");
@@ -36,17 +36,17 @@ let metroSketch = function(p) {
 
       metroPlay = p.createButton("Play");
       metroPlay.mousePressed(toggle);
-      metroPlay.position(185, 270);
+      //metroPlay.position(185, 270);
       metroPlay.id("metroPlay");
       metroPlay.parent(div);
 
-      showSlider = p.createP("60");
-      showSlider.position(153, 265);
+      showSlider = p.createSpan("60");
+      //showSlider.position(153, 265);
       showSlider.id("metroSliderCount");
       showSlider.parent(div);
 
-      showBPM = p.createP("60 BPM");
-      showBPM.position(50, 285);
+      showBPM = p.createSpan("60 BPM");
+      //showBPM.position(50, 285);
       showBPM.id("metroBPM");
       showBPM.parent(div);
   };

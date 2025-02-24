@@ -15,27 +15,19 @@
             <ul class="nav-links" id="navList">
                 <li id="siteTitle"><a href="{{ url_for('index')}}">DeltaBeatz</a></li>
                 <li><a href="{{ url_for('about')}}">About</a></li>
-                <li><a href="{{ url_for('faq')}}">FAQ</a></li>
-                <li><a href="{{ url_for('features')}}">Features</a></li>
                 <li><a href="{{ url_for('login')}}">Log In</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="intro">
-            <h2>Convert Your Beats to Musical Notation!</h2>
-            <button>Get Started</button>
-        </section>
+        <div id="p5Container">
+            <div id="noteSkeletonContainer" class="container"></div>
+            <div id="trackerContainer" class="container"></div>
+        </div>
     </main>
 
-    <div id="p5Container">
-        <div id="metroContainer" class="container"></div>
-        <div id="noteSkeletonContainer" class="container"></div>
-        <div id="trackerContainer" class="container"></div>
-    </div>
-
-    <script src="{{ url_for('static', filename='metronome/metro.js') }}"></script>
     <script src="{{ url_for('static', filename='noteSkeleton/noteSkeleton.js')}}"></script>
+    <script src="{{ url_for('static', filename='metronome/metro.js') }}"></script>
     <!-- <script src="../static/millisecondTracker/inputTracker.js"></script> -->
     <script src="{{ url_for('static', filename='userInput.js') }}"></script>
 </body>

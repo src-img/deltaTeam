@@ -11,29 +11,43 @@
 
 @font-face {
   font-family: 'Futura';
-  src: url(./assets/fonts/futura/Futura\ Medium/Futura\ Medium.ttf) format ('ttf');
+  src: url('./assets/fonts/futura/Futura Medium/Futura Medium.otf') format ('opentype');
   font-style: normal;
-  font-weight: 400,
+  font-weight: 400;
 }
 
 @font-face {
   font-family: 'Futura';
-  src: url(./assets/fonts/futura/Futura\ Bold/Futura\ Bold.ttf) format ('ttf');
+  src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format ("opentype");
   font-style: bold;
-  font-weight: 600,
+  font-weight: 600;
 }
 
 @font-face {
   font-family: 'Futura';
-  src: url(./assets/fonts/futura/Futura\ Light/Futura\ Light.ttf) format ('ttf');
+  src: url('./assets/fonts/futura/Futura Light/Futura Light.otf') format ('opentype');
   font-style: normal;
-  font-weight: 200,
+  font-weight: 200;
 }
 
+@font-face {
+  font-family: 'Futura Condensed';
+  src: url('./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 400;
+} 
+
+@font-face {
+  font-family: 'Futura Condensed';
+  src: url('./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 200;
+}
 
 body {
-  font-family: 'futura', sans-serif;
+  font-family: 'Futura', sans-serif;
   font-weight: 400;
+  font-style: normal;
   background-color: white;
   color: var(--textBlack);
   margin: 0;
@@ -49,6 +63,8 @@ body {
 /*NAV --------------------------------------------------------------*/
 
 header {
+  position: sticky;
+  top: 0;
   text-align: center;
   color: #fff;
   font-size: 1.5rem;
@@ -59,7 +75,7 @@ nav {
   background-color: var(--lightBlue);
   padding: 10px;
   display: flex;
-  position: sticky;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #navList {
@@ -81,12 +97,14 @@ ul#navList > li {
   flex-direction: column;
   padding: 0px;
   margin: 0px;
+  font-family: 'Futura', sans-serif;
+  font-weight: 200 !important;
 }
 
 #siteTitle {
   font-size: 48px;
   width: 25%;
-  font-weight: 600;
+  font-weight: 400 !important;
 }
 
 
@@ -120,6 +138,153 @@ button {
 
 button:hover {
   background-color: var(--darkOrange);
+}
+
+/*TRACKBAR ------------------------------------------------*/
+
+#trackBar {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  justify-content: space-between;
+  top: 200;
+  display: sticky;
+  padding: 10px 0px;
+  background-color: white;
+}
+
+/*doing them in the same staatement borks the align...*/
+
+#trackBarPropertyContainer {
+  display: flex;
+  gap: 10px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  align-items: center;
+}
+
+#trackBarBPMContainer {
+  display: flex;
+  gap: 10px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  align-items: center;
+}
+
+#trackBarBPMContainer > span {
+  color: var(--textBlack);
+}
+
+#trackBarBackingContainer {
+  display: flex;
+  gap: 10px;
+  padding: 0px 10px;
+  align-items: center;
+}
+
+#trackBar > div > button {
+  height: 100%;
+}
+
+.trackBarBreak {
+  border-left: 3px solid var(--darkBlue);
+}
+
+/*MUSIC CONTAINERS -------------------------------------------------------------------------------------------------*/
+
+.trackContainer {
+  border: 3px solid var(--darkBlue);
+  border-radius: 25px;
+  margin: 10px;
+  display: flex;
+  height: 200px;
+  min-width: 500px;
+}
+
+.buttonContainer {
+  width: 17%;
+  border-right: 3px solid var(--textBlack);
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+}
+
+.buttonContainerRow {
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonContainerRowA {
+  justify-content: space-between;
+}
+
+
+.trackName {
+  margin-bottom: 0px !important; /*this is not my problem right now i truly cant be bothered*/
+  height: 20px;
+  width: 65% !important;
+  font-family: 'Futura Condensed', sans-serif;
+  font-weight: 200;
+  font-size: 24px;
+}
+
+.trackRecord {
+  background: url(./noteSkeleton/skeletonAssets/record.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px;
+  color: red;
+  width: 40px;
+  height: 40px;
+}
+
+.trackRecord:hover, .trackMute:hover, .trackIso:hover, .trackDelete:hover {
+  filter: brightness(80%);
+  background-color: white;
+}
+
+.buttonContainerRowB {
+  justify-content: left;
+  gap: 5px;
+}
+
+.trackMute {
+  background: url(./noteSkeleton/skeletonAssets/unmutedIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+.trackIso {
+  background: url(./noteSkeleton/skeletonAssets/isolateIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+.trackDelete{
+  background: url(./noteSkeleton/skeletonAssets/deleteIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none !important;
+  background: var(--medBlue);
+  border-radius: 25px;
+  height:7px;
 }
 
 /* Card Components */

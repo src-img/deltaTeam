@@ -17,6 +17,7 @@ class Composition:
         self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
+        self.quarter = 1
         self.noteSize = 0
         self.arrayPtr = restArray.copy()
         

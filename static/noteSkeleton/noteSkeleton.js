@@ -35,50 +35,58 @@ let skeletonSketch = function(p) {
       this.buttonContainer.id("buttonContainer" + holderCount);
       this.buttonContainer.class("buttonContainer");
       this.buttonContainer.parent(this.trackContainer);
+
+      this.buttonContainerRowA = this.p.createDiv();
+      this.buttonContainerRowA.id("buttonContainerRowA" + holderCount);
+      this.buttonContainerRowA.class("buttonContainerRowA buttonContainerRow");
+      this.buttonContainerRowA.parent(this.buttonContainer);
       
       this.nameField = this.p.createInput();
       this.nameField.class("trackName");
       //this.nameField.placeholder("Track Name");
       this.nameField.id("trackName" + holderCount);
-      this.nameField.size(100);
-      this.nameField.parent(this.buttonContainer);
+      this.nameField.parent(this.buttonContainerRowA);
       
       this.recordButton = this.p.createButton("-");
       //this.recordButton = this.p.createImg("skeletonAssets/recordIcon.png", "Record");
       this.recordButton.class("trackRecord");
       this.recordButton.id("trackRecord" + holderCount);
-      this.recordButton.parent(this.buttonContainer);
+      this.recordButton.parent(this.buttonContainerRowA);
       
-      this.muteButton = this.p.createButton("mute");
+      this.buttonContainerRowB = this.p.createDiv();
+      this.buttonContainerRowB.id("buttonContainerRowB" + holderCount);
+      this.buttonContainerRowB.class("buttonContainerRowB buttonContainerRow");
+      this.buttonContainerRowB.parent(this.buttonContainer);
+
+      this.muteButton = this.p.createButton(".");
       //this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
       this.muteButton.mousePressed(() => {
-        if(this.muteButton.attribute("src") == "skeletonAssets/unmutedIcon.png"){
-          this.muteButton.attribute("src", "skeletonAssets/mutedIcon.png");
+        if (this.muteButton.style('background').includes('unmutedIcon.png')) {
+          this.muteButton.style('background-image', 'url(../static/noteSkeleton/skeletonAssets/mutedIcon.png)');
           this.muted = true;
         } else {
-          this.muteButton.attribute("src", "skeletonAssets/unmutedIcon.png");
+          this.muteButton.style('background-image', 'url(../static/noteSkeleton/skeletonAssets/unmutedIcon.png)');
           this.muted = false;
         }
       });
       this.muteButton.class("trackMute");
       this.muteButton.id("trackMute" + holderCount);
-      this.muteButton.parent(this.buttonContainer);
+      this.muteButton.parent(this.buttonContainerRowB);
       
-      this.isoButton = this.p.createButton("Isolate");
+      this.isoButton = this.p.createButton(".");
       //NO FUNCTIONALITY YET
       this.isoButton.class("trackIso");
       this.isoButton.id("trackIso" + holderCount);
-      this.isoButton.parent(this.buttonContainer);
+      this.isoButton.parent(this.buttonContainerRowB);
       
-      this.deleteButton = this.p.createButton("delete");
+      this.deleteButton = this.p.createButton(".");
       //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");;
       //THERE IS FUNCTIONALITY BUT IT EATS THE IDS WHEN YOU DELETE SOMETHING 
       //the display is nice but internally your ids are absolutely screwed. only of note if we need them tho lol
       //also for consideration: actually only deleting the final track and shifting everything else's data down. but that seems. harder
-      //this.deleteButton.position(x + 130, y + 405);
       this.deleteButton.class("trackDelete");
       this.deleteButton.id("trackDelete" + holderCount);
-      this.deleteButton.parent(this.buttonContainer);
+      this.deleteButton.parent(this.buttonContainerRowB);
       this.deleteButton.mousePressed(() => {
         if (document.getElementsByClassName("trackContainer").length > 1) {
           removeTrack(this);
@@ -86,14 +94,20 @@ let skeletonSketch = function(p) {
           for (let i = 0; i < trackNums.length; i++) {
             trackNums[i].innerHTML = i + 1;
           }
+          holderCount--;
         }
       });
+
+      this.buttonContainerRowC = this.p.createDiv();
+      this.buttonContainerRowC.id("buttonContainerRowC" + holderCount);
+      this.buttonContainerRowC.class("buttonContainerRowC buttonContainerRow");
+      this.buttonContainerRowC.parent(this.buttonContainer);
       
       this.volumeSlider = this.p.createSlider(0, 200, 100);
       //this.volumeSlider.position(x + 15, y + 445);
       this.volumeSlider.class("trackVolume");
       this.volumeSlider.id("trackVolume" + holderCount);
-      this.volumeSlider.parent(this.buttonContainer);
+      this.volumeSlider.parent(this.buttonContainerRowC);
       
       this.p.strokeWeight(5);
       this.p.startOfMusic = this.p.line(x + 190, y + 15, x + 190, y + 100);

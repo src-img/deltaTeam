@@ -11,34 +11,47 @@
 
 @font-face {
   font-family: 'Futura';
-  src: url(./assets/fonts/futura/Futura\ Medium/Futura\ Medium.ttf) format ('ttf');
+  src: url('./assets/fonts/futura/Futura Medium/Futura Medium.otf') format ('opentype');
   font-style: normal;
-  font-weight: 400,
+  font-weight: 400;
 }
 
 @font-face {
   font-family: 'Futura';
-  src: url(./assets/fonts/futura/Futura\ Bold/Futura\ Bold.ttf) format ('ttf');
+  src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format ("opentype");
   font-style: bold;
-  font-weight: 600,
+  font-weight: 600;
 }
 
 @font-face {
   font-family: 'Futura';
-  src: url(./assets/fonts/futura/Futura\ Light/Futura\ Light.ttf) format ('ttf');
+  src: url('./assets/fonts/futura/Futura Light/Futura Light.otf') format ('opentype');
   font-style: normal;
-  font-weight: 200,
+  font-weight: 200;
 }
 
+@font-face {
+  font-family: 'Futura Condensed';
+  src: url('./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 400;
+} 
+
+@font-face {
+  font-family: 'Futura Condensed';
+  src: url('./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 200;
+}
 
 body {
-  font-family: 'futura', sans-serif;
+  font-family: 'Futura', sans-serif;
   font-weight: 400;
+  font-style: normal;
   background-color: white;
   color: var(--textBlack);
   margin: 0;
   padding: 0;
-  overflow: scroll;
 }
 
 .container {
@@ -84,12 +97,14 @@ ul#navList > li {
   flex-direction: column;
   padding: 0px;
   margin: 0px;
+  font-family: 'Futura', sans-serif;
+  font-weight: 200 !important;
 }
 
 #siteTitle {
   font-size: 48px;
   width: 25%;
-  font-weight: 600;
+  font-weight: 400 !important;
 }
 
 
@@ -134,7 +149,7 @@ button:hover {
   justify-content: space-between;
   top: 200;
   display: sticky;
-  padding: 10px;
+  padding: 10px 0px;
   background-color: white;
 }
 
@@ -183,16 +198,36 @@ button:hover {
   margin: 10px;
   display: flex;
   height: 200px;
+  min-width: 500px;
 }
 
 .buttonContainer {
-  width: 20%;
+  width: 17%;
   border-right: 3px solid var(--textBlack);
   margin: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
 }
 
-.buttonContainer > * {
+.buttonContainerRow {
   margin: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonContainerRowA {
+  justify-content: space-between;
+}
+
+
+.trackName {
+  margin-bottom: 0px !important; /*this is not my problem right now i truly cant be bothered*/
+  height: 20px;
+  width: 65% !important;
+  font-family: 'Futura Condensed', sans-serif;
+  font-weight: 200;
+  font-size: 24px;
 }
 
 .trackRecord {
@@ -205,16 +240,52 @@ button:hover {
   height: 40px;
 }
 
-.trackRecord:hover {
+.trackRecord:hover, .trackMute:hover, .trackIso:hover, .trackDelete:hover {
   filter: brightness(80%);
   background-color: white;
 }
 
-.noteContainer {
-
+.buttonContainerRowB {
+  justify-content: left;
+  gap: 5px;
 }
 
+.trackMute {
+  background: url(./noteSkeleton/skeletonAssets/unmutedIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
 
+.trackIso {
+  background: url(./noteSkeleton/skeletonAssets/isolateIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+.trackDelete{
+  background: url(./noteSkeleton/skeletonAssets/deleteIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none !important;
+  background: var(--medBlue);
+  border-radius: 25px;
+  height:7px;
+}
 
 /* Card Components */
 .card {

@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    data = {temp.getComposition()}
+    return render_template('index.html', composition=data)
 
 @app.route("/about")
 def about():

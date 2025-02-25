@@ -7,6 +7,11 @@ let testString = "|e.S+SES+QEe|h.Q|hEeq|W+|HSesq|hQ.E+|EEEeh|h.Q+|SesE.S+E.S+E.S
 // take from whichever string input we want to use
 let selected = testString;
 
+window.onload = function() {
+  selected = document.getElementById('from-flask').getAttribute('composition_string'); 
+  console.log(selected);
+};
+
 let canvasWidth = selected.length * 150;
 
 let staffStart = 100;

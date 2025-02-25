@@ -11,13 +11,15 @@
 </head>
 <body>
     <header>
+        <!--
         <nav id="navContainer">
             <ul class="nav-links" id="navList">
                 <li id="siteTitle"><a href="{{ url_for('index')}}">DeltaBeatz</a></li>
                 <li><a href="{{ url_for('about')}}">About</a></li>
                 <li><a href="{{ url_for('login')}}">Log In</a></li>
             </ul>
-        </nav>
+        </nav>-->
+        {% include 'navbar.html' %}
     </header>
     <main>
         <div id="p5Container">
@@ -28,7 +30,9 @@
 
     <script src="{{ url_for('static', filename='noteSkeleton/noteSkeleton.js')}}"></script>
     <script src="{{ url_for('static', filename='metronome/metro.js') }}"></script>
-    <!-- <script src="../static/millisecondTracker/inputTracker.js"></script> -->
+   <!--<script src="../static/millisecondTracker/inputTracker.js"></script> -->
     <script src="{{ url_for('static', filename='userInput.js') }}"></script>
 </body>
 </html>
+
+

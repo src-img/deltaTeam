@@ -67,6 +67,9 @@ class Composition:
     def printComposition(self):
         print(self.composition)
 
+    def getComposition(self):
+        return self.composition
+
 
 def modifyComposition(Composition):
     newComposition = Composition

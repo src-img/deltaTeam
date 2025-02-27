@@ -77,7 +77,7 @@ def signup_submit():
         db.commit()
         return redirect(url_for('login'))
     else:
-        print("Email already exists")
+        print("Account with that email already exists")
         return redirect(url_for('signup'))
     
     return redirect(url_for('login'))
@@ -95,14 +95,25 @@ def handle_keyboard_event():
     elif keyPressed == 's':
         temp.userInput = InputState.addRest
     print(f"Key pressed: {keyPressed}")
+
+    # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
-        temp.getCompMeasureList()
+        measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID"))
         print(result, "result of song")
         songMeasureLen = 0
+
         if result[4] != None:
             songMeasureLen = len(result[4])
-        print(songMeasureLen)
+        #print(songMeasureLen)
+        
+        print("measures list: ", measuresList)
+        if measuresList != None:
+            if len(measuresList) > songMeasureLen:
+                print("measures list of songLen: ", measuresList[songMeasureLen])
+                db.addMeasure(session["songID"], measuresList[songMeasureLen])
+
+
     return jsonify({"message": "Key received successfully"})
 
 

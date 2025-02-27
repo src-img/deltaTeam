@@ -97,9 +97,9 @@ class databaseManager():
         try:
             res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
             if res == None: 
-                self.cursor.execute("INSERT INTO Measure(notes) VALUES(?)", (notes))
+                self.cursor.execute("INSERT INTO Measure(notes) VALUES(?)", [notes])
         except sqlite3.Error as e:
-            print("Error inserting measure")
+            print("Error inserting measure", e)
             error = e
 
         id = self.cursor.lastrowid

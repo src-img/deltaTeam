@@ -13,8 +13,12 @@ success, error = db.connect()
 @app.route("/")
 def index():
     if session.get("userID") != None:
-        success, error, id = db.addSong(session["userID"], session["username"] + " song") 
-    
+        if session.get("songID") == None:
+            success, error, id = db.addSong(session["userID"], session["username"] + " song")
+            session["songID"] = id
+            db.commit()
+        
+     
     return render_template('index.html')
 
 @app.route("/about")
@@ -40,6 +44,7 @@ def login_submit():
             session.permanent = True
             session["userID"] = result[0]
             session["username"] = result[2]
+            session["songID"] = None
             print("logged in as " + result[2])
         else:
             return redirect(url_for('login'))
@@ -60,6 +65,8 @@ def signup():
 
 @app.route('/signup', methods=['POST'])
 def signup_submit():
+
+    # Doesn't check if account exists!
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
@@ -83,7 +90,14 @@ def handle_keyboard_event():
     elif keyPressed == 's':
         temp.userInput = InputState.addRest
     print(f"Key pressed: {keyPressed}")
-    temp.getCompMeasureList()
+    if session.get("userID") != None and session.get("songID") != None:
+        temp.getCompMeasureList()
+        result, error = db.fetchSong(session.get("songID"))
+        print(result, "result of song")
+        songMeasureLen = 0
+        if result[4] != None:
+            songMeasureLen = len(result[4])
+        print(songMeasureLen)
     return jsonify({"message": "Key received successfully"})
 
 

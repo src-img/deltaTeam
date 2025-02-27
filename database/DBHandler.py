@@ -189,7 +189,7 @@ class databaseManager():
             result = list(result)
             dictofjson = json.loads(result[4])
             arrayofjson = dictofjson['measuresList']
-            result[4] = arrayofjson
+            result[4] = list(arrayofjson)
             print("Result of song ", song_id," :", result)
         # CHANGE THE JSON IN THE RESULT INTO AN ARRAY
         return result, error

@@ -1,87 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Page</title>
-  <style>
-    /* Reset some default styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
-    }
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DeltaBeatz</title>
+    <link rel="stylesheet" type="text/css" href="static/index.css"> 
+</head>
+<style>
+   
     .login-container {
-      background-color: #fff;
-      padding: 20px 30px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      width: 300px;
+        max-width: 350px; 
+        width: 100%;
+        margin: auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: left; 
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-
-    .login-container form {
-      display: flex;
-      flex-direction: column;
-    }
-
+    
     .login-container label {
-      margin-bottom: 5px;
-      font-size: 14px;
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        font-weight: bold;
     }
 
+    
     .login-container input {
-      padding: 8px;
-      margin-bottom: 15px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
+        width: 60%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        display: block;
     }
 
+    
     .login-container button {
-      padding: 10px;
-      font-size: 16px;
-      background-color: #2e94e8;
-      color: #fff;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
+        width: 40%; 
+        padding: 10px;
+        font-size: 14px;
+        background-color: #ff7f50;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-top: 15px; 
     }
 
     .login-container button:hover {
-      background-color: #2e94e8;
+        background-color: #ff5733;
     }
-  </style>
-</head>
+</style>
 <body>
-  <div class="login-container">
-    <h2>Login</h2>
-    <form action="/login" method="post">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required />
+   <!--navbar-->
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <div class="login-container"> 
+        
+        <h2>Login</h2>
+        <form action="/login" method="post">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
 
-      <button type="submit">Sign In</button>
-    </form>
-    <a href="{{ url_for('signup')}}">Sign Up</a>
-  </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>

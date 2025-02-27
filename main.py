@@ -68,7 +68,7 @@ def signup_submit():
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
-    confirm_password = request.form['confirm_password']
+    confirm_password = request.form['confirm-password']
     
     # checking for duplicate accounts
     result, error = db.fetchUser(email)

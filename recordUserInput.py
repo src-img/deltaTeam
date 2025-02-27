@@ -17,19 +17,20 @@ class Composition:
         self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
+        self.quarter = 1
         self.noteSize = 0
         self.arrayPtr = restArray.copy()
         
 
 
-    def randomMeasureGenerator(self):
-        randomState = random.randint(1,10)
-        if randomState == 1:
-            self.userInput = InputState.addNote
-        elif randomState == 2:
-            self.userInput = InputState.addRest
-        else:
-            self.userInput = InputState.increaseDuration
+    # def randomMeasureGenerator(self):
+    #     randomState = random.randint(1,10)
+    #     if randomState == 1:
+    #         self.userInput = InputState.addNote
+    #     elif randomState == 2:
+    #         self.userInput = InputState.addRest
+    #     else:
+    #         self.userInput = InputState.increaseDuration
 
     def setNoteSizeLimit(self):
             match (self.sixteenth % 4):
@@ -43,7 +44,7 @@ class Composition:
                     self.noteSizeLimit = 0
 
     def compose(self):
-        self.randomMeasureGenerator()
+        #self.randomMeasureGenerator()
         if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or self.userInput == InputState.addRest and self.arrayPtr != restArray:
             self.composition += self.arrayPtr[self.noteSize]
             match self.userInput:
@@ -65,15 +66,20 @@ class Composition:
 
     def printComposition(self):
         print(self.composition)
+    
+    def getCompMeasureList(self):
+        result = []
+        delimiter = '|'
+        result = self.composition.split(delimiter)
+        
+        print(result[1:])
 
+def modifyComposition(Composition):
+    newComposition = Composition
+    
+    newComposition.compose()
 
-def main():
-    newComposition = Composition()
-    counter = 0
-    while counter < 160:
-        newComposition.compose()
-        counter += 1
     newComposition.printComposition()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     modifyComposition()

@@ -1,0 +1,352 @@
+/*sSETUP --------------------------------------------------------------*/
+
+:root {
+  --lightBlue: #47C7BE;
+  --medBlue: #249AA6;
+  --darkBlue: #20657E;
+  --lightOrange: #F18956;
+  --darkOrange: #CC4B29;
+  --textBlack: #212528;
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url('./assets/fonts/futura/Futura Medium/Futura Medium.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format ("opentype");
+  font-style: bold;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Futura';
+  src: url('./assets/fonts/futura/Futura Light/Futura Light.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'Futura Condensed';
+  src: url('./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 400;
+} 
+
+@font-face {
+  font-family: 'Futura Condensed';
+  src: url('./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format ('opentype');
+  font-style: normal;
+  font-weight: 200;
+}
+
+body {
+  font-family: 'Futura', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  background-color: white;
+  color: var(--textBlack);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/*NAV --------------------------------------------------------------*/
+
+header {
+  position: sticky;
+  top: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  background-color: var(--lightBlue);
+  padding: 10px;
+  display: flex;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#navList {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 75px;
+}
+
+ul#navList {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+ul#navList > li {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Futura', sans-serif;
+  font-weight: 200 !important;
+}
+
+#siteTitle {
+  font-size: 48px;
+  width: 25%;
+  font-weight: 400 !important;
+}
+
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+}
+
+nav a:hover {
+  background-color: var(--medBlue);
+  border-radius: 5px;
+}
+
+/*MAIN------------------------------------------------*/
+
+main {
+  margin: 10px;
+}
+
+button {
+  background-color: var(--lightOrange); /* Primary color */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: var(--darkOrange);
+}
+
+/*TRACKBAR ------------------------------------------------*/
+
+#trackBar {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  justify-content: space-between;
+  top: 200;
+  display: sticky;
+  padding: 10px 0px;
+  background-color: white;
+}
+
+/*doing them in the same staatement borks the align...*/
+
+#trackBarPropertyContainer {
+  display: flex;
+  gap: 10px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  align-items: center;
+}
+
+#trackBarBPMContainer {
+  display: flex;
+  gap: 10px;
+  margin: 0px 10px;
+  padding: 0px 10px;
+  align-items: center;
+}
+
+#trackBarBPMContainer > span {
+  color: var(--textBlack);
+}
+
+#trackBarBackingContainer {
+  display: flex;
+  gap: 10px;
+  padding: 0px 10px;
+  align-items: center;
+}
+
+#trackBar > div > button {
+  height: 100%;
+}
+
+.trackBarBreak {
+  border-left: 3px solid var(--darkBlue);
+}
+
+/*MUSIC CONTAINERS -------------------------------------------------------------------------------------------------*/
+
+.trackContainer {
+  border: 3px solid var(--darkBlue);
+  border-radius: 25px;
+  margin: 10px;
+  display: flex;
+  height: 200px;
+  min-width: 500px;
+}
+
+.buttonContainer {
+  width: 17%;
+  border-right: 3px solid var(--textBlack);
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+}
+
+.buttonContainerRow {
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonContainerRowA {
+  justify-content: space-between;
+}
+
+
+.trackName {
+  margin-bottom: 0px !important; /*this is not my problem right now i truly cant be bothered*/
+  height: 20px;
+  width: 65% !important;
+  font-family: 'Futura Condensed', sans-serif;
+  font-weight: 200;
+  font-size: 24px;
+}
+
+.trackRecord {
+  background: url(./noteSkeleton/skeletonAssets/record.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px;
+  color: red;
+  width: 40px;
+  height: 40px;
+}
+
+.trackRecord:hover, .trackMute:hover, .trackIso:hover, .trackDelete:hover {
+  filter: brightness(80%);
+  background-color: white;
+}
+
+.buttonContainerRowB {
+  justify-content: left;
+  gap: 5px;
+}
+
+.trackMute {
+  background: url(./noteSkeleton/skeletonAssets/unmutedIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+.trackIso {
+  background: url(./noteSkeleton/skeletonAssets/isolateIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+.trackDelete{
+  background: url(./noteSkeleton/skeletonAssets/deleteIcon.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  background-size: 30px;
+  width: 40px;
+  height: 40px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none !important;
+  background: var(--medBlue);
+  border-radius: 25px;
+  height:7px;
+}
+
+/* Card Components */
+.card {
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.card-header {
+  background-color: #f0f8ff;
+  padding: 15px;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-content {
+  padding: 15px;
+  color: #666;
+}
+
+/* Forms */
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dcdcdc;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+footer {
+  background-color: #87cefa;
+  padding: 15px 0;
+  text-align: center;
+  color: #fff;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.accent-section {
+  background-color: #d3d3d3; /*gray*/
+  padding: 20px;
+  border-radius: 8px;
+  color: #333;
+}

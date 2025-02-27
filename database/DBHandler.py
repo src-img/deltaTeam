@@ -18,7 +18,7 @@ class databaseManager():
         error = None
 
         try:
-            self.connection = sqlite3.connect(self.database)
+            self.connection = sqlite3.connect(self.database, check_same_thread=False)
         except sqlite3.Error as e:
             print("There was an error")
             success = False
@@ -158,13 +158,13 @@ class databaseManager():
 
 
     # Fetching from database
-    def fetchUser(self, user_id):
+    def fetchUser(self, email):
         result = []
         error = None
 
         try:
-            result = self.cursor.execute("SELECT * FROM User WHERE user_id=?", [user_id]).fetchone()
-            print("Result of user ", user_id," :", result)
+            result = self.cursor.execute("SELECT * FROM User WHERE email=?", [email]).fetchone()
+            print("Result of user ", email," :", result)
         except sqlite3.Error as e:
             print("There was an error fetching for user")
             error = e

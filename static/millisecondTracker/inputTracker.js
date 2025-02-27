@@ -11,9 +11,8 @@ let trackerSketch = function(p) {
   let hit, result;
   
   p.preload = function() {
-    // loading sounds for input
-    //hit = p.loadSound('https://src-img.github.io/deltaTeam/millisecondTracker/click.wav');
-    //result = p.loadSound('https://src-img.github.io/deltaTeam/millisecondTracker/pickupCoin.wav');
+    hit = p.loadSound('https://src-img.github.io/deltaTeam/millisecondTracker/click.wav');
+    result = p.loadSound('https://src-img.github.io/deltaTeam/millisecondTracker/pickupCoin.wav');
   }
   
   p.setup = function() {
@@ -42,7 +41,7 @@ let trackerSketch = function(p) {
       if (inputs.length <= 1) {
         inputs.push(p.round(performance.now()));
         if (inputs.length == 1) {
-          //hit.play();
+          hit.play();
         }
       }
       // shifts the first element in the array, and pushes in a new one
@@ -60,7 +59,7 @@ let trackerSketch = function(p) {
       if (ms) {
         p.background(255);
         p.text(ms + "ms\nbetween each tap", 50, 200);  
-        //result.play();
+        result.play();
       }
       
       // draws the inputs of the user

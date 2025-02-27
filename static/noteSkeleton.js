@@ -62,10 +62,10 @@ let skeletonSketch = function(p) {
       //this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
       this.muteButton.mousePressed(() => {
         if (this.muteButton.style('background').includes('unmutedIcon.png')) {
-          this.muteButton.style('background-image', 'url(../static/noteSkeleton/skeletonAssets/mutedIcon.png)');
+          this.muteButton.style('background-image', 'url(../static/assets/skeleton/mutedIcon.png)');
           this.muted = true;
         } else {
-          this.muteButton.style('background-image', 'url(../static/noteSkeleton/skeletonAssets/unmutedIcon.png)');
+          this.muteButton.style('background-image', 'url(../static/noteSkeleton/assets/skeleton/unmutedIcon.png)');
           this.muted = false;
         }
       });

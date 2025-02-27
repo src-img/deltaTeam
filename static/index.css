@@ -231,7 +231,7 @@ button:hover {
 }
 
 .trackRecord {
-  background: url(./noteSkeleton/skeletonAssets/record.svg);
+  background: url(./skeleton/record.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px;
@@ -251,7 +251,7 @@ button:hover {
 }
 
 .trackMute {
-  background: url(./noteSkeleton/skeletonAssets/unmutedIcon.png);
+  background: url(./skeleton/unmutedIcon.png);
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;
@@ -261,7 +261,7 @@ button:hover {
 }
 
 .trackIso {
-  background: url(./noteSkeleton/skeletonAssets/isolateIcon.png);
+  background: url(./skeleton/isolateIcon.png);
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;
@@ -271,7 +271,7 @@ button:hover {
 }
 
 .trackDelete{
-  background: url(./noteSkeleton/skeletonAssets/deleteIcon.png);
+  background: url(./skeleton/deleteIcon.png);
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;

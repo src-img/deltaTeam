@@ -65,16 +65,21 @@ def signup():
 
 @app.route('/signup', methods=['POST'])
 def signup_submit():
-
-    # Doesn't check if account exists!
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
     confirm_password = request.form['confirm_password']
     
-    success, error, user_id = db.addUser(email, username, password)
-    db.commit()
-    print(error)
+    # checking for duplicate accounts
+    result, error = db.fetchUser(email)
+    if result == None:
+        success, error, user_id = db.addUser(email, username, password)
+        db.commit()
+        return redirect(url_for('login'))
+    else:
+        print("Email already exists")
+        return redirect(url_for('signup'))
+    
     return redirect(url_for('login'))
 
 

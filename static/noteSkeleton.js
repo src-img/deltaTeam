@@ -75,7 +75,7 @@ let skeletonSketch = function(p) {
           this.muteButton.style('background-image', 'url(../static/assets/skeleton/mutedIcon.png)');
           this.muted = true;
         } else {
-          this.muteButton.style('background-image', 'url(../static/noteSkeleton/assets/skeleton/unmutedIcon.png)');
+          this.muteButton.style('background-image', 'url(../static/assets/skeleton/unmutedIcon.png)');
           this.muted = false;
         }
       });

@@ -11,8 +11,8 @@ let trackerSketch = function(p) {
   let hit, result;
   
   p.preload = function() {
-    hit = p.loadSound('https://src-img.github.io/deltaTeam/static/assets/tracker/click.wav');
-    result = p.loadSound('https://src-img.github.io/deltaTeam/static/assets/tracker/pickupCoin.wav');
+    hit = p.loadSound('./assets/tracker/click.wav');
+    result = p.loadSound('./assets/tracker/pickupCoin.wav');
   }
   
   p.setup = function() {

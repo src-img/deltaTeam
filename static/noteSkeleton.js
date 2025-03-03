@@ -52,6 +52,15 @@ let skeletonSketch = function(p) {
       this.recordButton.class("trackRecord");
       this.recordButton.id("trackRecord" + holderCount);
       this.recordButton.parent(this.buttonContainerRowA);
+
+      // Event listener to turn recording on/off
+      const rButton = document.getElementById("trackRecord" + holderCount);
+      rButton.addEventListener('click', () => {
+        fetch('/recording', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        })
+      })
       
       this.buttonContainerRowB = this.p.createDiv();
       this.buttonContainerRowB.id("buttonContainerRowB" + holderCount);

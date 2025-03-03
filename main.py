@@ -116,11 +116,30 @@ def handle_keyboard_event():
 
     return jsonify({"message": "Key received successfully"})
 
+@app.route('/recording', methods=['POST'])
+def toggle_record():
+    record = request.get_json()
+    global recording 
+    if recording == True:
+        recording = False
+        print(f"recording off")
+    else:
+        recording= True
+        print(f"recording on")
+    
+    data = recording
+    return jsonify({'recording': data})
+
+@app.context_processor
+def inject_composition():
+    return dict(current_composition = temp.getComposition()) 
 
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():
     data = request.get_json()
     print("metronome received")
+    if recording == True:
+        modifyComposition(temp)
     modifyComposition(temp)
     return jsonify({'message': 'Data received', 'data': data})
 

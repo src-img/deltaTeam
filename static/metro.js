@@ -14,8 +14,8 @@ let metroSketch = function(p) {
   let timeouts = [];
 
   p.preload = function() {
-      metroSound = p.loadSound("./assets/metronome/metro.wav");
-      metroGraphic = p.loadImage("./assets/metronome/metroLogo.png");
+      metroSound = p.loadSound("./static/assets/metronome/metro.wav");
+      metroGraphic = p.loadImage("./static/assets/metronome/metroLogo.png");
   };
 
   p.setup = function() {

@@ -140,6 +140,7 @@ def handle_metronome():
     print("metronome received")
     if recording == True:
         modifyComposition(temp)
+    inject_composition()
     return jsonify({'message': 'Data received', 'data': data})
 
 

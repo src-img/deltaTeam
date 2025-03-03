@@ -48,6 +48,11 @@
         style="position: fixed; bottom: 20px; right: 20px; width: 8%;"
       />
     </a>
+     <script src="{{ url_for('static', filename='printFunction/print.js') }}?v{{ current_js_version }}"></script> 
+    
+    <div id="composition">
+        {{current_composition}}
+    </div>
 </body>
 </html>
 

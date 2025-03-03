@@ -100,11 +100,14 @@ def handle_keyboard_event():
     if session.get("userID") != None and session.get("songID") != None:
         measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID"))
+        print("Error", error)
         print(result, "result of song")
         songMeasureLen = 0
+        
 
-        if result[4] != None:
-            songMeasureLen = len(result[4])
+        if result != []:
+            if result[4] != None:
+                songMeasureLen = len(result[4])
         #print(songMeasureLen)
         
         print("measures list: ", measuresList)

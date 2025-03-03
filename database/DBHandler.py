@@ -1,6 +1,7 @@
 import sqlite3
 import re
 import json
+import threading
 
 class databaseManager():
     def __init__(self, database):
@@ -174,17 +175,21 @@ class databaseManager():
             result = list(result)
         return result, error
 
+    lock = threading.Lock()
     def fetchSong(self, song_id):
+        
         result = []
         error = None
 
         try:
+            self.lock.acquire(True)
             result = self.cursor.execute("SELECT * FROM Song WHERE song_id=?", [song_id]).fetchone()
         except sqlite3.Error as e:
             print("There was an error fetching for song")
             error = e
             return result, error
         
+        self.lock.release()
         if result != None: 
             result = list(result)
             dictofjson = json.loads(result[4])

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - DeltaBeatz</title>
+    <title>Sign Up - DeltaBeatz</title>
     <link rel="stylesheet" type="text/css" href="static/index.css"> 
 </head>
 <style>
-   
-    .login-container {
-        max-width: 350px; 
+    
+    .signup-container {
+        max-width: 400px; 
         width: 100%;
         margin: auto;
         padding: 20px;
@@ -24,7 +24,7 @@
     }
 
     
-    .login-container label {
+    .signup-container label {
         display: block;
         font-size: 14px;
         margin-bottom: 5px;
@@ -32,17 +32,18 @@
     }
 
     
-    .login-container input {
+    .signup-container input {
         width: 60%;
         padding: 8px;
         font-size: 14px;
         border: 1px solid #ccc;
         border-radius: 3px;
         display: block;
+        margin-bottom: 10px;
     }
 
     
-    .login-container button {
+    .signup-container button {
         width: 40%; 
         padding: 10px;
         font-size: 14px;
@@ -51,29 +52,36 @@
         border: none;
         border-radius: 3px;
         cursor: pointer;
-        margin-top: 15px; 
+        margin-top: 15px;
     }
 
-    .login-container button:hover {
+    .signup-container button:hover {
         background-color: #ff5733;
     }
 </style>
 <body>
-   <!--navbar-->
+    <!-- navbar -->
     <header>
         {% include 'navbar.html' %}
     </header>
-    <div class="login-container"> 
-        
-        <h2>Login</h2>
-        <form action="/login" method="post">
+
+    
+    <div class="signup-container"> 
+        <h2>Sign Up</h2>
+        <form action="/signup" method="post">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">Login</button>
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+
+            <button type="submit">Sign Up</button>
         </form>
     </div>
 </body>

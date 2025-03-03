@@ -66,7 +66,19 @@ class Composition:
 
     def printComposition(self):
         print(self.composition)
+    
+    def getCompMeasureList(self):
+        result = []
+        delimiter = '|'
 
+        # This is to check if it is closed
+        if self.composition.count(delimiter) == 1:
+            return None
+
+        parts = self.composition.split(delimiter)    
+        substrings = [parts[i] for i in range(1, len(parts) - 1)]
+    
+        return substrings
 
 def modifyComposition(Composition):
     newComposition = Composition

@@ -18,7 +18,7 @@ class databaseManager():
         error = None
 
         try:
-            self.connection = sqlite3.connect(self.database)
+            self.connection = sqlite3.connect(self.database, check_same_thread=False)
         except sqlite3.Error as e:
             print("There was an error")
             success = False
@@ -97,9 +97,9 @@ class databaseManager():
         try:
             res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
             if res == None: 
-                self.cursor.execute("INSERT INTO Measure(notes) VALUES(?)", (notes))
+                self.cursor.execute("INSERT INTO Measure(notes) VALUES(?)", [notes])
         except sqlite3.Error as e:
-            print("Error inserting measure")
+            print("Error inserting measure", e)
             error = e
 
         id = self.cursor.lastrowid
@@ -158,13 +158,13 @@ class databaseManager():
 
 
     # Fetching from database
-    def fetchUser(self, user_id):
+    def fetchUser(self, email):
         result = []
         error = None
 
         try:
-            result = self.cursor.execute("SELECT * FROM User WHERE user_id=?", [user_id]).fetchone()
-            print("Result of user ", user_id," :", result)
+            result = self.cursor.execute("SELECT * FROM User WHERE email=?", [email]).fetchone()
+            print("Result of user ", email," :", result)
         except sqlite3.Error as e:
             print("There was an error fetching for user")
             error = e
@@ -189,7 +189,7 @@ class databaseManager():
             result = list(result)
             dictofjson = json.loads(result[4])
             arrayofjson = dictofjson['measuresList']
-            result[4] = arrayofjson
+            result[4] = list(arrayofjson)
             print("Result of song ", song_id," :", result)
         # CHANGE THE JSON IN THE RESULT INTO AN ARRAY
         return result, error

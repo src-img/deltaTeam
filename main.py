@@ -116,10 +116,11 @@ def handle_keyboard_event():
 
     return jsonify({"message": "Key received successfully"})
 
+
 @app.route('/recording', methods=['POST'])
 def toggle_record():
-    record = request.get_json()
     global recording 
+    recording = request.get_json()
     if recording == True:
         recording = False
         print(f"recording off")

@@ -56,6 +56,7 @@ let skeletonSketch = function(p) {
       // Event listener to turn recording on/off
       const rButton = document.getElementById("trackRecord" + holderCount);
       rButton.addEventListener('click', () => {
+        console.log("you got it!")
         fetch('/recording', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'}

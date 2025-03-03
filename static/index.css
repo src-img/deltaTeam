@@ -10,42 +10,49 @@
 }
 
 @font-face {
-  font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Medium/Futura Medium.otf') format ('opentype');
+  font-family: 'Futura Medium';
+  src: url('assets/fonts/futura/Futura Medium/Futura Medium.otf') format('opentype');
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format ("opentype");
+  font-family: 'Futura Extra Bold';
+  src: url('assets/fonts/futura/Futura Extra Bold Condensed/Futura Extra Bold Condensed.otf') format("opentype");
   font-style: bold;
   font-weight: 600;
 }
 
 @font-face {
-  font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Light/Futura Light.otf') format ('opentype');
+  font-family: 'Futura Light';
+  src: url('assets/fonts/futura/Futura Light/Futura Light.otf') format('opentype');
   font-style: normal;
   font-weight: 200;
 }
 
 @font-face {
-  font-family: 'Futura Condensed';
-  src: url('./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format ('opentype');
+  font-family: 'Futura Medium Condensed';
+  src: url('assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format('opentype');
   font-style: normal;
   font-weight: 400;
 } 
 
 @font-face {
-  font-family: 'Futura Condensed';
-  src: url('./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format ('opentype');
+  font-family: 'Futura Light Condensed';
+  src: url('assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format('opentype');
+  font-style: normal;
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: 'Futura Bold';
+  src: url('assets/fonts/futura/Futura Bold.otf') format('opentype');
   font-style: normal;
   font-weight: 200;
 }
 
 body {
-  font-family: 'Futura', sans-serif;
+  font-family: 'Furtuna Bold', sans-serif;
   font-weight: 400;
   font-style: normal;
   background-color: white;
@@ -71,6 +78,13 @@ header {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+#siteTitle {
+  font-family: 'Futura Bold', sans-serif;
+  font-size: 48px;
+  width: 25%;
+  font-weight: 400 !important;
+}
+
 nav {
   background-color: var(--lightBlue);
   padding: 10px;
@@ -91,24 +105,9 @@ ul#navList {
   margin: 0px;
 }
 
-ul#navList > li {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0px;
-  margin: 0px;
-  font-family: 'Futura', sans-serif;
-  font-weight: 200 !important;
-}
-
-#siteTitle {
-  font-size: 48px;
-  width: 25%;
-  font-weight: 400 !important;
-}
-
 
 nav a {
+  font-family: 'Futura';
   color: #fff;
   text-decoration: none;
   padding: 10px 15px;
@@ -282,6 +281,7 @@ button:hover {
 
 input[type='range'] {
   -webkit-appearance: none !important;
+  appearance: none !important;
   background: var(--medBlue);
   border-radius: 25px;
   height:7px;

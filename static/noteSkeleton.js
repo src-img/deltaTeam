@@ -157,9 +157,17 @@ let skeletonSketch = function(p) {
   }
 
   function removeTrack(obj) {
+    let trackNums = document.getElementsByClassName("numberDisplay");
+    if(obj.number < holderCount){
+      for(let i = 0; i < trackNums.length; i++){
+        if(trackNums[i] > obj.number){
+          trackNums[i]
+          trackNums[i].id("numberDisplay" + i);
+        }
+      } 
+    }
     obj.number.remove();
     obj.trackContainer.remove();
-    
   }
 
   p.setup = function(){

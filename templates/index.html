@@ -11,14 +11,6 @@
 </head>
 <body>
     <header>
-        <!--
-        <nav id="navContainer">
-            <ul class="nav-links" id="navList">
-                <li id="siteTitle"><a href="{{ url_for('index')}}">DeltaBeatz</a></li>
-                <li><a href="{{ url_for('about')}}">About</a></li>
-                <li><a href="{{ url_for('login')}}">Log In</a></li>
-            </ul>
-        </nav>-->
         {% include 'navbar.html' %}
     </header>
     <main>
@@ -30,7 +22,6 @@
 
     <script src="{{ url_for('static', filename='noteSkeleton.js')}}"></script>
     <script src="{{ url_for('static', filename='metro.js') }}"></script>
-    <!-- <script src="../static/inputTracker.js"></script> -->
     <script src="{{ url_for('static', filename='userInput.js') }}"></script>
 
     <script src="{{ url_for('static', filename='userInput.js') }}"></script>

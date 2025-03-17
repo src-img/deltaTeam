@@ -57,9 +57,11 @@ let skeletonSketch = function(p) {
       const rButton = document.getElementById("trackRecord" + holderCount);
       rButton.addEventListener('click', () => {
         console.log("you got it!")
+        console.log(rButton.id[rButton.id.length - 1])
         fetch('/recording', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'}
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({'recordee': rButton.id[rButton.id.length - 1]}) //which row is doing this
         })
       })
       

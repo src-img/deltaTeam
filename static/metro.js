@@ -33,6 +33,7 @@ let metroSketch = function(p) {
       inputBPM.input(inputHandler);
       inputBPM.id("metroSlider");
       inputBPM.parent(div);
+      inputBPM.value(60);
 
       metroPlay = p.createButton("Play");
       metroPlay.mousePressed(toggle);
@@ -93,7 +94,7 @@ let metroSketch = function(p) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({key: 'value'}),
+            body: JSON.stringify({quarterNoteMS: 60000 / BPM})
         })
         .then(data => {
             // Step 2: Trigger the event here, inside the .then() block

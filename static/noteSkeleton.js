@@ -220,3 +220,4 @@ let skeletonSketch = function(p) {
 }
 
 new p5(skeletonSketch, SKELETON_DIV);
+

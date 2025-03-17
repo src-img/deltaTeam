@@ -79,7 +79,10 @@ class Composition:
         substrings = [parts[i] for i in range(1, len(parts) - 1)]
     
         return substrings
-
+        
+    def getComposition(self):
+            return self.composition
+    
 def modifyComposition(Composition):
     newComposition = Composition
     

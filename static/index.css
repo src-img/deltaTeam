@@ -198,7 +198,7 @@ button:hover {
   margin: 10px;
   display: flex;
   height: 200px;
-  min-width: 500px;
+  min-width: 400px;
 }
 
 .buttonContainer {
@@ -231,7 +231,7 @@ button:hover {
 }
 
 .trackRecord {
-  background: url(./skeleton/record.svg);
+  background: url(./assets/skeleton/record.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px;
@@ -251,7 +251,7 @@ button:hover {
 }
 
 .trackMute {
-  background: url(./skeleton/unmutedIcon.png);
+  background: url(./assets/skeleton/unmutedIcon.png);
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;
@@ -261,7 +261,7 @@ button:hover {
 }
 
 .trackIso {
-  background: url(./skeleton/isolateIcon.png);
+  background: url(./assets/skeleton/isolateIcon.png);
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;
@@ -271,7 +271,7 @@ button:hover {
 }
 
 .trackDelete{
-  background: url(./skeleton/deleteIcon.png);
+  background: url(./assets/skeleton/deleteIcon.png);
   background-repeat: no-repeat;
   background-position: center;
   background-color: white;

@@ -8,7 +8,8 @@ app.secret_key = "secretKeyTemp"
 app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
-
+recording = False
+js_version = 1.0
 
 @app.route("/")
 def index():
@@ -85,6 +86,14 @@ def signup_submit():
 
 temp = Composition()
 
+@app.route("/jinja")
+def jinja():
+    global js_version
+    js_version += .1
+    print(js_version)
+    # inject_version()
+    # data = {temp.getComposition()}
+    return render_template('jinja.html', js_version=js_version)
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
@@ -120,11 +129,31 @@ def handle_keyboard_event():
     return jsonify({"message": "Key received successfully"})
 
 
+@app.route('/recording', methods=['POST'])
+def toggle_record():
+    global recording 
+    recording = request.get_json()
+    if recording == True:
+        recording = False
+        print(f"recording off")
+    else:
+        recording= True
+        print(f"recording on")
+    
+    data = recording
+    return jsonify({'recording': data})
+
+@app.context_processor
+def inject_composition():
+    return dict(current_composition = temp.getComposition()) 
+
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():
     data = request.get_json()
     print("metronome received")
+    # if recording == True:
     modifyComposition(temp)
+    inject_composition()
     return jsonify({'message': 'Data received', 'data': data})
 
 

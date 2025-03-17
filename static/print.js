@@ -22,7 +22,7 @@ function setup() {
 function draw() {
   background(255);
   //line(staffStart, 100, staffEnd, 100);
-  const element = document.getElementById('composition'); 
+  const element = document.getElementById('jinja'); 
   selected = element.textContent;
   canvasWidth = selected.length * 150;
   resizeCanvas(canvasWidth, 200);

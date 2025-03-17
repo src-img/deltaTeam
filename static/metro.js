@@ -95,6 +95,12 @@ let metroSketch = function(p) {
             },
             body: JSON.stringify({key: 'value'}),
         })
+        .then(data => {
+            // Step 2: Trigger the event here, inside the .then() block
+            const postCompleteEvent = new CustomEvent('handlePostEvent');
+            document.dispatchEvent(postCompleteEvent);
+            console.log("custom event")
+          })
         
 
 

@@ -140,6 +140,15 @@ def toggle_record():
     data = recording
     return jsonify({'recording': data})
 
+@app.route('/deleteRecording', methods=['POST'])
+def delete_Comp():
+    
+    temp.deleteComposition()
+    jinja()
+    data = recording
+    return jsonify({'recording': 'deleted'})
+
+
 @app.context_processor
 def inject_composition():
     return dict(current_composition = temp.getComposition()) 
@@ -148,7 +157,7 @@ def inject_composition():
 def handle_metronome():
     data = request.get_json()
     print("metronome received")
-    # if recording == True:
+    #if recording == True:
     modifyComposition(temp)
     inject_composition()
     return jsonify({'message': 'Data received', 'data': data})

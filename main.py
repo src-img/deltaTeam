@@ -108,11 +108,8 @@ def handle_keyboard_event():
     # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
         measuresList = temp.getCompMeasureList()
-        result, error = db.fetchSong(session.get("songID"))
-        print("Error", error)
-        print(result, "result of song")
-        songMeasureLen = 0
-        
+        result, error = db.fetchSong(session.get("songID")) 
+        songMeasureLen = 0        
 
         if result != []:
             if result[4] != None:
@@ -158,4 +155,4 @@ def handle_metronome():
 
 
 if __name__ == "__main__":
-    app.run(ssl_context='adhoc', debug=True)
+    app.run(ssl_context='adhoc', debug=True, use_reloader=False)

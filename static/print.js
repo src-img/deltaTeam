@@ -1,11 +1,11 @@
-let stringInput1 = "|W+|W|"
-let stringInput2 = "|H+H|HH+|HH|"
-let stringInput3 = "|QQQE+E|QQQEE+|EQQQE|"
-let stringInput4 = "|Q+QQQ+|QQQQ|"
-let testString = "|e.S+SES+QEe|h.Q|hEeq|W+|HSesq|hQ.E+|EEEeh|h.Q+|SesE.S+E.S+E.S+|Q.+SSQ.+Ss|"
+// let stringInput1 = "|W+|W|"
+// let stringInput2 = "|H+H|HH+|HH|"
+// let stringInput3 = "|QQQE+E|QQQEE+|EQQQE|"
+// let stringInput4 = "|Q+QQQ+|QQQQ|"
+// let testString = "|e.S+SES+QEe|h.Q|hEeq|W+|HSesq|hQ.E+|EEEeh|h.Q+|SesE.S+E.S+E.S+|Q.+SSQ.+Ss|"
 
 // take from whichever string input we want to use
-let selected = testString;
+let selected = ""
 
 let canvasWidth = selected.length * 150;
 
@@ -22,6 +22,10 @@ function setup() {
 function draw() {
   background(255);
   //line(staffStart, 100, staffEnd, 100);
+  const element = document.getElementById('jinja'); 
+  selected = element.textContent;
+  canvasWidth = selected.length * 150;
+  resizeCanvas(canvasWidth, 200);
   printNotes(selected);
 }
 

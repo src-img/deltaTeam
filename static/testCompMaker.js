@@ -27,9 +27,13 @@ document.addEventListener('keydown', function(event) {
         console.log(data.recordee);
         recordeeId = "noteContainer" + data.recordee;
         elementToRecordOn = document.getElementById(recordeeId);
+        //|e.S+SES+QEe|h.Q|hEeq|W+|HSesq|hQ.E+|EEEeh|h.Q+|SesE.S+E.S+E.S+|Q.+SSQ.+Ss|
         if (elementToRecordOn.dataset.composition != undefined) { //apparently there IS a js null!
             let comp = elementToRecordOn.dataset.composition //im not typing that
-            for (let notes of comp[comp.length - 1])
+            let measureValue = 0;
+            for (let note of comp[comp.length - 1]) { //iterate thru notes of most recent wip measure
+                measureValue += noteMapping[note]
+            }
         }
         else {
             elementToRecordOn.dataset.composition = [[data.noteType]];

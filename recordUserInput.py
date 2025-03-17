@@ -83,6 +83,9 @@ class Composition:
     def getComposition(self):
             return self.composition
     
+    def deleteComposition(self):
+        self.composition = "|"
+
 def modifyComposition(Composition):
     newComposition = Composition
     

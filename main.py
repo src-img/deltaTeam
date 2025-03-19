@@ -162,6 +162,12 @@ def handle_metronome():
     inject_composition()
     return jsonify({'message': 'Data received', 'data': data})
 
+@app.route("/metroTrigger", methods=['POST'])
+def handle_metroTrigger():
+    data = request.get_json()
+    print("metronome triggered")
+    return jsonify({'message': 'Metro toggle event triggered', 'data': data})
+
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True)

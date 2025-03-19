@@ -90,9 +90,7 @@ let metroSketch = function(p) {
 
           fetch('/metronome', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({key: 'value'}),
         })
         .then(data => {
@@ -115,6 +113,23 @@ let metroSketch = function(p) {
           clearTimeout(timeoutID);
           metroSound.stop();
       }
+  }
+
+  let recordButtons = document.getElementsByClassName("trackRecord");
+  for(let i = 0; i < recordButtons.size; i++){
+    recordButtons[i].addEventListener('click', function() {
+        console.log("EVENT LISTENER INSERTED!");
+        if(metroPlay.html() == "Play"){
+            fetch('metroTrigger', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({'action': 'button_click'})
+            })
+            .then(data => {
+                toggle();
+            });
+        }
+    });
   }
 };
 

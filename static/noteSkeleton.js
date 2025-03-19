@@ -56,10 +56,15 @@ let skeletonSketch = function(p) {
       // Event listener to turn recording on/off
       const rButton = document.getElementById("trackRecord" + holderCount);
       rButton.addEventListener('click', () => {
-        console.log("recording!")
+        console.log("record button clicked!");
+
         fetch('/recording', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'}
+        })
+        .then(data => {
+          let metroFile = require("./metro.js");
+          metroFile.toggle();
         })
       })
       

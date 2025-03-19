@@ -75,13 +75,13 @@ let metroSketch = function(p) {
   }
 
   function toggle() {
-      if (metroPlay.html() == "Play") {
-          metroPlay.html("Pause");
-      } else {
-          metroPlay.html("Play");
-      }
+    if (metroPlay.html() == "Play") {
+        metroPlay.html("Pause");
+    } else {
+        metroPlay.html("Play");
+    }
 
-      play(inputBPM.value());
+    play(inputBPM.value());
   }
 
   function play(BPM) {
@@ -90,10 +90,8 @@ let metroSketch = function(p) {
 
           fetch('/metronome', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({key: 'value'}),
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({key: 'value'})
         })
         .then(data => {
             // Step 2: Trigger the event here, inside the .then() block
@@ -116,6 +114,10 @@ let metroSketch = function(p) {
           metroSound.stop();
       }
   }
+
+  document.addEventListener('toggleAction', (e) => {
+    if(metroPlay.html() == "Play") toggle();
+  });
 };
 
 // Attach this sketch to the "metroContainer" div

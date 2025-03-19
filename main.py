@@ -9,7 +9,6 @@ app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
 recording = False
-metroTriggered = False
 js_version = 1.0
 
 @app.route("/")

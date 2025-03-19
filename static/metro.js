@@ -7,7 +7,6 @@ let metroSketch = function(p) {
   let inputBPM;
   let metroPlay;
   let showBPM;
-  let metroToggled = false;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;

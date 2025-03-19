@@ -7,6 +7,7 @@ let metroSketch = function(p) {
   let inputBPM;
   let metroPlay;
   let showBPM;
+  let metroToggled = false;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;
@@ -75,13 +76,13 @@ let metroSketch = function(p) {
   }
 
   function toggle() {
-      if (metroPlay.html() == "Play") {
-          metroPlay.html("Pause");
-      } else {
-          metroPlay.html("Play");
-      }
+    if (metroPlay.html() == "Play") {
+        metroPlay.html("Pause");
+    } else {
+        metroPlay.html("Play");
+    }
 
-      play(inputBPM.value());
+    play(inputBPM.value());
   }
 
   function play(BPM) {
@@ -91,7 +92,7 @@ let metroSketch = function(p) {
           fetch('/metronome', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({key: 'value'}),
+            body: JSON.stringify({key: 'value'})
         })
         .then(data => {
             // Step 2: Trigger the event here, inside the .then() block
@@ -115,22 +116,9 @@ let metroSketch = function(p) {
       }
   }
 
-  let recordButtons = document.getElementsByClassName("trackRecord");
-  for(let i = 0; i < recordButtons.size; i++){
-    recordButtons[i].addEventListener('click', function() {
-        console.log("EVENT LISTENER INSERTED!");
-        if(metroPlay.html() == "Play"){
-            fetch('metroTrigger', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({'action': 'button_click'})
-            })
-            .then(data => {
-                toggle();
-            });
-        }
-    });
-  }
+  document.addEventListener('toggleAction', (e) => {
+    if(metroPlay.html() == "Play") toggle();
+  });
 };
 
 // Attach this sketch to the "metroContainer" div

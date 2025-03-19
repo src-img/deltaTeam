@@ -60,12 +60,12 @@ let skeletonSketch = function(p) {
 
         fetch('/recording', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'}
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({key: 'value'})
         })
-        .then(data => {
-          let metroFile = require("./metro.js");
-          metroFile.toggle();
-        })
+
+        const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
+        document.dispatchEvent(toggleMetroEvent);
       })
       
       this.buttonContainerRowB = this.p.createDiv();

@@ -9,6 +9,7 @@ app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
 recording = False
+metroTriggered = False
 js_version = 1.0
 
 @app.route("/")
@@ -128,16 +129,15 @@ def handle_keyboard_event():
 
 @app.route('/recording', methods=['POST'])
 def toggle_record():
-    global recording 
-    recording = request.get_json()
+    global recording
+    data = request.get_json()
     if recording == True:
         recording = False
-        print(f"recording off")
+        print("recording off")
     else:
-        recording= True
-        print(f"recording on")
+        recording = True
+        print("recording on")
     
-    data = recording
     return jsonify({'recording': data})
 
 @app.route('/deleteRecording', methods=['POST'])
@@ -157,16 +157,21 @@ def inject_composition():
 def handle_metronome():
     data = request.get_json()
     print("metronome received")
-    #if recording == True:
-    modifyComposition(temp)
-    inject_composition()
+    if recording == True:
+        modifyComposition(temp)
+        inject_composition()
     return jsonify({'message': 'Data received', 'data': data})
 
 @app.route("/metroTrigger", methods=['POST'])
 def handle_metroTrigger():
     data = request.get_json()
+    if metroTriggered:
+        metroTriggered = False
+    else:
+        metroTriggered = True
+    condition = metroTriggered
     print("metronome triggered")
-    return jsonify({'message': 'Metro toggle event triggered', 'data': data})
+    return jsonify({'message': 'Metro toggle event triggered', 'data': data, 'condition': condition})
 
 
 if __name__ == "__main__":

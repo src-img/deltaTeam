@@ -9,7 +9,7 @@ app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
 recording = False
-js_version = 1.0
+currentNote = 1
 
 @app.route("/")
 def index():
@@ -63,7 +63,6 @@ def features():
 def signup():
     return render_template('signup.html')
 
-
 @app.route('/signup', methods=['POST'])
 def signup_submit():
     username = request.form['username']
@@ -83,17 +82,12 @@ def signup_submit():
     
     return redirect(url_for('login'))
 
-
 temp = Composition()
 
 @app.route("/jinja")
 def jinja():
-    global js_version
-    js_version += .1
-    print(js_version)
-    # inject_version()
-    # data = {temp.getComposition()}
-    return render_template('jinja.html', js_version=js_version)
+    data = {temp.getComposition()}
+    return render_template('jinja.html', current_composition = data)
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
@@ -125,7 +119,6 @@ def handle_keyboard_event():
 
     return jsonify({"message": "Key received successfully"})
 
-
 @app.route('/recording', methods=['POST'])
 def toggle_record():
     global recording 
@@ -142,26 +135,21 @@ def toggle_record():
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
-    
+    currentNote = 1
     temp.deleteComposition()
-    jinja()
-    data = recording
-    return jsonify({'recording': 'deleted'})
+    return jsonify({'recording': currentNote}) 
 
-
-@app.context_processor
-def inject_composition():
-    return dict(current_composition = temp.getComposition()) 
-
-@app.route("/metronome", methods=['POST'])
+@app.route("/metronome", methods=['GET'])
 def handle_metronome():
-    data = request.get_json()
-    print("metronome received")
-    #if recording == True:
-    modifyComposition(temp)
-    inject_composition()
-    return jsonify({'message': 'Data received', 'data': data})
+    global currentNote
+    currentNote += 1
+    return jsonify({"currentNote": currentNote})
 
+@app.route("/modifyComp", methods=['GET'])
+def modify_Comp():
+    modifyComposition(temp)
+    data = "modified Comp"
+    return jsonify({"data": data})
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True)

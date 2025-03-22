@@ -27,7 +27,7 @@ let metroSketch = function(p) {
 
       p.image(metroGraphic, 0, 0, SIZE_X, SIZE_Y); // Applied to canvas element
 
-      inputBPM = p.createSlider(1, 218);
+      inputBPM = p.createSlider(1, 600);
       //inputBPM.position(50, 280);
       inputBPM.size(100);
       inputBPM.input(inputHandler);
@@ -67,10 +67,10 @@ let metroSketch = function(p) {
   }
 
   function changeBPM() {
-      showBPM.html(inputBPM.value() + " BPM");
+      showBPM.html(inputBPM.value() / 4 + " BPM");
 
       if (metroPlay.html() == "Pause") {
-          play(inputBPM.value());
+          play(inputBPM.value() / 4);
       }
   }
 
@@ -86,24 +86,21 @@ let metroSketch = function(p) {
 
   function play(BPM) {
       if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
-          metroSound.play();
-
-          fetch('/metronome', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({key: 'value'}),
+        
+        fetch('/metronome')
+        .then(response => response.json())
+        .then(data => {if (Number(data.currentNote) % 4 == 0){ metroSound.play();}
+            console.log(data.currentNote);
         })
+
+        fetch('/modifyComp')
+        .then(response => response.json())
         .then(data => {
-            // Step 2: Trigger the event here, inside the .then() block
             const postCompleteEvent = new CustomEvent('handlePostEvent');
             document.dispatchEvent(postCompleteEvent);
             console.log("custom event")
-          })
+        })
         
-
-
           timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
           timeouts.push(timeoutID);
       } else {

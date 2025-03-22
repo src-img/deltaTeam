@@ -27,7 +27,7 @@ let metroSketch = function(p) {
 
       p.image(metroGraphic, 0, 0, SIZE_X, SIZE_Y); // Applied to canvas element
 
-      inputBPM = p.createSlider(1, 600);
+      inputBPM = p.createSlider(240, 600);
       //inputBPM.position(50, 280);
       inputBPM.size(100);
       inputBPM.input(inputHandler);
@@ -40,12 +40,12 @@ let metroSketch = function(p) {
       metroPlay.id("metroPlay");
       metroPlay.parent(div);
 
-      showSlider = p.createSpan("60");
+      showSlider = p.createSpan();
       //showSlider.position(153, 265);
       showSlider.id("metroSliderCount");
       showSlider.parent(div);
 
-      showBPM = p.createSpan("60 BPM");
+      showBPM = p.createSpan();
       //showBPM.position(50, 285);
       showBPM.id("metroBPM");
       showBPM.parent(div);
@@ -60,17 +60,17 @@ let metroSketch = function(p) {
 
       timeouts.splice(0, timeouts.length);
 
-      showSlider.html(inputBPM.value());
+      showSlider.html();
       showBPM.html("Changing BPM");
 
       timeouts.push(setTimeout(changeBPM, 750));
   }
 
   function changeBPM() {
-      showBPM.html(inputBPM.value() / 4 + " BPM");
+      showBPM.html(parseInt(inputBPM.value() / 4) + " BPM");
 
       if (metroPlay.html() == "Pause") {
-          play(inputBPM.value() / 4);
+          play(parseInt(inputBPM.value() / 4));
       }
   }
 

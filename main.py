@@ -84,10 +84,10 @@ def signup_submit():
 
 temp = Composition()
 
-@app.route("/jinja")
-def jinja():
+@app.route("/compositionString")
+def compositionString():
     data = {temp.getComposition()}
-    return render_template('jinja.html', current_composition = data)
+    return render_template('compositionString.html', current_composition = data)
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():

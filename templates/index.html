@@ -36,7 +36,7 @@
      <script src="{{ url_for('static', filename='print.js')}}"></script> 
     
      <div id="composition">
-        {% include 'jinja.html' %}
+        {% include 'compositionString.html' %}
     </div>
 
 <script type = "text/javascript">
@@ -44,21 +44,9 @@
         const composition_div = document.getElementById("composition")
         document.addEventListener('handlePostEvent', function(event) {
             event.preventDefault();
-            console.log('Event data:');
-            fetch("/jinja", { 
-                method: "GET" 
-            })
+            fetch("/compositionString")
                 .then(response => {return response.text();})
-                .then((html) => composition_div.innerHTML = html)
-
-                // const scripts = composition_div.querySelectorAll('script');
-                // scripts.forEach(script => {
-                //     const newScript = document.createElement('script');
-                //     Array.from(script.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                //     newScript.textContent = script.textContent;
-                //     script.parentNode.replaceChild(newScript, script);
-                // })
-           
+                .then((html) => composition_div.innerHTML = html)          
         })
     }   
 </script>

@@ -20,17 +20,6 @@ class Composition:
         self.quarter = 1
         self.noteSize = 0
         self.arrayPtr = restArray.copy()
-        
-
-
-    # def randomMeasureGenerator(self):
-    #     randomState = random.randint(1,10)
-    #     if randomState == 1:
-    #         self.userInput = InputState.addNote
-    #     elif randomState == 2:
-    #         self.userInput = InputState.addRest
-    #     else:
-    #         self.userInput = InputState.increaseDuration
 
     def setNoteSizeLimit(self):
             match (self.sixteenth % 4):
@@ -85,13 +74,14 @@ class Composition:
     
     def deleteComposition(self):
         self.composition = "|"
+        self.userInput = InputState.addRest
+        self.noteSizeLimit = 15
+        self.sixteenth = 1
+        self.noteSize = 0
+        self.arrayPtr = restArray.copy()
 
 def modifyComposition(Composition):
     newComposition = Composition
-    
     newComposition.compose()
-
     newComposition.printComposition()
 
-# if __name__ == "__main__":
-#     modifyComposition()

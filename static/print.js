@@ -17,6 +17,7 @@ function setup() {
   strokeWeight(2);
   textSize(50);
   textAlign(CENTER, CENTER);
+  frameRate(1);
 }
 
 function draw() {

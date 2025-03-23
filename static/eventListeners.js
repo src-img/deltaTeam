@@ -1,7 +1,3 @@
-
-
-
-
 document.addEventListener('keydown', function(event) {
     const key = event.key; 
     fetch('/keyboard_event', {

@@ -98,7 +98,6 @@ let metroSketch = function(p) {
         .then(data => {
             const postCompleteEvent = new CustomEvent('handlePostEvent');
             document.dispatchEvent(postCompleteEvent);
-            console.log("custom event")
         })
         
           timeoutID = setTimeout(() => play(BPM), 60000 / BPM);

@@ -10,7 +10,6 @@ class InputState(Enum):
 noteArray = ["s","e","i","q","qUs","j","jUs","h","hUs","hUe","hUi","d","dUs","dUe","dui","w"]
 restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI","W"]
 
-
 class Composition:
     def __init__(self):
         self.composition = "g$|"

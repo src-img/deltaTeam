@@ -7,13 +7,13 @@ class InputState(Enum):
     addRest = 2
     increaseDuration = 3
 
+noteArray = ["s","e","i","q","qUs","j","jUs","h","hUs","hUe","hUi","d","dUs","dUe","dui","w"]
+restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI","W"]
 
-noteArray = ["S","E","E.","Q","Q+S","Q.","Q.+S","H","H+S","H+E","H+E.","H.","H.+S","H.+E","H.+E.","W"]
-restArray = ["s","e","e.","q","q+s","q.","q.+s","h","h+s","h+e","h+e.","h.","h.+s","h.+e","h.+e.","w"]
 
 class Composition:
     def __init__(self):
-        self.composition = "|"
+        self.composition = "g$|"
         self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
@@ -33,13 +33,12 @@ class Composition:
                     self.noteSizeLimit = 0
 
     def compose(self):
-        #self.randomMeasureGenerator()
-        if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or self.userInput == InputState.addRest and self.arrayPtr != restArray:
+        if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or (self.userInput == InputState.addRest and self.arrayPtr != restArray):
             self.composition += self.arrayPtr[self.noteSize]
             match self.userInput:
                 case InputState.increaseDuration:
                     if self.arrayPtr == noteArray:
-                        self.composition += "+"
+                        self.composition += "U"
                 case InputState.addNote:
                     self.arrayPtr = noteArray.copy()
                 case InputState.addRest:
@@ -50,7 +49,14 @@ class Composition:
         else:
             self.noteSize += 1
         if self.sixteenth % 16 == 0:
-            self.composition += "|"
+            if (self.composition[-1] == "U"):
+                self.composition = self.composition[:-1]
+                self.composition += "v"    
+            else:
+                self.composition += "|"
+            self.parseComposition()
+        if self.sixteenth % 4 == 0:
+            self.composition += " "
         self.sixteenth += 1
 
     def printComposition(self):
@@ -79,6 +85,18 @@ class Composition:
         self.sixteenth = 1
         self.noteSize = 0
         self.arrayPtr = restArray.copy()
+
+    def parseComposition(self):
+        self.composition = self.composition.replace("ius", "o")
+        self.composition = self.composition.replace("is", "o")
+        self.composition = self.composition.replace("sui", "O")
+        self.composition = self.composition.replace("si", "O")
+        self.composition = self.composition.replace("ssss", "y")
+        self.composition = self.composition.replace("ee", "n")
+        self.composition = self.composition.replace("ess", "m")
+        self.composition = self.composition.replace("sse", "M")
+        self.composition = self.composition.replace("ss", "N")
+        self.composition = self.composition.replace(" ", "")
 
 def modifyComposition(Composition):
     newComposition = Composition

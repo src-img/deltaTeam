@@ -18,6 +18,6 @@ window.onload = function() {
         event.preventDefault();
         fetch("/compositionString")
             .then(response => {return response.text();})
-            .then((html) => composition_div.innerHTML = html)          
+            .then((html) => document.getElementById("noteContainer0").innerHTML = html)          
     })
 }   

@@ -61,7 +61,7 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  min-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -89,6 +89,8 @@ nav {
   justify-content: space-evenly;
   width: 100%;
   height: 75px;
+  font-family: 'Futura';
+  font-weight: 600;
 }
 
 ul#navList {
@@ -104,13 +106,13 @@ ul#navList > li {
   padding: 0px;
   margin: 0px;
   font-family: 'Futura', sans-serif;
-  font-weight: 200 !important;
+  font-weight: 400 !important;
 }
 
 #siteTitle {
   font-size: 48px;
   width: 25%;
-  font-weight: 400 !important;
+  font-weight: 600 !important;
 }
 
 
@@ -361,4 +363,12 @@ footer {
 #composition {
   font-family: 'Musisync';
   font-size: 40px;
+}
+
+.noteContainer {
+  font-family: 'Musisync';
+  font-size: 40px;
+  width: min-content;
+  overflow: visible;
+  flex-wrap: nowrap;
 }

@@ -56,16 +56,11 @@ let skeletonSketch = function(p) {
       // Event listener to turn recording on/off
       const rButton = document.getElementById("trackRecord" + holderCount);
       rButton.addEventListener('click', () => {
-        console.log("record button clicked!");
-
+        console.log("recording!")
         fetch('/recording', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
+          headers: {'Content-Type': 'application/json'}
         })
-
-        const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
-        document.dispatchEvent(toggleMetroEvent);
       })
       
       this.buttonContainerRowB = this.p.createDiv();
@@ -145,6 +140,7 @@ let skeletonSketch = function(p) {
       this.noteContainer.id("noteContainer" + holderCount)
       this.noteContainer.class("noteContainer");
       this.noteContainer.parent(this.trackContainer);
+      this.noteContainer.innerHTML({current_composition});
 
       holderCount += 1;
     }

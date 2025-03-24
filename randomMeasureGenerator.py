@@ -9,7 +9,7 @@ class InputState(Enum):
 
 
 noteArray = ["S","E","E.","Q","Q+S","Q.","Q.+S","H","H+S","H+E","H+E.","H.","H.+S","H.+E","H.+E.","W"]
-restArray = ["s","e","e.","q","q+s","q.","q.+s","h","h+s","h+e","h+e.","h.","h.+s","h.+e","h.+e.","w"]
+restArray = ["s","e","e.","q","qs","q.","q.s","h","hs","he","he.","h.","h.s","h.e","h.e.","w"]
 
 class Composition:
     def __init__(self):

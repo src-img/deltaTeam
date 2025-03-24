@@ -10,36 +10,42 @@
 }
 
 @font-face {
+  font-family: 'Musisync';
+  src: url('./assets/fonts/musisync/musisync.ttf') format('truetype');
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Medium/Futura Medium.otf') format ('opentype');
+  src: url('./assets/fonts/futura/Futura Medium/Futura Medium.otf') format('opentype');
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format ("opentype");
+  src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format("opentype");
   font-style: bold;
   font-weight: 600;
 }
 
 @font-face {
   font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Light/Futura Light.otf') format ('opentype');
+  src: url('./assets/fonts/futura/Futura Light/Futura Light.otf') format('opentype');
   font-style: normal;
   font-weight: 200;
 }
 
 @font-face {
   font-family: 'Futura Condensed';
-  src: url('./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format ('opentype');
+  src: url('./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format('opentype');
   font-style: normal;
   font-weight: 400;
 } 
 
 @font-face {
   font-family: 'Futura Condensed';
-  src: url('./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format ('opentype');
+  src: url('./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format('opentype');
   font-style: normal;
   font-weight: 200;
 }
@@ -349,4 +355,10 @@ footer {
   padding: 20px;
   border-radius: 8px;
   color: #333;
+}
+
+
+#composition {
+  font-family: 'Musisync';
+  font-size: 40px;
 }

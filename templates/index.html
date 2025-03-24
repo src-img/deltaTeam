@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+    <title>DeltaBeatz</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeltaBeatz</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/fish_johnson.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/fish_johnson.png')}}.">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css')}}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+    <script src="{{ url_for('static', filename='noteSkeleton.js')}}"></script>
+    <script src="{{ url_for('static', filename='metro.js') }}"></script>
+    <script src="{{ url_for('static', filename='eventListeners.js') }}"></script>
 </head>
 <body>
     <header>
@@ -20,10 +23,6 @@
         </div>
     </main>
 
-    <script src="{{ url_for('static', filename='noteSkeleton.js')}}"></script>
-    <script src="{{ url_for('static', filename='metro.js') }}"></script>
-    <script src="{{ url_for('static', filename='userInput.js') }}"></script>
-
     <a href="{{ url_for('about') }}">
       <img
         src="{{ url_for('static', filename='metroGnome.jpg') }}"
@@ -31,35 +30,11 @@
         style="position: fixed; bottom: 20px; right: 20px; width: 8%;"
       />
     </a>
-     <script src="{{ url_for('static', filename='print.js')}}"></script> 
     
      <div id="composition">
-        {% include 'jinja.html' %}
+        {% include 'compositionString.html' %}
     </div>
 
-<script type = "text/javascript">
-    window.onload = function() {
-        const composition_div = document.getElementById("composition")
-        document.addEventListener('handlePostEvent', function(event) {
-            event.preventDefault();
-            console.log('Event data:');
-            fetch("/jinja", { 
-                method: "GET" 
-            })
-                .then(response => {return response.text();})
-                .then((html) => composition_div.innerHTML = html)
-
-                // const scripts = composition_div.querySelectorAll('script');
-                // scripts.forEach(script => {
-                //     const newScript = document.createElement('script');
-                //     Array.from(script.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                //     newScript.textContent = script.textContent;
-                //     script.parentNode.replaceChild(newScript, script);
-                // })
-           
-        })
-    }   
-</script>
 </body>
 </html>
 

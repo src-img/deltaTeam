@@ -33,14 +33,13 @@ class databaseManager():
 
         return success, error
 
-    # Functions needed to be implemented as well as parameters after DB is figured out
-    # Functions are subject to change
     
     # Adding to database
     def addUser(self, email, password, username):
         success = True
         error = None
 
+        self.lock.acquire(True)
         try:
             self.cursor.execute("INSERT INTO User(email, password, username) VALUES (?, ?, ?)", (email, password, username))
             print(f"Adding user with values, '{email}', '{password}', '{username}'")
@@ -51,6 +50,7 @@ class databaseManager():
          
         id = self.cursor.lastrowid
         #print(id)
+        self.lock.release()
         return success, error, id 
 
     def addSong(self, user_id, song_name):
@@ -58,6 +58,7 @@ class databaseManager():
         error = None
         measuresJSON = '{ "measuresList":[] }'
 
+        self.lock.acquire(True)
         try:
             self.cursor.execute("INSERT INTO Song(user_id, song_name, measures) VALUES (?, ?, ?)", (user_id, song_name, measuresJSON))
             print(f"Adding song with values, {user_id}, '{song_name}'")
@@ -65,7 +66,7 @@ class databaseManager():
             print("There was an error")
             success = False
             error = e
-
+        self.lock.release()
 
         id = self.cursor.lastrowid
         return success, error, id
@@ -87,6 +88,10 @@ class databaseManager():
         success = True
         error = None
         
+        print("attempting to add measures")
+
+        self.lock.acquire(True)
+
         if self.valid.match(notes):
             print("valid string of notes")
         else:
@@ -112,7 +117,7 @@ class databaseManager():
             print("Error inserting measure into song JSON")
             error = e
        
-
+        self.lock.release()
         return success, error, id
 
 
@@ -120,6 +125,8 @@ class databaseManager():
     def removeUser(self, user_id):
         success = True
         error = None
+
+        self.lock.acquire(True)
 
         try:
             self.cursor.execute("DELETE FROM User WHERE user_id=?", [user_id])
@@ -129,6 +136,7 @@ class databaseManager():
             print("There was an error removing user ", user_id)
             error = e
 
+        self.lock.release()
         return success, error
         
 
@@ -136,25 +144,31 @@ class databaseManager():
         success = True
         error = None
 
+        self.lock.acquire(True)
         try:
             self.cursor.execute("DELETE FROM Song WHERE song_id=?", [song_id])
             print("Removing song ", song_id, " from db...")
         except sqlite3.Error as e:
             print("There was an error removing song ", song_id)
             error = e
-
+ 
+        self.lock.release()
+         
         return success, error
 
     def removeMeasure(self, song_id, position):
         success = True
         error = None
 
+        self.lock.acquire(True)
         try:
             self.cursor.execute("UPDATE Song SET measures = json_remove(measures,'$.measuresList[" + str(position) + "]') WHERE song_id=(?)", [song_id])
         except sqlite3.Error as e:
             print("Error removing measure in song JSON")
             error = e
         
+        self.lock.release()
+
         return success, error
 
 
@@ -163,6 +177,7 @@ class databaseManager():
         result = []
         error = None
 
+        self.lock.acquire(True)
         try:
             result = self.cursor.execute("SELECT * FROM User WHERE email=?", [email]).fetchone()
             print("Result of user ", email," :", result)
@@ -170,7 +185,8 @@ class databaseManager():
             print("There was an error fetching for user")
             error = e
 
-
+        self.lock.release() 
+         
         if result != None:
             result = list(result)
         return result, error
@@ -181,8 +197,9 @@ class databaseManager():
         result = []
         error = None
 
+        self.lock.acquire(True)
         try:
-            self.lock.acquire(True)
+            
             result = self.cursor.execute("SELECT * FROM Song WHERE song_id=?", [song_id]).fetchone()
         except sqlite3.Error as e:
             print("There was an error fetching for song")
@@ -203,6 +220,7 @@ class databaseManager():
         result = []
         error = None
 
+        self.lock.acquire(True)
         try:
             result = self.cursor.execute("SELECT * FROM Measure WHERE measure_id=?", [measure_id]).fetchone()
             print("Result of fetch measure ", measure_id," :", result)
@@ -210,6 +228,7 @@ class databaseManager():
             print("There was an error fetching for measure")
             error = e
         
+        self.lock.release()
         if result != None:
             result = list(result)
         return result, error

@@ -14,8 +14,8 @@ let metroSketch = function(p) {
   let timeouts = [];
 
   p.preload = function() {
-      metroSound = p.loadSound("https://src-img.github.io/deltaTeam/static/assets/metronome/metro.wav");
-      metroGraphic = p.loadImage("https://src-img.github.io/deltaTeam/static/assets/metronome/metroLogo.png");
+      metroSound = p.loadSound("./static/assets/metronome/metro.wav");
+      metroGraphic = p.loadImage("./static/assets/metronome/metroLogo.png");
   };
 
   p.setup = function() {
@@ -95,6 +95,12 @@ let metroSketch = function(p) {
             },
             body: JSON.stringify({key: 'value'}),
         })
+        .then(data => {
+            // Step 2: Trigger the event here, inside the .then() block
+            const postCompleteEvent = new CustomEvent('handlePostEvent');
+            document.dispatchEvent(postCompleteEvent);
+            console.log("custom event")
+          })
         
 
 

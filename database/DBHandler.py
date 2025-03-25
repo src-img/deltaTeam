@@ -10,7 +10,7 @@ class databaseManager():
         self.connection = None
 
         # Regex input validation
-        self.valid = re.compile(r'^[SEQHWseqhw.+|()]*$SEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehUiddUsdUeduiw')
+        self.valid = re.compile(r'^[SEQHWseqhwSEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehvVUiddUsdUeduiwyY.+|()]*$')
 
     
     # Connecting to database

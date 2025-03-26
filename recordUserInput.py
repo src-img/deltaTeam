@@ -77,6 +77,9 @@ class Composition:
     def getComposition(self):
             return self.composition
     
+    def getFutureNote(self):
+        return self.arrayPtr[self.noteSize]
+
     def deleteComposition(self):
         self.composition = "|"
         self.userInput = InputState.addRest

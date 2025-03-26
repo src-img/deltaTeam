@@ -157,8 +157,8 @@ def handle_metronome():
 
 @app.route("/compositionGrab", methods=['POST'])
 def compGrab():
-    return jsonify({'composition': temp})
-
+    data = temp.getComposition()
+    return jsonify({'composition': data})
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True)

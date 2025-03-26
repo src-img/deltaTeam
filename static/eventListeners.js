@@ -33,4 +33,6 @@ document.addEventListener('togglePlay', (e) => {
     } else {
         button.innerHTML = "Play";
     }
+    const togglePlayback = new CustomEvent('togglePlayback', {detail:{}});
+    document.dispatchEvent(togglePlayback);
 })

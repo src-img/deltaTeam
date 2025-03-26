@@ -257,9 +257,9 @@ let playbackSketch = function(p) {
         }
     }
 
-    document.addEventListener('togglePlay', (e) => {
+    document.addEventListener('togglePlayback', (e) => {
         let button = document.getElementById("playTracks");
-        if(button.innerHTML == "Play"){
+        if(button.innerHTML == "Pause"){
             let compJSON = fetch('/compositionGrab', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -269,8 +269,9 @@ let playbackSketch = function(p) {
             let compStr;
             compJSON.then(data => {
                 compStr = data.composition;
-            })
-            let song = convertString(compStr);
+            });
+
+            let song = convertString(String(compStr));
             playback(song);
         } else {
             isPlaying = false;

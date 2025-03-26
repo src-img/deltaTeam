@@ -20,4 +20,10 @@ window.onload = function() {
             .then(response => {return response.text();})
             .then((html) => document.getElementById("noteContainer0").innerHTML = html)          
     })
-}   
+}
+
+document.addEventListener('toggleNotes', (e) => {
+    fetch("/compositionString")
+            .then(response => {return response.text();})
+            .then((html) => document.getElementById("noteContainer0").innerHTML = html)  
+  });

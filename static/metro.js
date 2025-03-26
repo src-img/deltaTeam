@@ -7,6 +7,7 @@ let metroSketch = function(p) {
   let inputBPM;
   let metroPlay;
   let showBPM;
+  let metroSoundTimer = 0;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;
@@ -86,18 +87,18 @@ let metroSketch = function(p) {
 
   function play(BPM) {
       if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
+        metroSoundTimer++;
+        if(metroSoundTimer % 4 == 0){
+            metroSound.play();
+
+            const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+            document.dispatchEvent(toggleNoteDisplayEvent);
+        }
         
         fetch('/metronome')
         .then(response => response.json())
-        .then(data => {if (Number(data.currentNote) % 4 == 0){ metroSound.play();}
-            console.log(data.currentNote);
-        })
-
-        fetch('/modifyComp')
-        .then(response => response.json())
         .then(data => {
-            const postCompleteEvent = new CustomEvent('handlePostEvent');
-            document.dispatchEvent(postCompleteEvent);
+            console.log(data.currentNote);
         })
         
           timeoutID = setTimeout(() => play(BPM), 60000 / BPM);

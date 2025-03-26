@@ -81,7 +81,7 @@ class Composition:
         return self.arrayPtr[self.noteSize]
 
     def deleteComposition(self):
-        self.composition = "|"
+        self.composition = "g$|"
         self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1

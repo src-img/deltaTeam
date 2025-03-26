@@ -125,30 +125,35 @@ def toggle_record():
     data = request.get_json()
     if recording == True:
         recording = False
-        print("recording off")
+        print(f"recording off")
     else:
         recording = True
-        print("recording on")
+        print(f"recording on")
     
     return jsonify({'recording': data})
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
+    global currentNote
     currentNote = 1
     temp.deleteComposition()
     return jsonify({'recording': currentNote}) 
-
-@app.route("/metronome", methods=['GET'])
-def handle_metronome():
-    global currentNote
-    currentNote += 1
-    return jsonify({"currentNote": currentNote})
 
 @app.route("/modifyComp", methods=['GET'])
 def modify_Comp():
     modifyComposition(temp)
     data = "modified Comp"
     return jsonify({"data": data})
+
+@app.route("/metronome", methods=['GET'])
+def handle_metronome():
+    global currentNote
+
+    if recording == True:
+        modify_Comp()
+        currentNote += 1
+
+    return jsonify({"currentNote": currentNote})
 
 @app.route("/metroTrigger", methods=['POST'])
 def handle_metroTrigger():

@@ -155,16 +155,9 @@ def handle_metronome():
 
     return jsonify({"currentNote": currentNote})
 
-@app.route("/metroTrigger", methods=['POST'])
-def handle_metroTrigger():
-    data = request.get_json()
-    if metroTriggered:
-        metroTriggered = False
-    else:
-        metroTriggered = True
-    condition = metroTriggered
-    print("metronome triggered")
-    return jsonify({'message': 'Metro toggle event triggered', 'data': data, 'condition': condition})
+@app.route("/compositionGrab", methods=['POST'])
+def compGrab():
+    return jsonify({'composition': temp})
 
 
 if __name__ == "__main__":

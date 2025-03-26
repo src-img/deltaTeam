@@ -28,9 +28,9 @@ document.addEventListener('toggleNotes', (e) => {
 
 document.addEventListener('togglePlay', (e) => {
     let button = document.getElementById("playTracks");
-    if(button.html() == "Play"){
-        button.html("Pause");
+    if(button.innerHTML == "Play"){
+        button.innerHTML = "Pause";
     } else {
-        button.html("Play");
+        button.innerHTML = "Play";
     }
 })

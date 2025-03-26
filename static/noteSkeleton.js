@@ -292,6 +292,10 @@ let skeletonSketch = function(p) {
     //playButton.position(5, 320);
     playButton.id("playTracks");
     playButton.parent(trackBarPropertyContainer);
+    playButton.mousePressed(() =>{
+      const togglePlay = new CustomEvent('togglePlay', {detail:{}});
+      document.dispatchEvent(togglePlay);
+    })
   // here you can change the placment of the track .
     addButton = p.createButton("Add Track");
     addButton.mousePressed(addTrack);

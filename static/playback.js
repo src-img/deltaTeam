@@ -10,7 +10,7 @@ let playbackSketch = function(p) {
     let isPlaying = false;
 
     p.preload = function() {
-        sound = p.loadSound('static/assets/sounds/snare.mp3');
+        sound = p.loadSound('./static/assets/sounds/snare.mp3');
     }
 
     // Main Functions
@@ -259,7 +259,7 @@ let playbackSketch = function(p) {
 
     document.addEventListener('togglePlay', (e) => {
         let button = document.getElementById("playTracks");
-        if(button.html() == "Play"){
+        if(button.innerHTML == "Play"){
             let compJSON = fetch('/compositionGrab', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},

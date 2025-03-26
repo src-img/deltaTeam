@@ -87,7 +87,7 @@ temp = Composition()
 @app.route("/compositionString")
 def compositionString():
     data = {temp.getComposition()}
-    return render_template('compositionString.html', current_composition = data)
+    return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():

@@ -11,13 +11,9 @@ document.addEventListener('keydown', function(event) {
 
 
 window.onload = function() {
-    const composition_div = document.getElementById("composition")
-    document.addEventListener('handlePostEvent', function(event) {
-        event.preventDefault();
-        fetch("/compositionString")
+    fetch("/compositionString")
             .then(response => {return response.text();})
-            .then((html) => document.getElementById("noteContainer0").innerHTML = html)          
-    })
+            .then((html) => document.getElementById("noteContainer0").innerHTML = html);     
 }
 
 document.addEventListener('toggleNotes', (e) => {

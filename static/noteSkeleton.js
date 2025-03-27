@@ -6,6 +6,7 @@ let skeletonSketch = function(p) {
   let holderCount = 0;
   let current = 0;
   let tracks = [];
+  let current_composition = 0; //dummy lol
 
   let canvasSizeX = 600;
   let canvasSizeY = 200;
@@ -56,11 +57,16 @@ let skeletonSketch = function(p) {
       // Event listener to turn recording on/off
       const rButton = document.getElementById("trackRecord" + holderCount);
       rButton.addEventListener('click', () => {
-        console.log("recording!")
+        console.log("record button clicked!");
+
         fetch('/recording', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'}
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({key: 'value'})
         })
+
+        const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
+        document.dispatchEvent(toggleMetroEvent);
       })
       
       this.buttonContainerRowB = this.p.createDiv();
@@ -103,9 +109,76 @@ let skeletonSketch = function(p) {
           let trackNums = document.getElementsByClassName("numberDisplay");
           for (let i = 0; i < trackNums.length; i++) {
             trackNums[i].innerHTML = i + 1;
+            trackNums[i].id = "numberDisplay" + i;
           }
-          holderCount--;
+
+          let trackTracks = document.getElementsByClassName("trackContainer");
+          for (let i = 0; i < trackTracks.length; i++) {
+            trackTracks[i].id = "trackContainer" + i;
+          }
+
+          let trackButton = document.getElementsByClassName("buttonContainer");
+          for (let i = 0; i < trackButton.length; i++) {
+            trackButton[i].id = "buttonContainer" + i;
+          }
+
+          let trackButtonRA = document.getElementsByClassName("buttonContainerRowA buttonContainerRow");
+          for (let i = 0; i < trackButtonRA.length; i++) {
+            trackButtonRA[i].id = "buttonContainerRowA" + i;
+          }
+
+          let trackButtonRB = document.getElementsByClassName("buttonContainerRowB buttonContainerRow");
+          for (let i = 0; i < trackButtonRB.length; i++) {
+            trackButtonRB[i].id = "buttonContainerRowB" + i;
+          }
+
+          let trackButtonRC = document.getElementsByClassName("buttonContainerRowC buttonContainerRow");
+          for (let i = 0; i < trackButtonRC.length; i++) {
+            trackButtonRC[i].id = "buttonContainerRowC" + i;
+          }
+
+          let trackName = document.getElementsByClassName("trackName");
+          for (let i = 0; i < trackName.length; i++) {
+            trackName[i].id = "trackName" + i;
+          }
+
+          let trackRecord = document.getElementsByClassName("trackRecord");
+          for (let i = 0; i < trackRecord.length; i++) {
+            trackRecord[i].id = "trackRecord" + i;
+          }
+
+          let trackMute = document.getElementsByClassName("trackMute");
+          for (let i = 0; i < trackMute.length; i++) {
+            trackMute[i].id = "trackMute" + i;
+          }
+
+          let trackIso = document.getElementsByClassName("trackIso");
+          for (let i = 0; i < trackIso.length; i++) {
+            trackIso[i].id = "trackIso" + i;
+          }
+
+          let trackDelete = document.getElementsByClassName("trackDelete");
+          for (let i = 0; i < trackDelete.length; i++) {
+            trackDelete[i].id = "trackDelete" + i;
+          }
+
+          let trackVolume = document.getElementsByClassName("trackVolume");
+          for (let i = 0; i < trackVolume.length; i++) {
+            trackVolume[i].id = "trackVolume" + i;
+          }
+
+          let trackNote = document.getElementsByClassName("noteContainer");
+          for (let i = 0; i < trackNote.length; i++) {
+            trackNote[i].id = "noteContainer" + i;
+          }
         }
+
+        console.log("delete!")
+        fetch('/deleteRecording', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({key: 'value'})
+        })
       });
       // add functionality to delete button
       const dButton = document.getElementById("trackDelete" + holderCount);
@@ -113,7 +186,8 @@ let skeletonSketch = function(p) {
         console.log("delete!")
         fetch('/deleteRecording', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'}
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({key: 'value'})
         })
       })
 
@@ -140,7 +214,6 @@ let skeletonSketch = function(p) {
       this.noteContainer.id("noteContainer" + holderCount)
       this.noteContainer.class("noteContainer");
       this.noteContainer.parent(this.trackContainer);
-      this.noteContainer.innerHTML({current_composition});
 
       holderCount += 1;
     }
@@ -177,9 +250,11 @@ let skeletonSketch = function(p) {
   }
 
   function removeTrack(obj) {
+    tracks.splice(obj.id, 1); //removes track from array
+    current--; //for add track to add past an actual track
     obj.number.remove();
     obj.trackContainer.remove();
-    
+    holderCount--;
   }
 
   p.setup = function(){
@@ -217,6 +292,10 @@ let skeletonSketch = function(p) {
     //playButton.position(5, 320);
     playButton.id("playTracks");
     playButton.parent(trackBarPropertyContainer);
+    playButton.mousePressed(() =>{
+      const togglePlay = new CustomEvent('togglePlay', {detail:{}});
+      document.dispatchEvent(togglePlay);
+    })
   // here you can change the placment of the track .
     addButton = p.createButton("Add Track");
     addButton.mousePressed(addTrack);

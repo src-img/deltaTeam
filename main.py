@@ -99,22 +99,7 @@ def handle_keyboard_event():
         temp.userInput = InputState.addRest
     print(f"Key pressed: {keyPressed}")
 
-    # Adding the new measures to the database
-    if session.get("userID") != None and session.get("songID") != None:
-        measuresList = temp.getCompMeasureList()
-        result, error = db.fetchSong(session.get("songID")) 
-        songMeasureLen = 0        
 
-        if result != []:
-            if result[4] != None:
-                songMeasureLen = len(result[4])
-        #print(songMeasureLen)
-        
-        print("measures list: ", measuresList)
-        if measuresList != None:
-            if len(measuresList) > songMeasureLen:
-                print("measures list of songLen: ", measuresList[songMeasureLen])
-                db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
 
     return jsonify({"message": "Key received successfully"})
@@ -142,6 +127,24 @@ def delete_Comp():
 def handle_metronome():
     global currentNote
     currentNote += 1
+
+        # Adding the new measures to the database
+    if session.get("userID") != None and session.get("songID") != None:
+        measuresList = temp.getCompMeasureList()
+        result, error = db.fetchSong(session.get("songID")) 
+        songMeasureLen = 0        
+
+        if result != []:
+            if result[4] != None:
+                songMeasureLen = len(result[4])
+        #print(songMeasureLen)
+        
+        print("measures list: ", measuresList)
+        if measuresList != None:
+            if len(measuresList) > songMeasureLen:
+                print("measures list of songLen: ", measuresList[songMeasureLen])
+                db.addMeasure(session["songID"], measuresList[songMeasureLen])
+
     return jsonify({"currentNote": currentNote})
 
 @app.route("/modifyComp", methods=['GET'])

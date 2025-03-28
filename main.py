@@ -11,6 +11,21 @@ success, error = db.connect()
 recording = False
 currentNote = 1
 
+
+
+@app.context_processor
+def injectNavBarDetails():
+    userID = session.get("userID")
+    uName = ""
+    if userID != None:
+        uName = "Hello, " + session["username"]
+    else:
+        uName = "Not logged in"
+    navbar_data = {
+        "username": uName
+    }
+    return dict(navbar_data=navbar_data)  # Now `navbar_data` is available everywhere   return uName
+
 @app.route("/")
 def index():
     if session.get("userID") != None:
@@ -19,7 +34,8 @@ def index():
             session["songID"] = id
             db.commit()
         
-     
+
+ 
     return render_template('index.html')
 
 @app.route("/about")
@@ -29,6 +45,10 @@ def about():
 @app.route("/faq")
 def faq():
     return render_template('faq.html')
+
+@app.route("/navbar")
+def navbar():
+    pass
 
 @app.route("/login")
 def login():

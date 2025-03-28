@@ -87,7 +87,7 @@ temp = Composition()
 @app.route("/compositionString")
 def compositionString():
     data = {temp.getComposition()}
-    return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
+    return render_template('compositionString.html', current_composition = data)
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
@@ -99,7 +99,36 @@ def handle_keyboard_event():
         temp.userInput = InputState.addRest
     print(f"Key pressed: {keyPressed}")
 
-    # Adding the new measures to the database
+
+
+
+    return jsonify({"message": "Key received successfully"})
+
+@app.route('/recording', methods=['POST'])
+def toggle_record():
+    global recording
+    data = request.get_json()
+    if recording == True:
+        recording = False
+        print("recording off")
+    else:
+        recording = True
+        print("recording on")
+    
+    return jsonify({'recording': data})
+
+@app.route('/deleteRecording', methods=['POST'])
+def delete_Comp():
+    currentNote = 1
+    temp.deleteComposition()
+    return jsonify({'recording': currentNote}) 
+
+@app.route("/metronome", methods=['GET'])
+def handle_metronome():
+    global currentNote
+    currentNote += 1
+
+        # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
         measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID")) 
@@ -116,28 +145,7 @@ def handle_keyboard_event():
                 print("measures list of songLen: ", measuresList[songMeasureLen])
                 db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
-
-    return jsonify({"message": "Key received successfully"})
-
-@app.route('/recording', methods=['POST'])
-def toggle_record():
-    global recording
-    data = request.get_json()
-    if recording == True:
-        recording = False
-        print(f"recording off")
-    else:
-        recording = True
-        print(f"recording on")
-    
-    return jsonify({'recording': data})
-
-@app.route('/deleteRecording', methods=['POST'])
-def delete_Comp():
-    global currentNote
-    currentNote = 1
-    temp.deleteComposition()
-    return jsonify({'recording': currentNote}) 
+    return jsonify({"currentNote": currentNote})
 
 @app.route("/modifyComp", methods=['GET'])
 def modify_Comp():
@@ -145,20 +153,17 @@ def modify_Comp():
     data = "modified Comp"
     return jsonify({"data": data})
 
-@app.route("/metronome", methods=['GET'])
-def handle_metronome():
-    global currentNote
+@app.route("/metroTrigger", methods=['POST'])
+def handle_metroTrigger():
+    data = request.get_json()
+    if metroTriggered:
+        metroTriggered = False
+    else:
+        metroTriggered = True
+    condition = metroTriggered
+    print("metronome triggered")
+    return jsonify({'message': 'Metro toggle event triggered', 'data': data, 'condition': condition})
 
-    if recording == True:
-        modify_Comp()
-        currentNote += 1
-
-    return jsonify({"currentNote": currentNote})
-
-@app.route("/compositionGrab", methods=['POST'])
-def compGrab():
-    data = temp.getComposition()
-    return jsonify({'composition': data})
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

@@ -38,6 +38,20 @@ def index():
  
     return render_template('index.html')
 
+@app.route("/<username>")
+def profile(username):
+    # Do database query shit here instead of this.
+    result, error = db.fetchUser(username)
+    
+    if result == None or result == []:
+        abort(404, description="User not found")
+     
+    userDetails = {
+        "email": result[1]
+        "username": result[2]
+    }
+    return render_template("profile.html", username=username)
+
 @app.route("/about")
 def about():
     return render_template('about.html')
@@ -63,6 +77,7 @@ def login_submit():
     if result != None:
         if (result[1] == email) and (result[3] == password):
             session.permanent = True
+            session["email"] = result[1]
             session["userID"] = result[0]
             session["username"] = result[2]
             session["songID"] = None

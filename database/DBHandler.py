@@ -233,6 +233,20 @@ class databaseManager():
             result = list(result)
         return result, error
 
+    def changeSongName(self, song_id, song_name):
+        success = True
+        error = None
+
+        self.lock.aquire(True)
+        try:
+            self.cursor.execute("UPDATE Song SET song_name = " + song_name + "WHERE song_id=(?)", [song_id])
+        except sqlite3.Error as e:
+            print("There was an error changing song name")
+            error = e
+        self.lock.release()
+        
+        return success, error
+
 
     def printAll(self):
         fetch = self.cursor.execute(f"SELECT * FROM User")
@@ -391,6 +405,9 @@ if __name__ == "__main__":
     assert(result[3] == None)
     assert(result[4] == [1, 2])
     print(result)
+
+    print("\nChanging song name test...")
+
 
     print("\nRemoving Measure test...")
     succ, err = db.removeMeasure(4,1)

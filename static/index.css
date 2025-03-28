@@ -58,11 +58,11 @@ body {
   color: var(--textBlack);
   margin: 0;
   padding: 0;
+  width: 100%
 }
 
 .container {
-  min-width: 1200px;
-  margin: 0 auto;
+  width: 95%;
   padding: 20px;
 }
 
@@ -181,6 +181,7 @@ button:hover {
 
 #trackBarBPMContainer > span {
   color: var(--textBlack);
+  width: 200px;
 }
 
 #trackBarBackingContainer {
@@ -207,6 +208,31 @@ button:hover {
   display: flex;
   height: 200px;
   min-width: 400px;
+  width:100%;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.trackContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.noteContainer { /*some of these properties can probably be deleted, but it's very tenuous, so... whatever. way it works is button is sticky, on a higher layer, and has a background color, so the scroll effect is chill.*/
+  width: 50px;
+  font-family: 'Musisync';
+  font-size: 40px;
+  min-width: min-content;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  flex-shrink: initial;
+  flex-grow: none;
+  position: relative;
+  overflow: auto;
+  font-size: 55px;
+  align-items: center;
+  align-self: center;
+  margin-bottom: 7px;
 }
 
 .buttonContainer {
@@ -216,6 +242,10 @@ button:hover {
   display: flex;
   flex-direction: column;
   padding: 0px 10px;
+  position: sticky;
+  left: 0px;
+  background-color: white;
+  z-index: 1;
 }
 
 .buttonContainerRow {
@@ -357,18 +387,4 @@ footer {
   padding: 20px;
   border-radius: 8px;
   color: #333;
-}
-
-
-#composition {
-  font-family: 'Musisync';
-  font-size: 40px;
-}
-
-.noteContainer {
-  font-family: 'Musisync';
-  font-size: 40px;
-  width: min-content;
-  overflow: visible;
-  flex-wrap: nowrap;
 }

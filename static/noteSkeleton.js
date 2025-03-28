@@ -1,5 +1,19 @@
 const SKELETON_DIV = "noteSkeletonContainer";
 
+const observer = new MutationObserver((mutationsList) => {
+  // Loop through all mutations to handle them
+  mutationsList.forEach((mutation) => {
+    // Ensure that the target element exists and is scrollable
+    const target = mutation.target;
+
+    if (target && target.scroll) {
+      console.log(target.parentElement);
+      target.parentElement.scrollLeft = target.parentElement.scrollWidth;  // Scroll to the bottom or desired position
+    }
+  });
+});
+
+
 let skeletonSketch = function(p) {
   let playButton;
   let addButton;
@@ -214,6 +228,7 @@ let skeletonSketch = function(p) {
       this.noteContainer.id("noteContainer" + holderCount)
       this.noteContainer.class("noteContainer");
       this.noteContainer.parent(this.trackContainer);
+      observer.observe(this.noteContainer.elt, {characterData: false, childList: true, attributes: false}); //.elt makes it a real element lol
 
       holderCount += 1;
     }
@@ -309,4 +324,3 @@ let skeletonSketch = function(p) {
 }
 
 new p5(skeletonSketch, SKELETON_DIV);
-

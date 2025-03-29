@@ -73,6 +73,9 @@ let skeletonSketch = function(p) {
       rButton.addEventListener('click', () => {
         console.log("record button clicked!");
 
+        if (rButton.classList.contains('trackRecordOn')) rButton.classList.remove('trackRecordOn');
+        else rButton.classList.add('trackRecordOn'); //trackRecordOn needs to be lower in the css to take priority
+        
         fetch('/recording', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},

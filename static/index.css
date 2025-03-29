@@ -236,7 +236,7 @@ button:hover {
 }
 
 .buttonContainer {
-  width: 17%;
+  width: 17% !important;
   border-right: 3px solid var(--textBlack);
   margin: 10px;
   display: flex;
@@ -273,9 +273,17 @@ button:hover {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px;
-  color: red;
+  color: #FF3365;
   width: 40px;
   height: 40px;
+}
+
+.trackRecordOn {
+  background: url(./assets/skeleton/recording.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px;
+  color: #FF8F8F;
 }
 
 .trackRecord:hover, .trackMute:hover, .trackIso:hover, .trackDelete:hover {

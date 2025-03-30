@@ -87,36 +87,36 @@ let metroSketch = function(p) {
 
   function play(BPM) {
       if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
-        metroSoundTimer++;
-        if(metroSoundTimer % 4 == 0){
-            metroSound.play();
 
-            const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-            document.dispatchEvent(toggleNoteDisplayEvent);
-        }
-        
         fetch('/metronome')
         .then(response => response.json())
-        .then(data => {
-            console.log(data.currentNote);
+        .then(data => {if (Number(data.currentNote) % 4 == 0){ metroSound.play();}
         })
-        
-          timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
-          timeouts.push(timeoutID);
+
+        fetch('/modifyComp')
+        .then(response => response.json())
+        .then(data => {
+            const postCompleteEvent = new CustomEvent('handlePostEvent');
+            document.dispatchEvent(postCompleteEvent);
+        })
+
+
+        timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
+        timeouts.push(timeoutID);
       } else {
-          clearTimeout(timeoutID);
-          metroSound.stop();
+        clearTimeout(timeoutID);
+        metroSound.stop();
       }
 
       if (BPM != inputBPM.value()) {
-          clearTimeout(timeoutID);
-          metroSound.stop();
+        clearTimeout(timeoutID);
+        metroSound.stop();
       }
   }
 
-  document.addEventListener('toggleAction', (e) => {
-    if(metroPlay.html() == "Play") toggle();
-  });
+//   document.addEventListener('toggleAction', (e) => {
+//     if(metroPlay.html() == "Play") toggle();
+//   });
 };
 
 // Attach this sketch to the "metroContainer" div

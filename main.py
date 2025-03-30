@@ -160,5 +160,13 @@ def compGrab():
     data = temp.getComposition()
     return jsonify({'composition': data})
 
+@app.route("/userPage")
+def userPage():
+    pfp = "../static/assets/img/drd.jpg"
+    name = "Dr. D"
+    username = "cortana268"
+    bio = "Ask me about my projector-hating laptop. Former @progressive. All views are my own"
+    compositions = [{"name": "axel f crazy frog epic remix"}, {"name": "the farmer in the dell epic remix"}, {"name": "Ballade in the Form of Variations on a Norwegian Folk Song in G minor, Op. 24, TRAP REMIX"}]
+    return render_template('userPage.html', pfp = pfp, name = name, username = username, bio = bio, compositions = compositions)
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

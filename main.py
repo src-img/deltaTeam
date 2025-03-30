@@ -1,15 +1,15 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for
-from recordUserInput import Composition, modifyComposition, InputState
 from database.DBHandler import databaseManager
 from datetime import timedelta
+from compositionVector import CompositionVector
 
 app = Flask(__name__)
 app.secret_key = "secretKeyTemp"
 app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
-recording = False
-currentNote = 1
+temp2 = CompositionVector()
+temp2.newComposition()
 
 @app.route("/")
 def index():
@@ -82,22 +82,15 @@ def signup_submit():
     
     return redirect(url_for('login'))
 
-temp = Composition()
-
 @app.route("/compositionString")
 def compositionString():
-    data = {temp.getComposition()}
-    return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
+    return render_template('compositionString.html', current_composition = temp2.printCurrentComposition(), future_note = temp2.printCurrentCompositionFuture())
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
     data = request.get_json()
-    keyPressed = data.get("key")
-    if keyPressed == 'a':
-        temp.userInput = InputState.addNote
-    elif keyPressed == 's':
-        temp.userInput = InputState.addRest
-    print(f"Key pressed: {keyPressed}")
+    temp2.modifyCurrentCompositionState(data.get("key"))
+    print(f"keyboard just tapped! metronome counter: {temp2.metronomeCounter} sixteenth: {temp2.compositions[0].sixteenth} ")
 
     # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
@@ -121,44 +114,46 @@ def handle_keyboard_event():
 
 @app.route('/recording', methods=['POST'])
 def toggle_record():
-    global recording
-    data = request.get_json()
-    if recording == True:
-        recording = False
-        print(f"recording off")
+    data = request.get_json() 
+    temp2.recording(0) # 0 temporary needs data.trackNumber
+    if temp2.record == True:
+        print("recording!") #temporary
     else:
-        recording = True
-        print(f"recording on")
-    
-    return jsonify({'recording': data})
+        print("recording off!")
+    return jsonify({'recording': ''})
 
-@app.route('/deleteRecording', methods=['POST'])
+@app.route('/deleteTrack', methods=['POST'])
 def delete_Comp():
-    global currentNote
-    currentNote = 1
-    temp.deleteComposition()
-    return jsonify({'recording': currentNote}) 
+    data = request.get_json() 
+    temp2.removeTrack(0) # 0 temporary needs data.trackNumber
+    return jsonify({'deleteTrack': "track Deleted"}) 
+
+@app.route('/clearTrack', methods=['POST']) 
+def clear_track():
+    data = request.get_json()
+    temp2.clear_track(0) # 0 temporary needs data.trackNumber
+    return jsonify({'clearTrack': "cleared track"})
 
 @app.route("/modifyComp", methods=['GET'])
 def modify_Comp():
-    modifyComposition(temp)
-    data = "modified Comp"
-    return jsonify({"data": data})
+    temp2.modifyCurrentComposition()
+    temp2.printCurrentComposition()
+    return jsonify({"data": "modified Comp"})
 
 @app.route("/metronome", methods=['GET'])
 def handle_metronome():
-    global currentNote
+    temp2.incrementMetroCounter()
+    return jsonify({"currentNote": temp2.metronomeCounter})
 
-    if recording == True:
-        modify_Comp()
-        currentNote += 1
-
-    return jsonify({"currentNote": currentNote})
+@app.route("/mute", methods=['GET'])
+def toggle_mute():
+    data.get_json()
+    temp2.mute(0) # 0 temporary needs data.trackNumber
+    return jsonify({"muteTrack": "mute"})
 
 @app.route("/compositionGrab", methods=['POST'])
 def compGrab():
-    data = temp.getComposition()
-    return jsonify({'composition': data})
+    return jsonify({'composition': temp2.printUnmutedComposition()})
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

@@ -84,7 +84,7 @@ def signup_submit():
 
 @app.route("/compositionString")
 def compositionString():
-    return render_template('compositionString.html', current_composition = temp2.printCurrentComposition(), future_note = temp2.printCurrentCompositionFuture())
+    return render_template('compositionString.html', current_composition = temp2.getCurrentComposition(), future_note = temp2.getCurrentCompositionFuture())
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
@@ -153,7 +153,7 @@ def toggle_mute():
 
 @app.route("/compositionGrab", methods=['POST'])
 def compGrab():
-    return jsonify({'composition': temp2.printUnmutedComposition()})
+    return jsonify({'composition': temp2.getUnmutedComposition()})
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

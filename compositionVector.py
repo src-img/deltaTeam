@@ -3,7 +3,7 @@ from recordUserInput import Composition, modifyComposition, InputState
 class CompositionVector:
     def __init__(self):
         self.metronomeCounter = 2 # syncs with track that has recording on 
-        self.compositions = []  #vector of all compositions
+        self.compositions = []  #list of all compositions
         self.compositionPointer = 0 
         self.mutePointer = 0
         self.mute = False
@@ -40,7 +40,10 @@ class CompositionVector:
     def printCurrentComposition(self):
         self.compositions[self.compositionPointer].printComposition()
     
-    def printCurrentCompositionFuture(self):
+    def getCurrentComposition(self):
+        self.compositions[self.compositionPointer].getComposition()
+
+    def getCurrentCompositionFuture(self):
          self.compositions[self.compositionPointer].getFutureNote()
 
     def clearTrack(self, trackNumber):
@@ -61,7 +64,7 @@ class CompositionVector:
         else:
             self.mute = False
 
-    def printUnmutedComposition(self):
+    def getUnmutedComposition(self):
         self.compositions[self.mutePointer].printComposition()
     
     # def loadCompositions() # will load comps from DB and create corresponding tracks on noteSkeleton

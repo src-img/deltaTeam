@@ -59,10 +59,15 @@ let skeletonSketch = function(p) {
       rButton.addEventListener('click', () => {
         console.log("record button clicked!");
 
+        let string = rButton.id;
+        console.log(string);
+        string = string.replace(/\D/g, ""); //gets only digits
+        console.log(string);
+        
         fetch('/recording', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
+          body: JSON.stringify({key: 'value', trackId: string})
         })
       })
 

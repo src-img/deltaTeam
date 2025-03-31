@@ -96,10 +96,11 @@ let metroSketch = function(p) {
         fetch('/modifyComp')
         .then(response => response.json())
         .then(data => {
-            const postCompleteEvent = new CustomEvent('handlePostEvent');
-            document.dispatchEvent(postCompleteEvent);
+          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+          document.dispatchEvent(toggleNoteDisplayEvent);
         })
-
+        
+        
 
         timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
         timeouts.push(timeoutID);
@@ -114,9 +115,9 @@ let metroSketch = function(p) {
       }
   }
 
-//   document.addEventListener('toggleAction', (e) => {
-//     if(metroPlay.html() == "Play") toggle();
-//   });
+  document.addEventListener('toggleAction', (e) => {
+    if(metroPlay.html() == "Play") toggle();
+  });
 };
 
 // Attach this sketch to the "metroContainer" div

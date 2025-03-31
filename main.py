@@ -11,6 +11,21 @@ success, error = db.connect()
 recording = False
 currentNote = 1
 
+
+
+@app.context_processor
+def injectNavBarDetails():
+    userID = session.get("userID")
+    uName = ""
+    if userID != None:
+        uName = "Hello, " + session["username"]
+    else:
+        uName = "Not logged in"
+    navbar_data = {
+        "username": uName
+    }
+    return dict(navbar_data=navbar_data)  # Now `navbar_data` is available everywhere   return uName
+
 @app.route("/")
 def index():
     if session.get("userID") != None:
@@ -19,8 +34,23 @@ def index():
             session["songID"] = id
             db.commit()
         
-     
+
+ 
     return render_template('index.html')
+
+@app.route("/<username>")
+def profile(username):
+    # Do database query shit here instead of this.
+    result, error = db.fetchUser(username)
+    
+    if result == None or result == []:
+        abort(404, description="User not found")
+     
+    userDetails = {
+        "email": result[1]
+        "username": result[2]
+    }
+    return render_template("profile.html", username=username)
 
 @app.route("/about")
 def about():
@@ -29,6 +59,10 @@ def about():
 @app.route("/faq")
 def faq():
     return render_template('faq.html')
+
+@app.route("/navbar")
+def navbar():
+    pass
 
 @app.route("/login")
 def login():
@@ -43,6 +77,7 @@ def login_submit():
     if result != None:
         if (result[1] == email) and (result[3] == password):
             session.permanent = True
+            session["email"] = result[1]
             session["userID"] = result[0]
             session["username"] = result[2]
             session["songID"] = None
@@ -99,22 +134,7 @@ def handle_keyboard_event():
         temp.userInput = InputState.addRest
     print(f"Key pressed: {keyPressed}")
 
-    # Adding the new measures to the database
-    if session.get("userID") != None and session.get("songID") != None:
-        measuresList = temp.getCompMeasureList()
-        result, error = db.fetchSong(session.get("songID")) 
-        songMeasureLen = 0        
 
-        if result != []:
-            if result[4] != None:
-                songMeasureLen = len(result[4])
-        #print(songMeasureLen)
-        
-        print("measures list: ", measuresList)
-        if measuresList != None:
-            if len(measuresList) > songMeasureLen:
-                print("measures list of songLen: ", measuresList[songMeasureLen])
-                db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
 
     return jsonify({"message": "Key received successfully"})
@@ -152,6 +172,23 @@ def handle_metronome():
     if recording == True:
         modify_Comp()
         currentNote += 1
+    
+        # Adding the new measures to the database
+    if session.get("userID") != None and session.get("songID") != None:
+        measuresList = temp.getCompMeasureList()
+        result, error = db.fetchSong(session.get("songID")) 
+        songMeasureLen = 0        
+
+        if result != []:
+            if result[4] != None:
+                songMeasureLen = len(result[4])
+        #print(songMeasureLen)
+        
+        print("measures list: ", measuresList)
+        if measuresList != None:
+            if len(measuresList) > songMeasureLen:
+                print("measures list of songLen: ", measuresList[songMeasureLen])
+                db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
     return jsonify({"currentNote": currentNote})
 

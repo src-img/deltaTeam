@@ -242,13 +242,12 @@ let skeletonSketch = function(p) {
       tracks[i].draw();
     }
 
-    console.log("addedTrack")
+    //creates new composition in back end
     fetch('/addTrack', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({key: 'value'})
     })
-    
   }
 
   function togglePlay(){

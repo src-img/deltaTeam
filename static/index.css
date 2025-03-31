@@ -88,7 +88,7 @@ nav {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  height: 75px;
+  height: 70px;
   font-family: 'Futura';
   font-weight: 600;
 }
@@ -126,6 +126,20 @@ nav a {
 nav a:hover {
   background-color: var(--medBlue);
   border-radius: 5px;
+}
+
+#navBarUserContainer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 400;
+}
+
+#navBarPfp {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50px;
 }
 
 /*MAIN------------------------------------------------*/
@@ -332,6 +346,42 @@ input[type='range'] {
   border-radius: 25px;
   height:7px;
 }
+
+/* USER PAGE -------------------------------------------------------------------------------------------------*/
+
+.userInfo, .compContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.userPFP > img {
+  max-width: 100px;
+}
+
+.userCompositions {
+  margin: 30px;
+}
+
+.compDisplayContainer {
+  border: 2px solid var(--textBlack);
+  border-radius: 15px;
+  width: 250px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.compDisplayContainer > p {
+  margin: 5px;
+  text-align: center;
+}
+
+
+
+
 
 /* Card Components */
 .card {

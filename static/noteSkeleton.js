@@ -285,7 +285,8 @@ let skeletonSketch = function(p) {
 
     let trackBar = p.createDiv();
     trackBar.id("trackBar");
-    trackBar.parent(document.getElementsByTagName("header")[0])
+    trackBar.parent(document.getElementsByTagName("header")[0]);
+
 
     //establishing trackbar elements
     //im gonna be honest this ought to be a different file but thats a problem for next week
@@ -304,6 +305,44 @@ let skeletonSketch = function(p) {
     let trackBarBackingContainer = p.createDiv();
     trackBarBackingContainer.id("trackBarBackingContainer");
     trackBarBackingContainer.parent(trackBar);
+    
+    let badText = p.createP("Backing Track");
+    badText.style("color", "black");
+    badText.style("text-align", "right");
+    badText.style("margin", "0");
+    badText.style("line-height", "30px"); 
+    badText.parent(trackBarBackingContainer);
+
+    let trackDropdown = p.createSelect();
+    trackDropdown.id("trackDropdown");
+    trackDropdown.class("trackDropdown");
+    trackDropdown.style("margin-left", "10px");
+    trackDropdown.parent(trackBarBackingContainer);
+
+    let plusButton = p.createButton("+");
+    plusButton.mousePressed(addTrack);
+    plusButton.id("plusButton");
+    plusButton.class("trackBarButton");
+    plusButton.style("margin-left", "10px");
+    plusButton.parent(trackBarBackingContainer);
+
+    let editButton = p.createImg("static/assets/editButton/editButton.png", "Edit");
+    editButton.id("editButton");
+    editButton.class("trackBarButton");
+    editButton.style("margin-left", "10px");
+    editButton.parent(trackBarBackingContainer);
+
+    
+
+
+    // Populate dropdown with track names
+    trackDropdown.option("Select Track");
+    trackDropdown.changed(() => {
+      let selectedTrack = trackDropdown.value();
+      console.log("Selected Track:", selectedTrack);
+    });
+
+    
     
     playButton = p.createButton("Play");
     playButton.mousePressed(togglePlay)

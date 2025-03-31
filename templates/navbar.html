@@ -1,3 +1,4 @@
+
 <nav id="navContainer">
     <ul class="nav-links" id="navList">
         <li id="siteTitle"><a href="{{ url_for('index') }}">DeltaBeatz</a></li>
@@ -11,5 +12,6 @@
             <li><a href="{{ url_for('login') }}">Log In</a></li>
         {% endif %}
         {{ navbar_data.username }}
+        {{navbar_data}}
     </ul>
 </nav>

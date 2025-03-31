@@ -41,10 +41,10 @@ class CompositionVector:
         self.compositions[self.compositionPointer].printComposition()
     
     def getCurrentComposition(self):
-        self.compositions[self.compositionPointer].getComposition()
+        return self.compositions[self.compositionPointer].getComposition()
 
     def getCurrentCompositionFuture(self):
-         self.compositions[self.compositionPointer].getFutureNote()
+         return self.compositions[self.compositionPointer].getFutureNote()
 
     def clearTrack(self, trackNumber):
         self.compositions[trackNumber].deleteComposition()
@@ -53,7 +53,7 @@ class CompositionVector:
         self.compositions.pop(trackNumber)
 
     def getMeasureCurrentComposition(self):
-        self.compositions[self.compositionPointer].getCompMeasureList()
+        return self.compositions[self.compositionPointer].getCompMeasureList()
 
     def mute(self, trackNumber):
         if self.mute == False:
@@ -65,6 +65,6 @@ class CompositionVector:
             self.mute = False
 
     def getUnmutedComposition(self):
-        self.compositions[self.mutePointer].printComposition()
+        return self.compositions[self.mutePointer].getComposition()
     
     # def loadCompositions() # will load comps from DB and create corresponding tracks on noteSkeleton

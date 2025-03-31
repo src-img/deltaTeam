@@ -41,15 +41,16 @@ let metroSketch = function(p) {
       metroPlay.id("metroPlay");
       metroPlay.parent(div);
 
-      showSlider = p.createSpan();
+      showSlider = p.createSpan();// these are from when metronome had 2 readouts... don't feel like chasing it down, but normal readdout cant function w/o showslider, so  here we are
       //showSlider.position(153, 265);
-      showSlider.id("metroSliderCount");
-      showSlider.parent(div);
+      //showSlider.id("metroSliderCount");
+      //showSlider.parent(div);
 
       showBPM = p.createSpan();
       //showBPM.position(50, 285);
       showBPM.id("metroBPM");
       showBPM.parent(div);
+      timeouts.push(setTimeout(changeBPM, 750)); //have it say the inital bpm
   };
 
   function inputHandler() {

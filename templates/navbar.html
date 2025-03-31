@@ -6,6 +6,6 @@
         <li><a href="{{ url_for('faq') }}">FAQ</a></li>
         <li><a href="{{ url_for('signup') }}">Sign up</a></li>
         <li><a href="{{ url_for('login') }}">Log In</a></li>
-	<li>{{ navbar_data.username }}</li>
+	      <li><a href="{{ url_for('userPage') }}">{{ navbar_data.username }}</a></li>
     </ul>
 </nav>

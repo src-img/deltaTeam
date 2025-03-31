@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request, jsonify, redirect, url_for
+from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
 from recordUserInput import Composition, modifyComposition, InputState
 from database.DBHandler import databaseManager
 from datetime import timedelta
@@ -20,7 +20,7 @@ def injectNavBarDetails():
     pfp = ""
     loggedIn = False
     if userID != None:
-        uName = "Hello, " + session["username"]
+        uName = "Hello, " + session["username"] + "!"
         # we need to make a real dynamic pfp but they're not in the db yet
         pfp = "./static/assets/img/drd.jpg"
         loggedIn = True
@@ -92,6 +92,7 @@ def login_submit():
             session["songID"] = None
             print("logged in as " + result[2])
         else:
+            print("girl help")
             return redirect(url_for('login'))
     else:
         print("user does not exist")
@@ -123,7 +124,7 @@ def signup_submit():
     else:
         print("Account with that email already exists")
         return redirect(url_for('signup'))
-    
+    print("girl")
     return redirect(url_for('login'))
 
 temp = Composition()

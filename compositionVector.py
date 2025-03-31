@@ -4,7 +4,7 @@ class CompositionVector:
     def __init__(self):
         self.metronomeCounter = 2 # syncs with track that has recording on 
         self.compositions = []  #list of all compositions
-        self.compositionPointer = 0 
+        self.compositionPointer = 0
         self.mutePointer = 0
         self.mute = False
         self.record = False

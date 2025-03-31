@@ -84,6 +84,7 @@ def signup_submit():
 
 @app.route("/compositionString")
 def compositionString():
+    # if len(temp2.compositions) > 0 and temp2.compositions != None:
     return render_template('compositionString.html', current_composition = temp2.getCurrentComposition(), future_note = temp2.getCurrentCompositionFuture())
 
 @app.route("/keyboard_event", methods=['POST'])
@@ -127,6 +128,12 @@ def delete_Comp():
     data = request.get_json() 
     temp2.removeTrack(0) # 0 temporary needs data.trackNumber
     return jsonify({'deleteTrack': "track Deleted"}) 
+
+@app.route('/addTrack', methods=['POST'])
+def add_track():
+    temp2.newComposition()
+    print(f"number of tracks currently: {len(temp2.compositions)}")
+    return jsonify({'addTrack': 'added track'})
 
 @app.route('/clearTrack', methods=['POST']) 
 def clear_track():

@@ -5,22 +5,19 @@ document.addEventListener('keydown', function(event) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ key: key })
     })
-    .then(response => response.text())
-    .then(data => console.log(data));
 });
-
 
 window.onload = function() {
     fetch("/compositionString")
             .then(response => {return response.text();})
-            .then((html) => document.getElementById("noteContainer0").innerHTML = html);     
+            .then((html) => document.getElementById("noteContainer0").innerHTML = html);
 }
 
 document.addEventListener('toggleNotes', (e) => {
     fetch("/compositionString")
             .then(response => {return response.text();})
             .then((html) => document.getElementById("noteContainer0").innerHTML = html)  
-  });
+});
 
 document.addEventListener('togglePlay', (e) => {
     let button = document.getElementById("playTracks");

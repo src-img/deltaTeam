@@ -1,11 +1,17 @@
+
 <nav id="navContainer">
     <ul class="nav-links" id="navList">
         <li id="siteTitle"><a href="{{ url_for('index') }}">DeltaBeatz</a></li>
         <li><a href="{{ url_for('about') }}">About</a></li>
         <li><a href="{{ url_for('features') }}">Features</a></li>
         <li><a href="{{ url_for('faq') }}">FAQ</a></li>
-        <li><a href="{{ url_for('signup') }}">Sign up</a></li>
-        <li><a href="{{ url_for('login') }}">Log In</a></li>
-	      <li><a href="{{ url_for('userPage') }}">{{ navbar_data.username }}</a></li>
+        {% if navbar_data.loggedIn %}
+            <li><a href="{{ url_for('userPage') }}">{{ navbar_data.username }}</a></li>
+            {% else %}
+            <li><a href="{{ url_for('signup') }}">Sign up</a></li>
+            <li><a href="{{ url_for('login') }}">Log In</a></li>
+        {% endif %}
+        {{ navbar_data.username }}
+        {{navbar_data}}
     </ul>
 </nav>

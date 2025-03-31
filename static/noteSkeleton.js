@@ -55,21 +55,61 @@ let skeletonSketch = function(p) {
       this.recordButton.parent(this.buttonContainerRowA);
 
       // Event listener to turn recording on/off
+      // const rButton = document.getElementById("trackRecord" + holderCount);
+      // rButton.addEventListener('click', () => {
+      //   console.log("record button clicked!");
+
+      //   let string = rButton.id;
+      //   console.log(string);
+      //   string = string.replace(/\D/g, ""); //gets only digits
+      //   console.log(string);
+        
+      //   fetch('/recording', {
+      //     method: 'POST',
+      //     headers: {'Content-Type': 'application/json'},
+      //     body: JSON.stringify({key: 'value', trackId: string})
+      //   })
+      // })
+
+      // Event listener to turn recording on/off
       const rButton = document.getElementById("trackRecord" + holderCount);
       rButton.addEventListener('click', () => {
-        console.log("record button clicked!");
+      console.log("record button clicked!");
 
-        let string = rButton.id;
+      let string = rButton.id;
         console.log(string);
         string = string.replace(/\D/g, ""); //gets only digits
         console.log(string);
-        
-        fetch('/recording', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value', trackId: string})
-        })
+
+      if (rButton.classList.contains('trackRecordOn')) rButton.classList.remove('trackRecordOn');
+      else rButton.classList.add('trackRecordOn'); //trackRecordOn needs to be lower in the css to take priority
+
+      fetch('/recording', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({key: 'value'})
       })
+
+      const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
+      document.dispatchEvent(toggleMetroEvent);
+      })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       this.buttonContainerRowB = this.p.createDiv();
       this.buttonContainerRowB.id("buttonContainerRowB" + holderCount);

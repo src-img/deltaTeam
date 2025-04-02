@@ -29,7 +29,8 @@ def injectNavBarDetails():
         
         pfp = "./static/assets/img/defaultPFP.png"
     navbar_data = {
-        "username": uName,
+        "helloText": uName,
+        "username": session["username"],
         "pfp": pfp,
         "loggedIn": loggedIn
     }
@@ -47,19 +48,18 @@ def index():
  
     return render_template('index.html')
 
-@app.route("/<username>")
+@app.route("/userpage/<username>")
 def profile(username):
     # Do database query shit here instead of this.
-    result, error = db.fetchUser(username)
+    result, error = db.fetchUserByUsername(username)
     
     if result == None or result == []:
         abort(404, description="User not found")
      
-    userDetails = {
-        "email": result[1],
-        "username": result[2]
+    user_data = {
+        "username": result[3]
     }
-    return render_template("profile.html", username="username")
+    return render_template("userPage.html", user_data=user_data)
 
 @app.route("/about")
 def about():
@@ -84,13 +84,13 @@ def login_submit():
     
     result, error = db.fetchUser(email)
     if result != None:
-        if (result[1] == email) and (result[3] == password):
+        if (result[1] == email) and (result[2] == password):
             session.permanent = True
             session["email"] = result[1]
             session["userID"] = result[0]
-            session["username"] = result[2]
+            session["username"] = result[3]
             session["songID"] = None
-            print("logged in as " + result[2])
+            print("logged in as " + result[3])
         else:
             print("girl help")
             return redirect(url_for('login'))
@@ -118,7 +118,7 @@ def signup_submit():
     # checking for duplicate accounts
     result, error = db.fetchUser(email)
     if result == None:
-        success, error, user_id = db.addUser(email, username, password)
+        success, error, user_id = db.addUser(email, password, username)
         db.commit()
         return redirect(url_for('login'))
     else:

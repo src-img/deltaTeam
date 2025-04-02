@@ -6,7 +6,7 @@ let test5 = "|qqqUseUs|qqqq|qqqq|";
 
 let playbackSketch = function(p) {
     let sound;
-    let BPM = 120;
+    let BPM;
     let isPlaying = false;
 
     p.preload = function() {
@@ -260,6 +260,10 @@ let playbackSketch = function(p) {
     document.addEventListener('togglePlayback', (e) => {
         let button = document.getElementById("playTracks");
         if(button.innerHTML == "Pause"){
+            // get BPM
+            BPM = document.getElementById("metroBPM").textContent;
+            console.log(BPM);
+
             // figure out this -------
             console.log("Getting composition");
             const selected = document.getElementById("noteContainer0");

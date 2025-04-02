@@ -69,7 +69,7 @@ let metroSketch = function(p) {
   }
 
   function changeBPM() {
-      showBPM.html(parseInt(inputBPM.value() / 4) + " BPM");
+      showBPM.html(parseInt(inputBPM.value() / 4));
 
       if (metroPlay.html() == "Pause") {
           play(parseInt(inputBPM.value() / 4));

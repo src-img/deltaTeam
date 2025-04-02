@@ -11,7 +11,7 @@ success, error = db.connect()
 recording = False
 currentNote = 1
 
-
+temp = Composition()
 
 @app.context_processor
 def injectNavBarDetails():
@@ -127,8 +127,6 @@ def signup_submit():
     print("girl")
     return redirect(url_for('login'))
 
-temp = Composition()
-
 @app.route("/compositionString")
 def compositionString():
     data = {temp.getComposition()}
@@ -202,10 +200,9 @@ def handle_metronome():
 
     return jsonify({"currentNote": currentNote})
 
-@app.route("/compositionGrab", methods=['POST'])
+@app.route("/compositionGrab", methods=['GET'])
 def compGrab():
-    data = temp.getComposition()
-    return jsonify({'composition': data})
+    return render_template('playbackString.html', playback = temp.getComposition())
 
 @app.route("/userPage")
 def userPage():

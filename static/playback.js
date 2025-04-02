@@ -256,23 +256,21 @@ let playbackSketch = function(p) {
             });
         }
     }
-
+    let comp = ""
     document.addEventListener('togglePlayback', (e) => {
         let button = document.getElementById("playTracks");
         if(button.innerHTML == "Pause"){
-            let compJSON = fetch('/compositionGrab', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ key: 'value' })
-            });
+            // figure out this -------
+            console.log("Getting composition");
+            const selected = document.getElementById("noteContainer0");
+            comp = selected.textContent
+            console.log(comp)
+            // figure out this -------
 
-            let compStr;
-            compJSON.then(data => {
-                compStr = data.composition;
-            });
-
-            let song = convertString(String(compStr));
+            // this is the conversion part that is already figured out
+            let song = convertString(comp);
             playback(song);
+            // p.console.log(song);
         } else {
             isPlaying = false;
             sound.stop();

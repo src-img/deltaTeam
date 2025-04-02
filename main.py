@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request, jsonify, redirect, url_for
+from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
 from recordUserInput import Composition, modifyComposition, InputState
 from database.DBHandler import databaseManager
 from datetime import timedelta
@@ -17,12 +17,21 @@ currentNote = 1
 def injectNavBarDetails():
     userID = session.get("userID")
     uName = ""
+    pfp = ""
+    loggedIn = False
     if userID != None:
-        uName = "Hello, " + session["username"]
+        uName = "Hello, " + session["username"] + "!"
+        # we need to make a real dynamic pfp but they're not in the db yet
+        pfp = "./static/assets/img/drd.jpg"
+        loggedIn = True
     else:
-        uName = "Not logged in"
+        uName = "Sign In"
+        
+        pfp = "./static/assets/img/defaultPFP.png"
     navbar_data = {
-        "username": uName
+        "username": uName,
+        "pfp": pfp,
+        "loggedIn": loggedIn
     }
     return dict(navbar_data=navbar_data)  # Now `navbar_data` is available everywhere   return uName
 
@@ -47,10 +56,10 @@ def profile(username):
         abort(404, description="User not found")
      
     userDetails = {
-        "email": result[1]
+        "email": result[1],
         "username": result[2]
     }
-    return render_template("profile.html", username=username)
+    return render_template("profile.html", username="username")
 
 @app.route("/about")
 def about():
@@ -83,6 +92,7 @@ def login_submit():
             session["songID"] = None
             print("logged in as " + result[2])
         else:
+            print("girl help")
             return redirect(url_for('login'))
     else:
         print("user does not exist")
@@ -114,7 +124,7 @@ def signup_submit():
     else:
         print("Account with that email already exists")
         return redirect(url_for('signup'))
-    
+    print("girl")
     return redirect(url_for('login'))
 
 temp = Composition()

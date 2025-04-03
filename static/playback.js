@@ -262,7 +262,7 @@ let playbackSketch = function(p) {
         if(button.innerHTML == "Pause"){
             // figure out this -------
             console.log("Getting composition");
-            const selected = document.getElementById("noteContainer0");
+            const selected = document.getElementsByClassName("noteContainer")[0];
             comp = selected.textContent
             console.log(comp)
             // figure out this -------

@@ -91,16 +91,16 @@ let metroSketch = function(p) {
         metroSoundTimer++;
         if(metroSoundTimer % 4 == 0){
             metroSound.play();
-
-            const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-            document.dispatchEvent(toggleNoteDisplayEvent);
         }
+
+        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+        document.dispatchEvent(toggleNoteDisplayEvent);
         
         fetch('/metronome')
         .then(response => response.json())
         .then(data => {
             console.log(data.currentNote);
-        })
+        });
         
           timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
           timeouts.push(timeoutID);
@@ -117,6 +117,11 @@ let metroSketch = function(p) {
 
   document.addEventListener('toggleAction', (e) => {
     if(metroPlay.html() == "Play") toggle();
+    if(inputBPM.elt.disabled){
+        inputBPM.removeAttribute('disabled');
+    } else {
+        inputBPM.attribute('disabled', 'true');
+    }
   });
 };
 

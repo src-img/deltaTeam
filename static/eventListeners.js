@@ -13,13 +13,13 @@ document.addEventListener('keydown', function(event) {
 window.onload = function() {
     fetch("/compositionString")
             .then(response => {return response.text();})
-            .then((html) => document.getElementById("noteContainer0").innerHTML = html);     
+            .then((html) => document.getElementsByClassName("noteContainer")[0].innerHTML = html);     
 }
 
 document.addEventListener('toggleNotes', (e) => {
     fetch("/compositionString")
             .then(response => {return response.text();})
-            .then((html) => document.getElementById("noteContainer0").innerHTML = html)  
+            .then((html) => document.getElementsByClassName("noteContainer")[0].innerHTML = html)  
   });
 
 document.addEventListener('togglePlay', (e) => {

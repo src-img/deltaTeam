@@ -142,9 +142,6 @@ def handle_keyboard_event():
         temp.userInput = InputState.addRest
     print(f"Key pressed: {keyPressed}")
 
-
-
-
     return jsonify({"message": "Key received successfully"})
 
 @app.route('/recording', methods=['POST'])
@@ -159,6 +156,11 @@ def toggle_record():
         print(f"recording on")
     
     return jsonify({'recording': data})
+
+@app.route('/grabRecording', methods=['GET'])
+def grabRecording():
+    global recording
+    return jsonify({'recording': recording})
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():

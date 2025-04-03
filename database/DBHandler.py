@@ -236,6 +236,39 @@ class databaseManager():
         # CHANGE THE JSON IN THE RESULT INTO AN ARRAY
         return result, error
 
+    def fetchUserSongs(self, user_id):
+        
+        result = []
+        error = None
+
+        self.lock.acquire(True)
+        try:
+            
+            result = self.cursor.execute("SELECT * FROM Song WHERE user_id=?", [user_id]).fetchall()
+        except sqlite3.Error as e:
+            print("There was an error fetching for song")
+            error = e
+            return result, error
+        
+        self.lock.release()
+        #if result != None: 
+        #    result = list(result)
+        #    dictofjson = json.loads(result[4])
+        #    arrayofjson = dictofjson['measuresList']
+        #    result[4] = list(arrayofjson)
+        #    print("Result of song ", user_id," :", result)
+        # CHANGE THE JSON IN THE RESULT INTO AN ARRAY
+        return result, error
+
+    def fetchUserSongsNames(self, user_id):
+        result, error = self.fetchUserSongs(user_id)
+        names = []
+
+        for song in result:
+            names.append(song[2])
+
+        return names
+
     def fetchMeasure(self, measure_id):
         result = []
         error = None

@@ -20,7 +20,7 @@ def injectNavBarDetails():
     pfp = ""
     loggedIn = False
     if userID != None:
-        uName = "Hello, " + session["username"] + "!"
+        uName = "Hello, " + session.get("username") + "!"
         # we need to make a real dynamic pfp but they're not in the db yet
         pfp = "./static/assets/img/drd.jpg"
         loggedIn = True
@@ -30,7 +30,7 @@ def injectNavBarDetails():
         pfp = "./static/assets/img/defaultPFP.png"
     navbar_data = {
         "helloText": uName,
-        "username": session["username"],
+        "username": session.get("username"),
         "pfp": pfp,
         "loggedIn": loggedIn
     }
@@ -51,14 +51,18 @@ def index():
 @app.route("/userpage/<username>")
 def profile(username):
     # Do database query shit here instead of this.
-    result, error = db.fetchUserByUsername(username)
+    userResult, error = db.fetchUserByUsername(username)
     
-    if result == None or result == []:
+    if userResult == None or userResult == []:
         abort(404, description="User not found")
-     
+    
+    songsResult = db.fetchUserSongsNames(userResult[0])
+    print(songsResult)
+    
     user_data = {
-        "username": result[3]
+        "username": userResult[3]
     }
+    
     return render_template("userPage.html", user_data=user_data)
 
 @app.route("/about")

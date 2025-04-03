@@ -266,7 +266,7 @@ let playbackSketch = function(p) {
             comp = selected.textContent
             console.log(comp)
 
-            BPM = document.getElementsById("metroBPM").textContent;
+            BPM = document.getElementById("metroBPM").textContent;
             // figure out this -------
 
             // this is the conversion part that is already figured out

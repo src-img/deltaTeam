@@ -6,7 +6,7 @@ let test5 = "|qqqUseUs|qqqq|qqqq|";
 
 let playbackSketch = function(p) {
     let sound;
-    let BPM = 120;
+    let BPM;
     let isPlaying = false;
 
     p.preload = function() {
@@ -265,6 +265,8 @@ let playbackSketch = function(p) {
             const selected = document.getElementsByClassName("noteContainer")[0];
             comp = selected.textContent
             console.log(comp)
+
+            BPM = document.getElementsById("metroBPM").textContent;
             // figure out this -------
 
             // this is the conversion part that is already figured out

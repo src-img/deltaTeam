@@ -28,7 +28,7 @@ let metroSketch = function(p) {
 
       p.image(metroGraphic, 0, 0, SIZE_X, SIZE_Y); // Applied to canvas element
 
-      inputBPM = p.createSlider(240, 600);
+      inputBPM = p.createSlider(240, 600, 240, 4);
       //inputBPM.position(50, 280);
       inputBPM.size(100);
       inputBPM.input(inputHandler);
@@ -43,8 +43,9 @@ let metroSketch = function(p) {
 
       showSlider = p.createSpan();// these are from when metronome had 2 readouts... don't feel like chasing it down, but normal readdout cant function w/o showslider, so  here we are
       //showSlider.position(153, 265);
-      //showSlider.id("metroSliderCount");
-      //showSlider.parent(div);
+      showSlider.id("metroSliderCount");
+      showSlider.parent(div);
+      showSlider.html("Slider: 60");
 
       showBPM = p.createSpan();
       //showBPM.position(50, 285);
@@ -62,7 +63,7 @@ let metroSketch = function(p) {
 
       timeouts.splice(0, timeouts.length);
 
-      showSlider.html();
+      showSlider.html(`Slider: ${inputBPM.value() / 4}`);
       showBPM.html("Changing BPM");
 
       timeouts.push(setTimeout(changeBPM, 750));
@@ -72,12 +73,18 @@ let metroSketch = function(p) {
       showBPM.html(parseInt(inputBPM.value() / 4)/* + " BPM"*/);    // temporary fix until the bpm can be pulled correctly into playback.
 
       if (metroPlay.html() == "Pause") {
-          play(parseInt(inputBPM.value() / 4));
+          play(parseInt(inputBPM.value()));
       }
   }
 
   function toggle() {
     if (metroPlay.html() == "Play") {
+      //fixxes bug of refreshing while playing
+        for(let i = 0; i < timeouts.length; ++i){
+          clearTimeout(timeouts[i]);
+        }
+        timeouts = [];
+
         metroPlay.html("Pause");
     } else {
         metroPlay.html("Play");
@@ -87,32 +94,32 @@ let metroSketch = function(p) {
   }
 
   function play(BPM) {
-      if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
-        metroSoundTimer++;
-        if(metroSoundTimer % 4 == 0){
-            metroSound.play();
-        }
-
-        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-        document.dispatchEvent(toggleNoteDisplayEvent);
-        
-        fetch('/metronome')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.currentNote);
-        });
-        
-          timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
-          timeouts.push(timeoutID);
-      } else {
-          clearTimeout(timeoutID);
-          metroSound.stop();
+    if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
+      metroSoundTimer++;
+      if(metroSoundTimer % 4 == 0){
+          metroSound.play();
       }
 
-      if (BPM != inputBPM.value()) {
-          clearTimeout(timeoutID);
-          metroSound.stop();
-      }
+      const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+      document.dispatchEvent(toggleNoteDisplayEvent);
+        
+      fetch('/metronome')
+      .then(response => response.json())
+      .then(data => {
+        //console.log(data.currentNote);
+      });
+        
+      timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
+      timeouts.push(timeoutID);
+    } else {
+      clearTimeout(timeoutID);
+      metroSound.stop();
+    }
+
+    if (BPM != inputBPM.value()) {
+      clearTimeout(timeoutID);
+      metroSound.stop();
+    }
   }
 
   document.addEventListener('toggleAction', (e) => {
@@ -122,6 +129,26 @@ let metroSketch = function(p) {
     } else {
         inputBPM.attribute('disabled', 'true');
     }
+
+    let span = document.getElementsByClassName("trackRecordType")[0];
+    fetch('/grabRecording')
+        .then(response => response.json())
+        .then(data => {
+            if(data.recording){
+                fetch('/grabInputType')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.state);
+                        if(data.state === 1){
+                            span.innerHTML = "Inputting notes";
+                        } else if (data.state === 2){
+                            span.innerHTML = "Inputting rests";
+                        }
+                    });
+            } else {
+                span.innerHTML = "";
+            }
+        });
   });
 };
 

@@ -20,12 +20,6 @@ const observer = new MutationObserver((mutationsList) => {
 
 let skeletonSketch = function(p) {
   let playButton;
-  let current = 0;
-  let tracks = [];
-  let current_composition = 0; //dummy lol
-
-  let canvasSizeX = 600;
-  let canvasSizeY = 200;
 
   class track {
     constructor(p5, x, y){
@@ -69,7 +63,7 @@ let skeletonSketch = function(p) {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({key: 'value'})
-        })
+        });
 
         const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
         document.dispatchEvent(toggleMetroEvent);
@@ -125,6 +119,13 @@ let skeletonSketch = function(p) {
       //this.volumeSlider.position(x + 15, y + 445);
       this.volumeSlider.class("trackVolume");
       this.volumeSlider.parent(this.buttonContainerRowC);
+
+      this.buttonContainerRowD = this.p.createDiv();
+      this.buttonContainerRowD.class("buttonContainerRowD buttonContainerRow");
+      this.buttonContainerRowD.parent(this.buttonContainer);
+      this.recordIndicator = this.p.createSpan();
+      this.recordIndicator.class("trackRecordType");
+      this.recordIndicator.parent(this.buttonContainerRowD);
       
       this.p.strokeWeight(5);
       this.p.startOfMusic = this.p.line(x + 190, y + 15, x + 190, y + 100);
@@ -223,7 +224,7 @@ let skeletonSketch = function(p) {
       document.dispatchEvent(togglePlay);
     });
     
-    tracks[0] = new track(p, 10, 35);
+    new track(p, 10, 35);
   }
 }
 

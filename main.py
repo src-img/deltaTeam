@@ -12,6 +12,7 @@ recording = False
 currentNote = 1
 
 temp = Composition()
+lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
 
 @app.context_processor
 def injectNavBarDetails():
@@ -43,8 +44,6 @@ def index():
             session["songID"] = id
             db.commit()
         
-
- 
     return render_template('index.html')
 
 @app.route("/<username>")
@@ -134,12 +133,15 @@ def compositionString():
 
 @app.route("/keyboard_event", methods=['POST'])
 def handle_keyboard_event():
+    global lastInputState
     data = request.get_json()
     keyPressed = data.get("key")
     if keyPressed == 'a':
         temp.userInput = InputState.addNote
+        lastInputState = temp.userInput
     elif keyPressed == 's':
         temp.userInput = InputState.addRest
+        lastInputState = temp.userInput
     print(f"Key pressed: {keyPressed}")
 
     return jsonify({"message": "Key received successfully"})
@@ -157,10 +159,26 @@ def toggle_record():
     
     return jsonify({'recording': data})
 
-@app.route('/grabRecording', methods=['GET'])
+@app.route('/grabRecording')
 def grabRecording():
     global recording
     return jsonify({'recording': recording})
+
+@app.route('/grabInputType')
+def grabInputType():
+    global lastInputState
+    if(temp.userInput == lastInputState):
+        if(temp.userInput == InputState.addNote):
+            data = 1
+        elif(temp.userInput == InputState.addRest):
+            data = 2
+    else:
+        if(lastInputState == InputState.addNote):
+            data = 1
+        elif(lastInputState == InputState.addRest):
+            data = 2
+    
+    return jsonify({'state': data})
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():

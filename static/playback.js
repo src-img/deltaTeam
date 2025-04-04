@@ -9,6 +9,8 @@ let playbackSketch = function(p) {
     let BPM;
     let isPlaying = false;
 
+    let timeouts = [];
+
     p.preload = function() {
         sound = p.loadSound('./static/assets/sounds/snare.mp3');
     }
@@ -241,7 +243,7 @@ let playbackSketch = function(p) {
             isPlaying = true;
             let currentTime = 0; 
             noteDurations.forEach((duration, index) => {
-                setTimeout(() => {
+                timeoutID = setTimeout(() => {
                 if(isPlaying){
                     let isRests = rests[index];
                     if (!isRests) {
@@ -252,6 +254,7 @@ let playbackSketch = function(p) {
                     }
                 }
                 }, currentTime);
+                timeouts.push(timeoutID);
                 currentTime += duration;
             });
         }
@@ -276,6 +279,12 @@ let playbackSketch = function(p) {
         } else {
             isPlaying = false;
             sound.stop();
+
+            timeouts.forEach(timeoutID => {
+                clearTimeout(timeoutID);
+            });
+
+            timeouts = [];
         }
     });
 }

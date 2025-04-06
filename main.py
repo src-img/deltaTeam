@@ -60,7 +60,8 @@ def profile(username):
     print(songsResult)
     
     user_data = {
-        "username": userResult[3]
+        "username": userResult[3],
+        "songs": songsResult
     }
     
     return render_template("userPage.html", user_data=user_data)

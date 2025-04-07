@@ -21,9 +21,8 @@ class Composition:
         self.arrayPtr = restArray.copy()
         self.record = False
         self.recordCountdown = 0
-        self.noteSize = 0
         self.arrayPtr = emptyArray.copy()
-        self.metronomeCounter = 0
+        self.metronomeCounter = 1
 
     def setNoteSizeLimit(self):
             match (self.sixteenth % 4):

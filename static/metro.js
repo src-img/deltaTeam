@@ -95,19 +95,31 @@ let metroSketch = function(p) {
 
   function play(BPM) {
     if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
-      metroSoundTimer++;
-      if(metroSoundTimer % 4 == 0){
-          metroSound.play();
-      }
+      // metroSoundTimer++;
+      // if(metroSoundTimer % 4 == 0){
+      //     metroSound.play();
+      // }
 
-      const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-      document.dispatchEvent(toggleNoteDisplayEvent);
+      // const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+      // document.dispatchEvent(toggleNoteDisplayEvent);
         
+      // fetch('/metronome')
+      // .then(response => response.json())
+      // .then(data => {
+      //   //console.log(data.currentNote);
+      // });
       fetch('/metronome')
-      .then(response => response.json())
-      .then(data => {
-        //console.log(data.currentNote);
-      });
+        .then(response => response.json())
+        .then(data => {if (Number(data.currentNote) % 4 == 0){ metroSound.play();}
+        })
+
+        fetch('/modifyComp')
+        // .then(console.log("working"))
+        .then(response => response.json())
+        .then(data => {
+          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+          document.dispatchEvent(toggleNoteDisplayEvent);
+        })
         
       timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
       timeouts.push(timeoutID);

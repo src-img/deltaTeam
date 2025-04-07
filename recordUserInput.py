@@ -9,6 +9,7 @@ class InputState(Enum):
 
 noteArray = ["s","e","i","q","qUs","j","jUs","h","hUs","hUe","hUi","d","dUs","dUe","dui","w"]
 restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI","W"]
+emptyArray = ["","","","","","","","","","","","","","","",""]
 
 class Composition:
     def __init__(self):
@@ -16,9 +17,13 @@ class Composition:
         self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
-        self.quarter = 1
         self.noteSize = 0
         self.arrayPtr = restArray.copy()
+        self.record = False
+        self.recordCountdown = 0
+        self.noteSize = 0
+        self.arrayPtr = emptyArray.copy()
+        self.metronomeCounter = 0
 
     def setNoteSizeLimit(self):
             match (self.sixteenth % 4):
@@ -32,32 +37,42 @@ class Composition:
                     self.noteSizeLimit = 0
 
     def compose(self):
-        if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or (self.userInput == InputState.addRest and self.arrayPtr != restArray):
-            self.composition += self.arrayPtr[self.noteSize]
-            match self.userInput:
-                case InputState.increaseDuration:
-                    if self.arrayPtr == noteArray:
-                        self.composition += "U"
-                case InputState.addNote:
-                    self.arrayPtr = noteArray.copy()
-                case InputState.addRest:
-                    self.arrayPtr = restArray.copy()
-            self.userInput = InputState.increaseDuration
-            self.setNoteSizeLimit()
-            self.noteSize = 0
-        else:
-            self.noteSize += 1
-        if self.sixteenth % 16 == 0:
-            if (self.composition[-1] == "U"):
-                self.composition = self.composition[:-1]
-                self.composition += "v"    
+        if self.arrayPtr != emptyArray:
+            if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or (self.userInput == InputState.addRest and self.arrayPtr != restArray):
+                self.composition += self.arrayPtr[self.noteSize]
+                match self.userInput:
+                    case InputState.increaseDuration:
+                        if self.arrayPtr == noteArray:
+                            self.composition += "U"
+                    case InputState.addNote:
+                        self.arrayPtr = noteArray.copy()
+                    case InputState.addRest:
+                        self.arrayPtr = restArray.copy()
+                self.userInput = InputState.increaseDuration
+                self.setNoteSizeLimit()
+                self.noteSize = 0
             else:
-                self.composition += "|"
-            self.parseComposition()
-        if self.sixteenth % 4 == 0:
-            self.composition += " "
-        self.sixteenth += 1
-
+                self.noteSize += 1
+            if self.sixteenth % 16 == 0:
+                if (self.composition[-1] == "U"):
+                    self.composition = self.composition[:-1]
+                    self.composition += "v"    
+                else:
+                    self.composition += "|"
+                self.parseComposition()
+                self.sixteenth = 0
+            if self.sixteenth % 4 == 0:
+                self.composition += " "
+            self.sixteenth += 1
+        else:
+            if self.userInput == InputState.addNote:
+                self.arrayPtr = noteArray.copy()
+            else:
+                self.arrayPtr = restArray.copy()
+            self.userInput = InputState.increaseDuration
+            self.noteSize += 1
+            self.sixteenth += 1
+        
     def printComposition(self):
         print(self.composition)
     
@@ -85,8 +100,11 @@ class Composition:
         self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
+        self.metronomeCounter = 0
+        self.record = False
+        self.recordCountdown = 0
         self.noteSize = 0
-        self.arrayPtr = restArray.copy()
+        self.arrayPtr = emptyArray.copy()
 
     def parseComposition(self):
         self.composition = self.composition.replace("ius", "o")
@@ -99,9 +117,35 @@ class Composition:
         self.composition = self.composition.replace("sse", "M")
         self.composition = self.composition.replace("ss", "N")
         self.composition = self.composition.replace(" ", "")
+   
+    def recording(self):
+        if self.record == False:
+            self.recordCountdown = 20 + self.sixteenth
+            self.metronomeCounter = self.sixteenth % 16
+            self.record = True
+            print("recording on")
+        else:
+            self.record = False
+            if self.arrayPtr == noteArray:
+                self.userInput = InputState.addNote
+                self.compose()
+                self.arrayPtr = restArray.copy()
+            while self.sixteenth != 16:
+                self.compose()
+            self.compose()
+            self.arrayPtr = emptyArray
 
-def modifyComposition(Composition):
-    newComposition = Composition
-    newComposition.compose()
-    newComposition.printComposition()
+            print("recording off")
+
+    def incrementMetroCounter(self):
+        self.metronomeCounter += 1
+        print(f"metronomeCounter: {self.metronomeCounter}")
+        if self.metronomeCounter == 16:
+            self.metronomeCounter = 0
+        
+    def decrementCountdown(self):
+        if self.recordCountdown > 0:
+            self.recordCountdown -= 1
+
+
 

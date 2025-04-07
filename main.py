@@ -21,7 +21,7 @@ def injectNavBarDetails():
     pfp = ""
     loggedIn = False
     if userID != None:
-        uName = "Hello, " + session["username"] + "!"
+        uName = "Hello, " + session.get("username") + "!"
         # we need to make a real dynamic pfp but they're not in the db yet
         pfp = "./static/assets/img/drd.jpg"
         loggedIn = True
@@ -30,7 +30,8 @@ def injectNavBarDetails():
         
         pfp = "./static/assets/img/defaultPFP.png"
     navbar_data = {
-        "username": uName,
+        "helloText": uName,
+        "username": session.get("username"),
         "pfp": pfp,
         "loggedIn": loggedIn
     }
@@ -46,19 +47,23 @@ def index():
         
     return render_template('index.html')
 
-@app.route("/<username>")
+@app.route("/userpage/<username>")
 def profile(username):
     # Do database query shit here instead of this.
-    result, error = db.fetchUser(username)
+    userResult, error = db.fetchUserByUsername(username)
     
-    if result == None or result == []:
+    if userResult == None or userResult == []:
         abort(404, description="User not found")
-     
-    userDetails = {
-        "email": result[1],
-        "username": result[2]
+    
+    songsResult = db.fetchUserSongsNames(userResult[0])
+    print(songsResult)
+    
+    user_data = {
+        "username": userResult[3],
+        "songs": songsResult
     }
-    return render_template("profile.html", username="username")
+    
+    return render_template("userPage.html", user_data=user_data)
 
 @app.route("/about")
 def about():
@@ -83,13 +88,13 @@ def login_submit():
     
     result, error = db.fetchUser(email)
     if result != None:
-        if (result[1] == email) and (result[3] == password):
+        if (result[1] == email) and (result[2] == password):
             session.permanent = True
             session["email"] = result[1]
             session["userID"] = result[0]
-            session["username"] = result[2]
+            session["username"] = result[3]
             session["songID"] = None
-            print("logged in as " + result[2])
+            print("logged in as " + result[3])
         else:
             print("girl help")
             return redirect(url_for('login'))
@@ -117,7 +122,7 @@ def signup_submit():
     # checking for duplicate accounts
     result, error = db.fetchUser(email)
     if result == None:
-        success, error, user_id = db.addUser(email, username, password)
+        success, error, user_id = db.addUser(email, password, username)
         db.commit()
         return redirect(url_for('login'))
     else:

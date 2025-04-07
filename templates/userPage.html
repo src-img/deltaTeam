@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - DeltaBeatz</title>
-    <link rel="stylesheet" type="text/css" href="static/index.css"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 
 <body>
@@ -12,6 +12,7 @@
     <header>
         {% include 'navbar.html' %}
     </header>
+
     <div class="userPageContainer"> 
         <div class="userInfo">
             <div class="userPFP">
@@ -20,7 +21,7 @@
             <div class="userAbout">
                 <div class="userName">
                     <h2>{{name}}</h2>
-                    <p>@{{username}}</p>
+                    <p>@{{user_data.username}}</p>
                 </div>
                 <div class="bio">
                     {{bio}}
@@ -31,10 +32,10 @@
         <div class="userCompositions">
             <h2>Compositions</h2>
             <div class="compContainer">
-                {% for composition in compositions -%}
+                {% for song in user_data.songs -%}
                 <div class="compDisplayContainer">
                     <img src="../static/assets/img/notePlaceholder.png"/>
-                    <p>{{composition.name}}</p>
+                    <p>{{song}}</p>
                 </div>
                 {%- endfor %}
             </div>

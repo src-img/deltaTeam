@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, modifyComposition, InputState
+from recordUserInput import Composition, InputState
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -8,8 +8,8 @@ app.secret_key = "secretKeyTemp"
 app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
-recording = False
-currentNote = 1
+# recording = False
+# currentNote = 1
 
 temp = Composition()
 lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
@@ -128,7 +128,7 @@ def signup_submit():
 
 @app.route("/compositionString")
 def compositionString():
-    data = {temp.getComposition()}
+    # data = {temp.getComposition()}
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
 
 @app.route("/keyboard_event", methods=['POST'])
@@ -148,21 +148,12 @@ def handle_keyboard_event():
 
 @app.route('/recording', methods=['POST'])
 def toggle_record():
-    global recording
-    data = request.get_json()
-    if recording == True:
-        recording = False
-        print(f"recording off")
-    else:
-        recording = True
-        print(f"recording on")
-    
-    return jsonify({'recording': data})
+    temp.recording()
+    return jsonify({'recording': temp.record})
 
 @app.route('/grabRecording')
 def grabRecording():
-    global recording
-    return jsonify({'recording': recording})
+    return jsonify({'recording': temp.record})
 
 @app.route('/grabInputType')
 def grabInputType():
@@ -182,24 +173,23 @@ def grabInputType():
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
-    global currentNote
-    currentNote = 1
     temp.deleteComposition()
-    return jsonify({'recording': currentNote}) 
+    return jsonify({'recording': temp.printComposition()})  
 
 @app.route("/modifyComp", methods=['GET'])
 def modify_Comp():
-    modifyComposition(temp)
-    data = "modified Comp"
-    return jsonify({"data": data})
+    if temp.record == True:
+        if temp.recordCountdown == 0:
+            temp.compose()
+            temp.printComposition()
+    return jsonify({"data": "modified comp"})
 
 @app.route("/metronome", methods=['GET'])
 def handle_metronome():
-    global currentNote
-
-    if recording == True:
-        modify_Comp()
-        currentNote += 1
+    temp.incrementMetroCounter()
+    if temp.record == True:
+        temp.decrementCountdown()
+        print(f"decrementCountdown: {temp.recordCountdown}")
     
         # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
@@ -218,7 +208,7 @@ def handle_metronome():
                 print("measures list of songLen: ", measuresList[songMeasureLen])
                 db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
-    return jsonify({"currentNote": currentNote})
+    return jsonify({"currentNote": temp.metronomeCounter})
 
 @app.route("/compositionGrab", methods=['GET'])
 def compGrab():

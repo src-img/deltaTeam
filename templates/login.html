@@ -3,21 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Page</title>
+  <title>Log In - DeltaBeatz</title>
   <link rel="stylesheet" type="text/css" href="static/index.css"> 
-    <link rel="stylesheet" type="text/css" href="static/login.css"> 
+  <link rel="stylesheet" type="text/css" href="static/signup.css"> <!-- reuse same styling -->
 </head>
+
 <body>
-  <div class="login-container">
-    <h2>Login</h2>
+  <!-- navbar -->
+  <header>
+    {% include 'navbar.html' %}
+  </header>
+
+  <div class="signup-container"> 
+    <h2>Log In</h2>
     <form action="/login" method="post">
-      <label for="username">Email</label>
-      <input type="text" id="username" name="username" required />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
 
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required />
 
-      <button type="submit">Sign In</button>
+      <button type="submit">Log In</button>
     </form>
   </div>
 </body>

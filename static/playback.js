@@ -249,9 +249,6 @@ let playbackSketch = function(p) {
                     if (!isRests) {
                         sound.play();
                     }
-                    else {
-                        // rest
-                    }
                 }
                 }, currentTime);
                 timeouts.push(timeoutID);

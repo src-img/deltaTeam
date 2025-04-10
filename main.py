@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, modifyComposition, InputState
+from recordUserInput import Composition, InputState
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -8,8 +8,6 @@ app.secret_key = "secretKeyTemp"
 app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
-recording = False
-currentNote = 1
 
 temp = Composition()
 lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
@@ -151,24 +149,6 @@ def handle_keyboard_event():
 
     return jsonify({"message": "Key received successfully"})
 
-@app.route('/recording', methods=['POST'])
-def toggle_record():
-    global recording
-    data = request.get_json()
-    if recording == True:
-        recording = False
-        print(f"recording off")
-    else:
-        recording = True
-        print(f"recording on")
-    
-    return jsonify({'recording': data})
-
-@app.route('/grabRecording')
-def grabRecording():
-    global recording
-    return jsonify({'recording': recording})
-
 @app.route('/grabInputType')
 def grabInputType():
     global lastInputState
@@ -187,26 +167,21 @@ def grabInputType():
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
-    global currentNote
-    currentNote = 1
     temp.deleteComposition()
     return jsonify({'recording': currentNote}) 
 
-@app.route("/modifyComp", methods=['GET'])
-def modify_Comp():
-    modifyComposition(temp)
-    data = "modified Comp"
-    return jsonify({"data": data})
-
-@app.route("/metronome", methods=['GET'])
+@app.route("/metronome", methods=['POST'])
 def handle_metronome():
-    global currentNote
+    data = request.get_json()
+    if data.get('userInput') == 1:
+        temp.compose(InputState.addNote)
+    elif data.get('userInput') == 2:
+        temp.compose(InputState.addRest)
+    else:
+        temp.compose(InputState.noInput)
+    temp.printComposition()
 
-    if recording == True:
-        modify_Comp()
-        currentNote += 1
-    
-        # Adding the new measures to the database
+    # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
         measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID")) 
@@ -223,7 +198,7 @@ def handle_metronome():
                 print("measures list of songLen: ", measuresList[songMeasureLen])
                 db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
-    return jsonify({"currentNote": currentNote})
+    return jsonify({"data": data})
 
 @app.route("/compositionGrab", methods=['GET'])
 def compGrab():

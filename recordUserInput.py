@@ -5,7 +5,7 @@ import random
 class InputState(Enum):
     addNote = 1
     addRest = 2
-    increaseDuration = 3
+    noInput = 3
 
 noteArray = ["s","e","i","q","qUs","j","jUs","h","hUs","hUe","hUi","d","dUs","dUe","dui","w"]
 restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI","W"]
@@ -13,7 +13,7 @@ restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI"
 class Composition:
     def __init__(self):
         self.composition = "g$|"
-        self.userInput = InputState.addRest
+        #self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
         self.quarter = 1
@@ -31,18 +31,18 @@ class Composition:
                 case 3:
                     self.noteSizeLimit = 0
 
-    def compose(self):
-        if self.userInput == InputState.addNote or self.noteSize == self.noteSizeLimit or (self.userInput == InputState.addRest and self.arrayPtr != restArray):
+    def compose(self, state):
+        if state == InputState.addNote or self.noteSize == self.noteSizeLimit or (state == InputState.addRest and self.arrayPtr != restArray):
             self.composition += self.arrayPtr[self.noteSize]
-            match self.userInput:
-                case InputState.increaseDuration:
+            match state:
+                case InputState.noInput:
                     if self.arrayPtr == noteArray:
                         self.composition += "U"
                 case InputState.addNote:
                     self.arrayPtr = noteArray.copy()
                 case InputState.addRest:
                     self.arrayPtr = restArray.copy()
-            self.userInput = InputState.increaseDuration
+            #self.userInput = InputState.noInput
             self.setNoteSizeLimit()
             self.noteSize = 0
         else:
@@ -99,9 +99,4 @@ class Composition:
         self.composition = self.composition.replace("sse", "M")
         self.composition = self.composition.replace("ss", "N")
         self.composition = self.composition.replace(" ", "")
-
-def modifyComposition(Composition):
-    newComposition = Composition
-    newComposition.compose()
-    newComposition.printComposition()
 

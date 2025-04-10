@@ -1,5 +1,6 @@
 const SKELETON_DIV = "noteSkeletonContainer";
 
+let autoScroll = false;
 const observer = new MutationObserver((mutationsList) => {
   // Loop through all mutations to handle them
   
@@ -7,13 +8,9 @@ const observer = new MutationObserver((mutationsList) => {
     // Ensure that the target element exists and is scrollable
     const target = mutation.target;
 
-    fetch('/grabRecording')
-        .then(response => response.json())
-        .then(data => {
-            if(target && target.scroll && data.recording){
-              target.parentElement.scrollLeft = target.parentElement.scrollWidth;
-            }
-        });
+    if(target && target.scroll && autoScroll){
+      target.parentElement.scrollLeft = target.parentElement.scrollWidth;
+    }
   });
 });
 
@@ -67,6 +64,12 @@ let skeletonSketch = function(p) {
 
         const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
         document.dispatchEvent(toggleMetroEvent);
+
+        if(!autoScroll){
+          autoScroll = true;
+        } else {
+          autoScroll = false;
+        }
       })
       
       this.buttonContainerRowB = this.p.createDiv();

@@ -17,20 +17,19 @@ class Composition:
         #self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
-        self.quarter = 1
         self.noteSize = 0
         self.arrayPtr = emptyArray.copy()
 
     def setNoteSizeLimit(self):
-            match (self.sixteenth % 4):
-                case 0: 
-                    self.noteSizeLimit = 15 - (self.sixteenth % 16)
-                case 1:
-                    self.noteSizeLimit = 1
-                case 2:
-                    self.noteSizeLimit = 1
-                case 3:
-                    self.noteSizeLimit = 0
+        match (self.sixteenth % 4):
+            case 0: 
+                self.noteSizeLimit = 15 - (self.sixteenth % 16)
+            case 1:
+                self.noteSizeLimit = 1
+            case 2:
+                self.noteSizeLimit = 1
+            case 3:
+                self.noteSizeLimit = 0
 
     def compose(self, state):
         if state == InputState.addNote or self.noteSize == self.noteSizeLimit or (state == InputState.addRest and self.arrayPtr != restArray):
@@ -83,7 +82,7 @@ class Composition:
 
     def deleteComposition(self):
         self.composition = "g$|"
-        self.userInput = InputState.addRest
+        # self.userInput = InputState.addRest
         self.noteSizeLimit = 15
         self.sixteenth = 1
         self.noteSize = 0

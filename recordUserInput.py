@@ -9,6 +9,7 @@ class InputState(Enum):
 
 noteArray = ["s","e","i","q","qUs","j","jUs","h","hUs","hUe","hUi","d","dUs","dUe","dui","w"]
 restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI","W"]
+emptyArray = ["","","","","","","","","","","","","","","",""]
 
 class Composition:
     def __init__(self):
@@ -18,7 +19,7 @@ class Composition:
         self.sixteenth = 1
         self.quarter = 1
         self.noteSize = 0
-        self.arrayPtr = restArray.copy()
+        self.arrayPtr = emptyArray.copy()
 
     def setNoteSizeLimit(self):
             match (self.sixteenth % 4):
@@ -86,7 +87,7 @@ class Composition:
         self.noteSizeLimit = 15
         self.sixteenth = 1
         self.noteSize = 0
-        self.arrayPtr = restArray.copy()
+        self.arrayPtr = emptyArray.copy()
 
     def parseComposition(self):
         self.composition = self.composition.replace("ius", "o")

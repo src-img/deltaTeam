@@ -30,18 +30,18 @@ window.onload = function() {
             .then(response => {return response.text();})
             .then((html) => document.getElementsByClassName("noteContainer")[0].innerHTML = html);
 
-    //fixes bug of refreshing while recording
-    fetch("/grabRecording")
-            .then(response => response.json())
-            .then(data => {
-                if(data.recording){
-                    fetch('/recording', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({key: 'value'})
-                      });
-                }
-            });
+    // //fixes bug of refreshing while recording
+    // fetch("/grabRecording")
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if(data.recording){
+    //                 fetch('/recording', {
+    //                     method: 'POST',
+    //                     headers: {'Content-Type': 'application/json'},
+    //                     body: JSON.stringify({key: 'value'})
+    //                   });
+    //             }
+    //         });
 }
 
 document.addEventListener('toggleNotes', (e) => {
@@ -52,11 +52,13 @@ document.addEventListener('toggleNotes', (e) => {
 
 document.addEventListener('togglePlay', (e) => {
     let button = document.getElementById("playTracks");
-    if(button.innerHTML == "Play"){
+    let BPM = document.getElementById("metroBPM");
+    const togglePlayback = new CustomEvent('togglePlayback', {detail:{}});
+    if(button.innerHTML == "Play" && BPM.innerHTML != "Changing BPM" && BPM.innerHTML != ""){
         button.innerHTML = "Pause";
+        document.dispatchEvent(togglePlayback);
     } else {
         button.innerHTML = "Play";
+        document.dispatchEvent(togglePlayback);
     }
-    const togglePlayback = new CustomEvent('togglePlayback', {detail:{}});
-    document.dispatchEvent(togglePlayback);
 });

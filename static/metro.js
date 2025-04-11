@@ -16,7 +16,7 @@ let metroSketch = function(p) {
   let metroSoundTimer = 0;
   let record = false;
   let userInput = InputState.addRest;
-  let fourCount = 5;
+  let fourCount = 17;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;
@@ -107,9 +107,6 @@ let metroSketch = function(p) {
       metroSoundTimer++;
       if(metroSoundTimer % 4 == 0){
           metroSound.play();
-          if(record && fourCount != 0){
-            fourCount--;
-          }
       }
         
       // if(record){ //NOT WORKING
@@ -133,6 +130,10 @@ let metroSketch = function(p) {
         });
 
         userInput = InputState.noInput;        
+      }
+
+      if(record && fourCount != 0){
+        fourCount--;
       }
     
       timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
@@ -161,18 +162,24 @@ let metroSketch = function(p) {
   });
 
   document.addEventListener('toggleAction', (e) => {
-    if(metroPlay.html() == "Play") toggle();
+    if((metroPlay.html() == "Play" && !record) || (metroPlay.html() == "Pause" && record)) toggle();
     if(inputBPM.elt.disabled){
         inputBPM.removeAttribute('disabled');
     } else {
         inputBPM.attribute('disabled', 'true');
     }
 
+    if(metroPlay.elt.disabled){
+      metroPlay.removeAttribute('disabled');
+    } else {
+      metroPlay.attribute('disabled', 'true');
+    }
+
     if(!record){
       record = true;
     } else {
       record = false;
-      fourCount = 5;
+      fourCount = 17;
     }
 
     // let span = document.getElementsByClassName("trackRecordType")[0];

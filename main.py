@@ -167,8 +167,9 @@ def grabInputType():
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
+    data = request.get_json()
     temp.deleteComposition()
-    return jsonify({'recording': currentNote}) 
+    return jsonify({'data': data}) 
 
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():

@@ -56,12 +56,6 @@ let skeletonSketch = function(p) {
 
         if (rButton.classList.contains('trackRecordOn')) rButton.classList.remove('trackRecordOn');
         else rButton.classList.add('trackRecordOn'); //trackRecordOn needs to be lower in the css to take priority
-        
-        fetch('/recording', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
-        });
 
         const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
         document.dispatchEvent(toggleMetroEvent);
@@ -76,31 +70,9 @@ let skeletonSketch = function(p) {
       this.buttonContainerRowB = this.p.createDiv();
       this.buttonContainerRowB.class("buttonContainerRowB buttonContainerRow");
       this.buttonContainerRowB.parent(this.buttonContainer);
-
-      this.muteButton = this.p.createButton(".");
-      //this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
-      this.muteButton.mousePressed(() => {
-        if (this.muteButton.style('background').includes('unmutedIcon.png')) {
-          this.muteButton.style('background-image', 'url(../static/assets/skeleton/mutedIcon.png)');
-          this.muted = true;
-        } else {
-          this.muteButton.style('background-image', 'url(../static/assets/skeleton/unmutedIcon.png)');
-          this.muted = false;
-        }
-      });
-      this.muteButton.class("trackMute");
-      this.muteButton.parent(this.buttonContainerRowB);
-      
-      this.isoButton = this.p.createButton(".");
-      //NO FUNCTIONALITY YET
-      this.isoButton.class("trackIso");
-      this.isoButton.parent(this.buttonContainerRowB);
       
       this.deleteButton = this.p.createButton(".");
       //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");;
-      //THERE IS FUNCTIONALITY BUT IT EATS THE IDS WHEN YOU DELETE SOMETHING 
-      //the display is nice but internally your ids are absolutely screwed. only of note if we need them tho lol
-      //also for consideration: actually only deleting the final track and shifting everything else's data down. but that seems. harder
       this.deleteButton.class("trackDelete");
       this.deleteButton.parent(this.buttonContainerRowB);
       this.deleteButton.mousePressed(() => {

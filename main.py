@@ -184,6 +184,7 @@ def handle_metronome():
             temp.compose(InputState.noInput)
         temp.printComposition()
     elif data.get('record') == False: # NOT WORKING YET
+        print("No functionality yet!")
         # while temp.sixteenth != 16:
         #         temp.compose(InputState.addRest)
         # temp.compose(InputState.addRest)

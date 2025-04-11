@@ -16,6 +16,7 @@ let metroSketch = function(p) {
   let metroSoundTimer = 0;
   let record = false;
   let userInput = InputState.addRest;
+  let lastUserInput = InputState.addRest; //holds input state of last key press
   let fourCount = 17;
 
   const SIZE_X = 50;
@@ -143,10 +144,15 @@ let metroSketch = function(p) {
 
   document.addEventListener('keydown', (e) => {
     const key = e.key;
+    let inputTypeSpan = document.getElementsByClassName("trackRecordType")[0];
     if(key == 'a'){
       userInput = InputState.addNote;
+      lastUserInput = userInput;
+      if(record) inputTypeSpan.innerHTML = "Inputting notes";
     } else if (key == 's'){
       userInput = InputState.addRest;
+      lastUserInput = userInput;
+      if(record) inputTypeSpan.innerHTML = "Inputting rests";
     }
   });
 
@@ -164,11 +170,21 @@ let metroSketch = function(p) {
       metroPlay.attribute('disabled', 'true');
     }
 
+    let inputTypeSpan = document.getElementsByClassName("trackRecordType")[0];
+
     if(!record){
       record = true;
+      if(lastUserInput == InputState.addNote){
+        inputTypeSpan.innerHTML = "Inputting notes"
+      } else if (lastUserInput == InputState.addRest){
+        inputTypeSpan.innerHTML = "Inputting rests"
+      }
     } else {
       record = false;
       fourCount = 17;
+
+      inputTypeSpan.innerHTML = "";
+
       fetch('/metronome', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -181,7 +197,7 @@ let metroSketch = function(p) {
       });
     }
 
-    // let span = document.getElementsByClassName("trackRecordType")[0];
+    // 
     // fetch('/grabRecording')
     //     .then(response => response.json())
     //     .then(data => {

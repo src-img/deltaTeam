@@ -17,6 +17,7 @@ const observer = new MutationObserver((mutationsList) => {
 
 let skeletonSketch = function(p) {
   let playButton;
+  let deleteEnabled = true;
 
   class track {
     constructor(p5, x, y){
@@ -103,15 +104,16 @@ let skeletonSketch = function(p) {
       this.deleteButton.class("trackDelete");
       this.deleteButton.parent(this.buttonContainerRowB);
       this.deleteButton.mousePressed(() => {
-        console.log("delete!")
-        fetch('/deleteRecording', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
-        });
-
-        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-        document.dispatchEvent(toggleNoteDisplayEvent);
+        if(deleteEnabled){
+          console.log("delete!")
+          fetch('/deleteRecording', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({key: 'value'})
+          });
+          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+          document.dispatchEvent(toggleNoteDisplayEvent);
+        }
       });
 
       this.buttonContainerRowC = this.p.createDiv();
@@ -229,6 +231,14 @@ let skeletonSketch = function(p) {
     
     new track(p, 10, 35);
   }
+
+  document.addEventListener('toggleAction', () => {
+    if(deleteEnabled){
+      deleteEnabled = false;
+    } else {
+      deleteEnabled = true;
+    }
+  });
 }
 
 new p5(skeletonSketch, SKELETON_DIV);

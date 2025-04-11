@@ -257,7 +257,7 @@ let playbackSketch = function(p) {
         }
     }
     let comp = ""
-    document.addEventListener('togglePlayback', (e) => {
+    document.addEventListener('togglePlayback', () => {
         let button = document.getElementById("playTracks");
         if(button.innerHTML == "Pause"){
             // figure out this -------

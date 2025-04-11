@@ -108,20 +108,12 @@ let metroSketch = function(p) {
       if(metroSoundTimer % 4 == 0){
           metroSound.play();
       }
-        
-      // if(record){ //NOT WORKING
-      //   metroSoundTimer = -1;
-      //   for(let i = 0; i < timeouts.length; ++i){
-      //     clearTimeout(timeouts[i]);
-      //   }
-      //   timeouts = [];
-      // }
 
-      if(record && fourCount == 0){
+      if(fourCount == 0){
         fetch('/metronome', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({'userInput': userInput})
+          body: JSON.stringify({'userInput': userInput, 'record': record})
         })
         .then(response => response.json())
         .then(data => {
@@ -151,17 +143,14 @@ let metroSketch = function(p) {
 
   document.addEventListener('keydown', (e) => {
     const key = e.key;
-    console.log("Event flagged!");
     if(key == 'a'){
-      console.log("a HAS BEEN PRESSED");
       userInput = InputState.addNote;
     } else if (key == 's'){
-      console.log("s HAS BEEN PRESSED");
       userInput = InputState.addRest;
     }
   });
 
-  document.addEventListener('toggleAction', (e) => {
+  document.addEventListener('toggleAction', () => {
     if((metroPlay.html() == "Play" && !record) || (metroPlay.html() == "Pause" && record)) toggle();
     if(inputBPM.elt.disabled){
         inputBPM.removeAttribute('disabled');
@@ -180,6 +169,16 @@ let metroSketch = function(p) {
     } else {
       record = false;
       fourCount = 17;
+      fetch('/metronome', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({'userInput': userInput, 'record': record})
+      })
+      .then(response => response.json())
+      .then(data => {
+        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+        document.dispatchEvent(toggleNoteDisplayEvent);
+      });
     }
 
     // let span = document.getElementsByClassName("trackRecordType")[0];

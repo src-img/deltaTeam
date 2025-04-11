@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, InputState
+from recordUserInput import Composition, InputState, emptyArray
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -174,13 +174,22 @@ def delete_Comp():
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():
     data = request.get_json()
-    if data.get('userInput') == 1:
-        temp.compose(InputState.addNote)
-    elif data.get('userInput') == 2:
-        temp.compose(InputState.addRest)
+
+    if data.get('record') == True:
+        if data.get('userInput') == 1:
+            temp.compose(InputState.addNote)
+        elif data.get('userInput') == 2:
+            temp.compose(InputState.addRest)
+        else:
+            temp.compose(InputState.noInput)
+        temp.printComposition()
+    elif data.get('record') == False: # NOT WORKING YET
+        # while temp.sixteenth != 16:
+        #         temp.compose(InputState.addRest)
+        # temp.compose(InputState.addRest)
+        # temp.arrayPtr = emptyArray
     else:
-        temp.compose(InputState.noInput)
-    temp.printComposition()
+        print("METRONOME RECORD HANDLE ERROR")
 
     # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:

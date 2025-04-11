@@ -44,13 +44,13 @@ window.onload = function() {
     //         });
 }
 
-document.addEventListener('toggleNotes', (e) => {
+document.addEventListener('toggleNotes', () => {
     fetch("/compositionString")
             .then(response => {return response.text();})
             .then((html) => document.getElementsByClassName("noteContainer")[0].innerHTML = html);
   });
 
-document.addEventListener('togglePlay', (e) => {
+document.addEventListener('togglePlay', () => {
     let button = document.getElementById("playTracks");
     let BPM = document.getElementById("metroBPM");
     const togglePlayback = new CustomEvent('togglePlayback', {detail:{}});
@@ -61,4 +61,9 @@ document.addEventListener('togglePlay', (e) => {
         button.innerHTML = "Play";
         document.dispatchEvent(togglePlayback);
     }
+});
+
+document.addEventListener('toggleEndOfPlayback', () => {
+    let button = document.getElementById("playTracks");
+    button.innerHTML = "Play";
 });

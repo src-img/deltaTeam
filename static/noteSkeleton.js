@@ -1,5 +1,6 @@
 const SKELETON_DIV = "noteSkeletonContainer";
 
+let autoScroll = false;
 const observer = new MutationObserver((mutationsList) => {
   // Loop through all mutations to handle them
   
@@ -7,19 +8,16 @@ const observer = new MutationObserver((mutationsList) => {
     // Ensure that the target element exists and is scrollable
     const target = mutation.target;
 
-    fetch('/grabRecording')
-        .then(response => response.json())
-        .then(data => {
-            if(target && target.scroll && data.recording){
-              target.parentElement.scrollLeft = target.parentElement.scrollWidth;
-            }
-        });
+    if(target && target.scroll && autoScroll){
+      target.parentElement.scrollLeft = target.parentElement.scrollWidth;
+    }
   });
 });
 
 
 let skeletonSketch = function(p) {
   let playButton;
+  let deleteEnabled = true;
 
   class track {
     constructor(p5, x, y){
@@ -58,57 +56,36 @@ let skeletonSketch = function(p) {
 
         if (rButton.classList.contains('trackRecordOn')) rButton.classList.remove('trackRecordOn');
         else rButton.classList.add('trackRecordOn'); //trackRecordOn needs to be lower in the css to take priority
-        
-        fetch('/recording', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
-        });
 
         const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
         document.dispatchEvent(toggleMetroEvent);
+
+        if(!autoScroll){
+          autoScroll = true;
+        } else {
+          autoScroll = false;
+        }
       })
       
       this.buttonContainerRowB = this.p.createDiv();
       this.buttonContainerRowB.class("buttonContainerRowB buttonContainerRow");
       this.buttonContainerRowB.parent(this.buttonContainer);
-
-      this.muteButton = this.p.createButton(".");
-      //this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
-      this.muteButton.mousePressed(() => {
-        if (this.muteButton.style('background').includes('unmutedIcon.png')) {
-          this.muteButton.style('background-image', 'url(../static/assets/skeleton/mutedIcon.png)');
-          this.muted = true;
-        } else {
-          this.muteButton.style('background-image', 'url(../static/assets/skeleton/unmutedIcon.png)');
-          this.muted = false;
-        }
-      });
-      this.muteButton.class("trackMute");
-      this.muteButton.parent(this.buttonContainerRowB);
-      
-      this.isoButton = this.p.createButton(".");
-      //NO FUNCTIONALITY YET
-      this.isoButton.class("trackIso");
-      this.isoButton.parent(this.buttonContainerRowB);
       
       this.deleteButton = this.p.createButton(".");
       //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");;
-      //THERE IS FUNCTIONALITY BUT IT EATS THE IDS WHEN YOU DELETE SOMETHING 
-      //the display is nice but internally your ids are absolutely screwed. only of note if we need them tho lol
-      //also for consideration: actually only deleting the final track and shifting everything else's data down. but that seems. harder
       this.deleteButton.class("trackDelete");
       this.deleteButton.parent(this.buttonContainerRowB);
       this.deleteButton.mousePressed(() => {
-        console.log("delete!")
-        fetch('/deleteRecording', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
-        });
-
-        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-        document.dispatchEvent(toggleNoteDisplayEvent);
+        if(deleteEnabled){
+          console.log("delete!")
+          fetch('/deleteRecording', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({key: 'value'})
+          });
+          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+          document.dispatchEvent(toggleNoteDisplayEvent);
+        }
       });
 
       this.buttonContainerRowC = this.p.createDiv();
@@ -226,6 +203,14 @@ let skeletonSketch = function(p) {
     
     new track(p, 10, 35);
   }
+
+  document.addEventListener('toggleAction', () => {
+    if(deleteEnabled){
+      deleteEnabled = false;
+    } else {
+      deleteEnabled = true;
+    }
+  });
 }
 
 new p5(skeletonSketch, SKELETON_DIV);

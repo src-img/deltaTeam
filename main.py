@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, modifyComposition, InputState
+from recordUserInput import Composition, InputState, emptyArray
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -8,8 +8,6 @@ app.secret_key = "secretKeyTemp"
 app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
-recording = False
-currentNote = 1
 
 temp = Composition()
 lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
@@ -133,41 +131,23 @@ def signup_submit():
 
 @app.route("/compositionString")
 def compositionString():
-    data = {temp.getComposition()}
+    # data = {temp.getComposition()}
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
 
-@app.route("/keyboard_event", methods=['POST'])
-def handle_keyboard_event():
-    global lastInputState
-    data = request.get_json()
-    keyPressed = data.get("key")
-    if keyPressed == 'a':
-        temp.userInput = InputState.addNote
-        lastInputState = temp.userInput
-    elif keyPressed == 's':
-        temp.userInput = InputState.addRest
-        lastInputState = temp.userInput
-    print(f"Key pressed: {keyPressed}")
+# @app.route("/keyboard_event", methods=['POST'])
+# def handle_keyboard_event():
+#     global lastInputState
+#     data = request.get_json()
+#     keyPressed = data.get("key")
+#     if keyPressed == 'a':
+#         temp.userInput = InputState.addNote
+#         lastInputState = temp.userInput
+#     elif keyPressed == 's':
+#         temp.userInput = InputState.addRest
+#         lastInputState = temp.userInput
+#     print(f"Key pressed: {keyPressed}")
 
-    return jsonify({"message": "Key received successfully"})
-
-@app.route('/recording', methods=['POST'])
-def toggle_record():
-    global recording
-    data = request.get_json()
-    if recording == True:
-        recording = False
-        print(f"recording off")
-    else:
-        recording = True
-        print(f"recording on")
-    
-    return jsonify({'recording': data})
-
-@app.route('/grabRecording')
-def grabRecording():
-    global recording
-    return jsonify({'recording': recording})
+#     return jsonify({"message": "Key received successfully"})
 
 @app.route('/grabInputType')
 def grabInputType():
@@ -187,26 +167,32 @@ def grabInputType():
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
-    global currentNote
-    currentNote = 1
+    data = request.get_json()
     temp.deleteComposition()
-    return jsonify({'recording': currentNote}) 
+    return jsonify({'data': data}) 
 
-@app.route("/modifyComp", methods=['GET'])
-def modify_Comp():
-    modifyComposition(temp)
-    data = "modified Comp"
-    return jsonify({"data": data})
-
-@app.route("/metronome", methods=['GET'])
+@app.route("/metronome", methods=['POST'])
 def handle_metronome():
-    global currentNote
+    data = request.get_json()
 
-    if recording == True:
-        modify_Comp()
-        currentNote += 1
-    
-        # Adding the new measures to the database
+    if data.get('record') == True:
+        if data.get('userInput') == 1:
+            temp.compose(InputState.addNote)
+        elif data.get('userInput') == 2:
+            temp.compose(InputState.addRest)
+        else:
+            temp.compose(InputState.noInput)
+        temp.printComposition()
+    elif data.get('record') == False: # NOT WORKING YET
+        print("No functionality yet!")
+        # while temp.sixteenth != 16:
+        #         temp.compose(InputState.addRest)
+        # temp.compose(InputState.addRest)
+        # temp.arrayPtr = emptyArray
+    else:
+        print("METRONOME RECORD HANDLE ERROR")
+
+    # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
         measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID")) 
@@ -223,11 +209,11 @@ def handle_metronome():
                 print("measures list of songLen: ", measuresList[songMeasureLen])
                 db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
-    return jsonify({"currentNote": currentNote})
+    return jsonify({"data": data})
 
-@app.route("/compositionGrab", methods=['GET'])
-def compGrab():
-    return render_template('playbackString.html', playback = temp.getComposition())
+# @app.route("/compositionGrab", methods=['GET'])
+# def compGrab():
+#     return render_template('playbackString.html', playback = temp.getComposition())
 
 @app.route("/userPage")
 def userPage():
@@ -237,5 +223,6 @@ def userPage():
     bio = "Ask me about my projector-hating laptop. Former @progressive. All views are my own"
     compositions = [{"name": "axel f crazy frog epic remix"}, {"name": "the farmer in the dell epic remix"}, {"name": "Ballade in the Form of Variations on a Norwegian Folk Song in G minor, Op. 24, TRAP REMIX"}]
     return render_template('userPage.html', pfp = pfp, name = name, username = username, bio = bio, compositions = compositions)
+
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

@@ -131,23 +131,7 @@ def signup_submit():
 
 @app.route("/compositionString")
 def compositionString():
-    # data = {temp.getComposition()}
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
-
-# @app.route("/keyboard_event", methods=['POST'])
-# def handle_keyboard_event():
-#     global lastInputState
-#     data = request.get_json()
-#     keyPressed = data.get("key")
-#     if keyPressed == 'a':
-#         temp.userInput = InputState.addNote
-#         lastInputState = temp.userInput
-#     elif keyPressed == 's':
-#         temp.userInput = InputState.addRest
-#         lastInputState = temp.userInput
-#     print(f"Key pressed: {keyPressed}")
-
-#     return jsonify({"message": "Key received successfully"})
 
 @app.route('/grabInputType')
 def grabInputType():
@@ -183,12 +167,11 @@ def handle_metronome():
         else:
             temp.compose(InputState.noInput)
         temp.printComposition()
-    elif data.get('record') == False: # NOT WORKING YET
-        print("No functionality yet!")
-        # while temp.sixteenth != 16:
-        #         temp.compose(InputState.addRest)
-        # temp.compose(InputState.addRest)
-        # temp.arrayPtr = emptyArray
+    elif data.get('record') == False: 
+        while temp.sixteenth != 16:
+            temp.compose(InputState.addRest)
+        temp.compose(InputState.addRest)
+        temp.arrayPtr = emptyArray
     else:
         print("METRONOME RECORD HANDLE ERROR")
 
@@ -210,10 +193,6 @@ def handle_metronome():
                 db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
     return jsonify({"data": data})
-
-# @app.route("/compositionGrab", methods=['GET'])
-# def compGrab():
-#     return render_template('playbackString.html', playback = temp.getComposition())
 
 @app.route("/userPage")
 def userPage():

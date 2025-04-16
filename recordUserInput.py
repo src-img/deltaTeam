@@ -10,14 +10,22 @@ class InputState(Enum):
 noteArray = ["s","e","i","q","qUs","j","jUs","h","hUs","hUe","hUi","d","dUs","dUe","dui","w"]
 restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI","W"]
 emptyArray = ["","","","","","","","","","","","","","","",""]
+empty_comp = {'composition': 'g$|', 'sixteenth': 1, 'noteSizeLimit': 15, 'noteSize': 0, 'arrayPtr': emptyArray.copy()}
 
 class Composition:
-    def __init__(self, comp = "g$|"):
-        self.composition = comp
-        self.sixteenth = self.setSixteenth(comp)
-        self.noteSizeLimit = self.setNoteSizeLimitInit(self.sixteenth)
-        self.noteSize = 0
-        self.arrayPtr = emptyArray.copy()
+    # def __init__(self, comp = "g$|"):
+    #     self.composition = comp
+    #     self.sixteenth = self.setSixteenth(comp)
+    #     self.noteSizeLimit = self.setNoteSizeLimitInit(self.sixteenth)
+    #     self.noteSize = 0
+    #     self.arrayPtr = emptyArray.copy()
+    
+
+    # got rid of global instance of Composition - using session dictionary to intialize temporary instances of Compoosition class
+
+    def __init__(self, empty_comp):
+        for key, value in empty_comp.items():
+            setattr(self, key, value)
 
     def setSixteenth(self, composition):
         sixteenth = 1
@@ -147,3 +155,9 @@ class Composition:
         self.composition = self.composition.replace("ss", "N")
         self.composition = self.composition.replace(" ", "")
 
+    def to_dict(self):
+        return self.__dict__.copy()
+
+# def __init__(self, empty_comp):
+#     for key, value in data.items():
+#             setattr(self, key, value)

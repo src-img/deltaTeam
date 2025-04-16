@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, InputState, emptyArray
+from recordUserInput import Composition, InputState, emptyArray, empty_comp
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -9,8 +9,8 @@ app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
 
-temp = Composition()
-lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
+# temp = Composition()
+# lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
 
 @app.context_processor
 def injectNavBarDetails():
@@ -42,7 +42,7 @@ def index():
             success, error, id = db.addSong(session["userID"], session["username"] + " song")
             session["songID"] = id
             db.commit()
-        
+    # session["currentComposition"] = empty_comp
     return render_template('index.html')
 
 @app.route("/userpage/<username>")
@@ -131,34 +131,36 @@ def signup_submit():
 
 @app.route("/compositionString")
 def compositionString():
+    temp = Composition(session['currentComposition']) # create temporary instance of class using session 
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
 
-@app.route('/grabInputType')
-def grabInputType():
-    global lastInputState
-    if(temp.userInput == lastInputState):
-        if(temp.userInput == InputState.addNote):
-            data = 1
-        elif(temp.userInput == InputState.addRest):
-            data = 2
-    else:
-        if(lastInputState == InputState.addNote):
-            data = 1
-        elif(lastInputState == InputState.addRest):
-            data = 2
+# @app.route('/grabInputType')
+# def grabInputType():
+#     global lastInputState
+#     if(temp.userInput == lastInputState):
+#         if(temp.userInput == InputState.addNote):
+#             data = 1
+#         elif(temp.userInput == InputState.addRest):
+#             data = 2
+#     else:
+#         if(lastInputState == InputState.addNote):
+#             data = 1
+#         elif(lastInputState == InputState.addRest):
+#             data = 2
     
-    return jsonify({'state': data})
+#     return jsonify({'state': data})
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
     data = request.get_json()
-    temp.deleteComposition()
+    # temp.deleteComposition()
+    session["currentComposition"] = empty_comp
     return jsonify({'data': data}) 
 
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():
     data = request.get_json()
-
+    temp = Composition(session["currentComposition"])
     if data.get('record') == True:
         if data.get('userInput') == 1:
             temp.compose(InputState.addNote)
@@ -174,6 +176,8 @@ def handle_metronome():
         temp.arrayPtr = emptyArray
     else:
         print("METRONOME RECORD HANDLE ERROR")
+    
+    session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
 
     # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:

@@ -14,7 +14,6 @@ emptyArray = ["","","","","","","","","","","","","","","",""]
 class Composition:
     def __init__(self, comp = "g$|"):
         self.composition = comp
-        #self.userInput = InputState.addRest
         self.sixteenth = self.setSixteenth(comp)
         self.noteSizeLimit = self.setNoteSizeLimitInit(self.sixteenth)
         self.noteSize = 0
@@ -131,7 +130,6 @@ class Composition:
 
     def deleteComposition(self):
         self.composition = "g$|"
-        # self.userInput = InputState.addRest
         self.sixteenth = self.setSixteenth(self.composition)
         self.noteSizeLimit = self.setNoteSizeLimitInit(self.sixteenth)
         self.noteSize = 0

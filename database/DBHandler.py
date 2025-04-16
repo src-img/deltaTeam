@@ -10,7 +10,7 @@ class databaseManager():
         self.connection = None
         self.lock = threading.Lock()
         # Regex input validation
-        self.valid = re.compile(r'^[SEQHWseqhwSEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehvVUiddUsdUeduiwyY.+|()]*$')
+        #self.valid = re.compile(r'^[SEQHWseqhwSEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehvVUiddUsdUeduiwyY.+|()]*$')
 
     
     # Connecting to database
@@ -92,13 +92,13 @@ class databaseManager():
 
         self.lock.acquire(True)
 
-        if self.valid.match(notes):
-            print("valid string of notes")
-        else:
-            print("not valid string of notes. error. not adding measure")
-            error = "Invalid measure note string"
-            success = False
-            return success, error, None
+        #if self.valid.match(notes):
+        #    print("valid string of notes")
+        #else:
+        #    print("not valid string of notes. error. not adding measure")
+        #    error = "Invalid measure note string"
+        #    success = False
+        #    return success, error, None
 
         try:
             res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()

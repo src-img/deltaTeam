@@ -42,7 +42,8 @@ def index():
             success, error, id = db.addSong(session["userID"], session["username"] + " song")
             session["songID"] = id
             db.commit()
-    # session["currentComposition"] = empty_comp
+    if session.get("currentCompostion") == None:
+        session["currentComposition"] = empty_comp
     return render_template('index.html')
 
 @app.route("/userpage/<username>")

@@ -17,7 +17,7 @@ let metroSketch = function(p) {
   let record = false;
   let userInput = InputState.addRest;
   let lastUserInput = InputState.addRest; //holds input state of last key press
-  let fourCount = 17;
+  let fourCount = 20;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;
@@ -116,7 +116,7 @@ let metroSketch = function(p) {
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({'userInput': userInput, 'record': record})
         })
-        .then(response => response.json())
+        // .then(response => response.json())
         .then(data => {
           const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
           document.dispatchEvent(toggleNoteDisplayEvent);
@@ -181,7 +181,8 @@ let metroSketch = function(p) {
       }
     } else {
       record = false;
-      fourCount = 17;
+      fourCount = 20;
+      metroSoundTimer = 0;
 
       inputTypeSpan.innerHTML = "";
 
@@ -190,7 +191,7 @@ let metroSketch = function(p) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({'userInput': userInput, 'record': record})
       })
-      .then(response => response.json())
+      // .then(response => response.json())
       .then(data => {
         const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
         document.dispatchEvent(toggleNoteDisplayEvent);

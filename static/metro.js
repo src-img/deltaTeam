@@ -110,6 +110,11 @@ let metroSketch = function(p) {
           metroSound.play();
       }
 
+      
+    
+      timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
+      timeouts.push(timeoutID);
+
       if(fourCount == 0){
         fetch('/metronome', {
           method: 'POST',
@@ -128,9 +133,8 @@ let metroSketch = function(p) {
       if(record && fourCount != 0){
         fourCount--;
       }
-    
-      timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
-      timeouts.push(timeoutID);
+
+
     } else {
       clearTimeout(timeoutID);
       metroSound.stop();

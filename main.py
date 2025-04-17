@@ -150,22 +150,6 @@ def compositionString():
     temp = Composition(session['currentComposition']) # create temporary instance of class using session 
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
 
-# @app.route('/grabInputType')
-# def grabInputType():
-#     global lastInputState
-#     if(temp.userInput == lastInputState):
-#         if(temp.userInput == InputState.addNote):
-#             data = 1
-#         elif(temp.userInput == InputState.addRest):
-#             data = 2
-#     else:
-#         if(lastInputState == InputState.addNote):
-#             data = 1
-#         elif(lastInputState == InputState.addRest):
-#             data = 2
-    
-#     return jsonify({'state': data})
-
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
     data = request.get_json()
@@ -192,26 +176,7 @@ def handle_metronome():
         temp.arrayPtr = emptyArray
     else:
         print("METRONOME RECORD HANDLE ERROR")
-    
     session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
-
-    # Adding the new measures to the database
-    if session.get("userID") != None and session.get("songID") != None:
-        measuresList = temp.getCompMeasureList()
-        result, error = db.fetchSong(session.get("songID")) 
-        songMeasureLen = 0        
-
-        if result != []:
-            if result[4] != None:
-                songMeasureLen = len(result[4])
-        #print(songMeasureLen)
-        
-        print("measures list: ", measuresList)
-        if measuresList != None:
-            if len(measuresList) > songMeasureLen:
-                print("measures list of songLen: ", measuresList[songMeasureLen])
-                db.addMeasure(session["songID"], measuresList[songMeasureLen])
-
     return jsonify({"data": data})
 
 @app.route("/userPage")

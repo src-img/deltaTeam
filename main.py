@@ -1,9 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-<<<<<<< HEAD
 from recordUserInput import Composition, InputState, emptyArray, empty_comp
-=======
-from recordUserInput import Composition, InputState
->>>>>>> origin/dataHandler
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -151,7 +147,6 @@ def save():
 
 @app.route("/compositionString")
 def compositionString():
-<<<<<<< HEAD
     temp = Composition(session['currentComposition']) # create temporary instance of class using session 
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
 
@@ -218,65 +213,6 @@ def handle_metronome():
                 db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
     return jsonify({"data": data})
-=======
-    # data = {temp.getComposition()}
-    return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
-
-# @app.route("/keyboard_event", methods=['POST'])
-# def handle_keyboard_event():
-#     global lastInputState
-#     data = request.get_json()
-#     keyPressed = data.get("key")
-#     if keyPressed == 'a':
-#         temp.userInput = InputState.addNote
-#         lastInputState = temp.userInput
-#     elif keyPressed == 's':
-#         temp.userInput = InputState.addRest
-#         lastInputState = temp.userInput
-#     print(f"Key pressed: {keyPressed}")
-
-#     return jsonify({"message": "Key received successfully"})
-
-@app.route('/grabInputType')
-def grabInputType():
-    global lastInputState
-    if(temp.userInput == lastInputState):
-        if(temp.userInput == InputState.addNote):
-            data = 1
-        elif(temp.userInput == InputState.addRest):
-            data = 2
-    else:
-        if(lastInputState == InputState.addNote):
-            data = 1
-        elif(lastInputState == InputState.addRest):
-            data = 2
-    
-    return jsonify({'state': data})
-
-@app.route('/deleteRecording', methods=['POST'])
-def delete_Comp():
-    temp.deleteComposition()
-    return jsonify({'recording': temp.getComposition()}) 
-
-@app.route("/metronome", methods=['POST'])
-def handle_metronome():
-    data = request.get_json()
-    if data.get('userInput') == 1:
-        temp.compose(InputState.addNote)
-    elif data.get('userInput') == 2:
-        temp.compose(InputState.addRest)
-    else:
-        temp.compose(InputState.noInput)
-    temp.printComposition()
-
-
-
-    return jsonify({"data": data})
-
-# @app.route("/compositionGrab", methods=['GET'])
-# def compGrab():
-#     return render_template('playbackString.html', playback = temp.getComposition())
->>>>>>> origin/dataHandler
 
 @app.route("/userPage")
 def userPage():

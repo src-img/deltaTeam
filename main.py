@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, modifyComposition, InputState
+from recordUserInput import Composition, InputState, emptyArray
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -8,10 +8,9 @@ app.secret_key = "secretKeyTemp"
 app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
-recording = False
-currentNote = 1
 
-
+temp = Composition()
+lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
 
 @app.context_processor
 def injectNavBarDetails():
@@ -20,7 +19,7 @@ def injectNavBarDetails():
     pfp = ""
     loggedIn = False
     if userID != None:
-        uName = "Hello, " + session["username"] + "!"
+        uName = "Hello, " + session.get("username") + "!"
         # we need to make a real dynamic pfp but they're not in the db yet
         pfp = "./static/assets/img/drd.jpg"
         loggedIn = True
@@ -29,7 +28,8 @@ def injectNavBarDetails():
         
         pfp = "./static/assets/img/defaultPFP.png"
     navbar_data = {
-        "username": uName,
+        "helloText": uName,
+        "username": session.get("username"),
         "pfp": pfp,
         "loggedIn": loggedIn
     }
@@ -43,23 +43,25 @@ def index():
             session["songID"] = id
             db.commit()
         
-
- 
     return render_template('index.html')
 
-@app.route("/<username>")
+@app.route("/userpage/<username>")
 def profile(username):
     # Do database query shit here instead of this.
-    result, error = db.fetchUser(username)
+    userResult, error = db.fetchUserByUsername(username)
     
-    if result == None or result == []:
+    if userResult == None or userResult == []:
         abort(404, description="User not found")
-     
-    userDetails = {
-        "email": result[1],
-        "username": result[2]
+    
+    songsResult = db.fetchUserSongsNames(userResult[0])
+    print(songsResult)
+    
+    user_data = {
+        "username": userResult[3],
+        "songs": songsResult
     }
-    return render_template("profile.html", username="username")
+    
+    return render_template("userPage.html", user_data=user_data)
 
 @app.route("/about")
 def about():
@@ -84,13 +86,13 @@ def login_submit():
     
     result, error = db.fetchUser(email)
     if result != None:
-        if (result[1] == email) and (result[3] == password):
+        if (result[1] == email) and (result[2] == password):
             session.permanent = True
             session["email"] = result[1]
             session["userID"] = result[0]
-            session["username"] = result[2]
+            session["username"] = result[3]
             session["songID"] = None
-            print("logged in as " + result[2])
+            print("logged in as " + result[3])
         else:
             print("girl help")
             return redirect(url_for('login'))
@@ -118,7 +120,7 @@ def signup_submit():
     # checking for duplicate accounts
     result, error = db.fetchUser(email)
     if result == None:
-        success, error, user_id = db.addUser(email, username, password)
+        success, error, user_id = db.addUser(email, password, username)
         db.commit()
         return redirect(url_for('login'))
     else:
@@ -127,63 +129,70 @@ def signup_submit():
     print("girl")
     return redirect(url_for('login'))
 
-temp = Composition()
-
 @app.route("/compositionString")
 def compositionString():
-    data = {temp.getComposition()}
+    # data = {temp.getComposition()}
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
 
-@app.route("/keyboard_event", methods=['POST'])
-def handle_keyboard_event():
-    data = request.get_json()
-    keyPressed = data.get("key")
-    if keyPressed == 'a':
-        temp.userInput = InputState.addNote
-    elif keyPressed == 's':
-        temp.userInput = InputState.addRest
-    print(f"Key pressed: {keyPressed}")
+# @app.route("/keyboard_event", methods=['POST'])
+# def handle_keyboard_event():
+#     global lastInputState
+#     data = request.get_json()
+#     keyPressed = data.get("key")
+#     if keyPressed == 'a':
+#         temp.userInput = InputState.addNote
+#         lastInputState = temp.userInput
+#     elif keyPressed == 's':
+#         temp.userInput = InputState.addRest
+#         lastInputState = temp.userInput
+#     print(f"Key pressed: {keyPressed}")
 
+#     return jsonify({"message": "Key received successfully"})
 
-
-
-    return jsonify({"message": "Key received successfully"})
-
-@app.route('/recording', methods=['POST'])
-def toggle_record():
-    global recording
-    data = request.get_json()
-    if recording == True:
-        recording = False
-        print(f"recording off")
+@app.route('/grabInputType')
+def grabInputType():
+    global lastInputState
+    if(temp.userInput == lastInputState):
+        if(temp.userInput == InputState.addNote):
+            data = 1
+        elif(temp.userInput == InputState.addRest):
+            data = 2
     else:
-        recording = True
-        print(f"recording on")
+        if(lastInputState == InputState.addNote):
+            data = 1
+        elif(lastInputState == InputState.addRest):
+            data = 2
     
-    return jsonify({'recording': data})
+    return jsonify({'state': data})
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
-    global currentNote
-    currentNote = 1
+    data = request.get_json()
     temp.deleteComposition()
-    return jsonify({'recording': currentNote}) 
+    return jsonify({'data': data}) 
 
-@app.route("/modifyComp", methods=['GET'])
-def modify_Comp():
-    modifyComposition(temp)
-    data = "modified Comp"
-    return jsonify({"data": data})
-
-@app.route("/metronome", methods=['GET'])
+@app.route("/metronome", methods=['POST'])
 def handle_metronome():
-    global currentNote
+    data = request.get_json()
 
-    if recording == True:
-        modify_Comp()
-        currentNote += 1
-    
-        # Adding the new measures to the database
+    if data.get('record') == True:
+        if data.get('userInput') == 1:
+            temp.compose(InputState.addNote)
+        elif data.get('userInput') == 2:
+            temp.compose(InputState.addRest)
+        else:
+            temp.compose(InputState.noInput)
+        temp.printComposition()
+    elif data.get('record') == False: # NOT WORKING YET
+        print("No functionality yet!")
+        # while temp.sixteenth != 16:
+        #         temp.compose(InputState.addRest)
+        # temp.compose(InputState.addRest)
+        # temp.arrayPtr = emptyArray
+    else:
+        print("METRONOME RECORD HANDLE ERROR")
+
+    # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
         measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID")) 
@@ -200,12 +209,11 @@ def handle_metronome():
                 print("measures list of songLen: ", measuresList[songMeasureLen])
                 db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
-    return jsonify({"currentNote": currentNote})
+    return jsonify({"data": data})
 
-@app.route("/compositionGrab", methods=['POST'])
-def compGrab():
-    data = temp.getComposition()
-    return jsonify({'composition': data})
+# @app.route("/compositionGrab", methods=['GET'])
+# def compGrab():
+#     return render_template('playbackString.html', playback = temp.getComposition())
 
 @app.route("/userPage")
 def userPage():
@@ -215,5 +223,6 @@ def userPage():
     bio = "Ask me about my projector-hating laptop. Former @progressive. All views are my own"
     compositions = [{"name": "axel f crazy frog epic remix"}, {"name": "the farmer in the dell epic remix"}, {"name": "Ballade in the Form of Variations on a Norwegian Folk Song in G minor, Op. 24, TRAP REMIX"}]
     return render_template('userPage.html', pfp = pfp, name = name, username = username, bio = bio, compositions = compositions)
+
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

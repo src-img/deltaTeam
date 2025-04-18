@@ -6,8 +6,10 @@ let test5 = "|qqqUseUs|qqqq|qqqq|";
 
 let playbackSketch = function(p) {
     let sound;
-    let BPM = 120;
+    let BPM;
     let isPlaying = false;
+
+    let timeouts = [];
 
     p.preload = function() {
         sound = p.loadSound('./static/assets/sounds/snare.mp3');
@@ -241,41 +243,45 @@ let playbackSketch = function(p) {
             isPlaying = true;
             let currentTime = 0; 
             noteDurations.forEach((duration, index) => {
-                setTimeout(() => {
+                timeoutID = setTimeout(() => {
                 if(isPlaying){
                     let isRests = rests[index];
                     if (!isRests) {
                         sound.play();
                     }
-                    else {
-                        // rest
-                    }
                 }
                 }, currentTime);
+                timeouts.push(timeoutID);
                 currentTime += duration;
             });
         }
     }
-
-    document.addEventListener('togglePlayback', (e) => {
+    let comp = ""
+    document.addEventListener('togglePlayback', () => {
         let button = document.getElementById("playTracks");
         if(button.innerHTML == "Pause"){
-            let compJSON = fetch('/compositionGrab', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ key: 'value' })
-            });
+            // figure out this -------
+            console.log("Getting composition");
+            const selected = document.getElementsByClassName("noteContainer")[0];
+            comp = selected.textContent
+            console.log(comp)
 
-            let compStr;
-            compJSON.then(data => {
-                compStr = data.composition;
-            });
+            BPM = document.getElementById("metroBPM").textContent;
+            // figure out this -------
 
-            let song = convertString(String(compStr));
+            // this is the conversion part that is already figured out
+            let song = convertString(comp);
             playback(song);
+            // p.console.log(song);
         } else {
             isPlaying = false;
             sound.stop();
+
+            timeouts.forEach(timeoutID => {
+                clearTimeout(timeoutID);
+            });
+
+            timeouts = [];
         }
     });
 }

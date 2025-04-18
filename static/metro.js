@@ -17,7 +17,7 @@ let metroSketch = function(p) {
   let record = false;
   let userInput = InputState.addRest;
   let lastUserInput = InputState.addRest; //holds input state of last key press
-  let fourCount = 20;
+  let fourCount = 17;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;
@@ -110,8 +110,6 @@ let metroSketch = function(p) {
           metroSound.play();
       }
 
-      
-    
       timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
       timeouts.push(timeoutID);
 
@@ -131,10 +129,9 @@ let metroSketch = function(p) {
       }
 
       if(record && fourCount != 0){
+        console.log(fourCount);
         fourCount--;
       }
-
-
     } else {
       clearTimeout(timeoutID);
       metroSound.stop();
@@ -183,9 +180,10 @@ let metroSketch = function(p) {
       } else if (lastUserInput == InputState.addRest){
         inputTypeSpan.innerHTML = "Inputting rests"
       }
+      userInput = lastUserInput;
     } else {
       record = false;
-      fourCount = 20;
+      fourCount = 17;
       metroSoundTimer = 0;
 
       inputTypeSpan.innerHTML = "";

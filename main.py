@@ -145,6 +145,14 @@ def save():
 
     return jsonify({"message": "Successfully saved song! Yay!"})
 
+@app.route("/loadSong")
+def load():
+    data = 'g$|' #temporary, db needs to send song here
+    temp = Composition(session["currentComposition"])
+    temp.loadNewComposition(data)
+    session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
+    return jsonify({"message": "Hopefully this loaded"})
+
 @app.route("/compositionString")
 def compositionString():
     temp = Composition(session['currentComposition']) # create temporary instance of class using session 

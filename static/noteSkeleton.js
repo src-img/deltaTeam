@@ -82,9 +82,12 @@ let skeletonSketch = function(p) {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({key: 'value'})
-          });
-          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+      
+          })
+          .then(data => {const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
           document.dispatchEvent(toggleNoteDisplayEvent);
+        1 })
+          
         }
       });
 

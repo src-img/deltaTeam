@@ -10,7 +10,7 @@ class databaseManager():
         self.connection = None
         self.lock = threading.Lock()
         # Regex input validation
-        self.valid = re.compile(r'^[SEQHWseqhwSEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehvVUiddUsdUeduiwyY.+|()]*$')
+        #self.valid = re.compile(r'^[SEQHWseqhwSEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehvVUiddUsdUeduiwyY.+|()]*$')
 
     
     # Connecting to database
@@ -92,13 +92,13 @@ class databaseManager():
 
         self.lock.acquire(True)
 
-        if self.valid.match(notes):
-            print("valid string of notes")
-        else:
-            print("not valid string of notes. error. not adding measure")
-            error = "Invalid measure note string"
-            success = False
-            return success, error, None
+        #if self.valid.match(notes):
+        #    print("valid string of notes")
+        #else:
+        #    print("not valid string of notes. error. not adding measure")
+        #    error = "Invalid measure note string"
+        #    success = False
+        #    return success, error, None
 
         try:
             res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
@@ -155,6 +155,24 @@ class databaseManager():
         self.lock.release()
          
         return success, error
+    
+    def clearSong(self, song_id):
+        success = True
+        error = None
+        measuresJSON = '{ "measuresList":[] }'
+
+        self.lock.acquire(True)
+        try:
+            self.cursor.execute("UPDATE Song SET measures = ? WHERE song_id=?", (measuresJSON, song_id))
+            print("Removing song ", song_id, " from db...")
+        except sqlite3.Error as e:
+            print("There was an error removing song ", song_id)
+            error = e
+ 
+        self.lock.release()
+         
+        return success, error
+
 
     def removeMeasure(self, song_id, position):
         success = True
@@ -468,5 +486,12 @@ if __name__ == "__main__":
     succ, err = db.removeMeasure(4,1)
     assert(succ == True)
     assert(err == None)
+    
 
+    succ, err, id = db.addMeasure(4, "Q")
+    succ, err, id = db.addMeasure(4, "V")
+    succ, err, id = db.addMeasure(4, "v")
+    db.printAll()
+
+    succ, err = db.clearSong(4)
     db.printAll()

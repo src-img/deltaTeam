@@ -110,13 +110,16 @@ let metroSketch = function(p) {
           metroSound.play();
       }
 
+      timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
+      timeouts.push(timeoutID);
+
       if(fourCount == 0){
         fetch('/metronome', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({'userInput': userInput, 'record': record})
         })
-        .then(response => response.json())
+        // .then(response => response.json())
         .then(data => {
           const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
           document.dispatchEvent(toggleNoteDisplayEvent);
@@ -126,11 +129,9 @@ let metroSketch = function(p) {
       }
 
       if(record && fourCount != 0){
+        console.log(fourCount);
         fourCount--;
       }
-    
-      timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
-      timeouts.push(timeoutID);
     } else {
       clearTimeout(timeoutID);
       metroSound.stop();
@@ -179,9 +180,11 @@ let metroSketch = function(p) {
       } else if (lastUserInput == InputState.addRest){
         inputTypeSpan.innerHTML = "Inputting rests"
       }
+      userInput = lastUserInput;
     } else {
       record = false;
       fourCount = 17;
+      metroSoundTimer = 0;
 
       inputTypeSpan.innerHTML = "";
 
@@ -190,7 +193,7 @@ let metroSketch = function(p) {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({'userInput': userInput, 'record': record})
       })
-      .then(response => response.json())
+      // .then(response => response.json())
       .then(data => {
         const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
         document.dispatchEvent(toggleNoteDisplayEvent);

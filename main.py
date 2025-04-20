@@ -224,5 +224,9 @@ def userPage():
     compositions = [{"name": "axel f crazy frog epic remix"}, {"name": "the farmer in the dell epic remix"}, {"name": "Ballade in the Form of Variations on a Norwegian Folk Song in G minor, Op. 24, TRAP REMIX"}]
     return render_template('userPage.html', pfp = pfp, name = name, username = username, bio = bio, compositions = compositions)
 
+@app.route("/learn")
+def learn():
+    return render_template('documentation.html')
+
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

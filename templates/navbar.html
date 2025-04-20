@@ -1,9 +1,8 @@
 <nav id="navContainer">
   <ul class="nav-links" id="navList">
     <li id="siteTitle"><a href="{{ url_for('index') }}">DeltaBeatz</a></li>
-    <li><a href="{{ url_for('learn') }}">Learn</a></li>
+    <li><a href="/learn">Learn</a></li>
     <li><a href="{{ url_for('about') }}">About</a></li>
-    <!-- <li><a href="{{ url_for('features') }}">Features</a></li> -->
     <li><a href="{{ url_for('faq') }}">FAQ</a></li>
     {% if navbar_data.loggedIn %}
     <li>

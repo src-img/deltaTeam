@@ -226,23 +226,23 @@ def userPage():
 
 @app.route("/learn")
 def docNotes():
-    return render_template('documentation.html')
+    return render_template('dNotes.html')
 
 @app.route("/learn/rests")
 def docRests():
-    return render_template('documentation.html')
+    return render_template('dRests.html')
 
 @app.route("/learn/note_length")
 def docNoteLength():
-    return render_template('documentation.html')
+    return render_template('dNoteLength.html')
 
 @app.route("/learn/notation")
 def docNotation():
-    return render_template('documentation.html')
+    return render_template('dNotation.html')
 
 @app.route("/learn/time_signatures")
 def docTimeSignatures():
-    return render_template('documentation.html')
+    return render_template('dTimeSignatures.html')
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

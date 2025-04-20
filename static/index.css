@@ -167,6 +167,12 @@ nav a:hover {
   color: var(--textBlack)
 }
 
+/* Documentation Styles */
+
+.lesson {
+  padding: 15px;
+  margin: 0;
+}
 
 /*MAIN------------------------------------------------*/
 

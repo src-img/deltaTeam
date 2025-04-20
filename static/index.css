@@ -348,16 +348,18 @@ input[type='range'] {
 }
 
 /* USER PAGE -------------------------------------------------------------------------------------------------*/
-
 .userInfo, .compContainer {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
   gap: 10px;
 }
 
-.userPFP > img {
-  max-width: 100px;
+.userPFP img {
+    width: 175px !important;
+    height: 175px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px 0; 
 }
 
 .userCompositions {

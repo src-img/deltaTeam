@@ -1,4 +1,3 @@
-
 <nav id="navContainer">
     <ul class="nav-links" id="navList">
         <li id="siteTitle"><a href="{{ url_for('index') }}">DeltaBeatz</a></li>
@@ -6,10 +5,10 @@
         <li><a href="{{ url_for('features') }}">Features</a></li>
         <li><a href="{{ url_for('faq') }}">FAQ</a></li>
         {% if navbar_data.loggedIn %}
-            <li><a href="{{ url_for('profile', username=navbar_data.username) }}" id = "navBarUserContainer"><span>{{ navbar_data.helloText }}</span><img src={{navbar_data.pfp}}/ id="navBarPfp"></a></li>
-            {% else %}
+            <li><a href="{{ url_for('profile', username=navbar_data.username) }}" id = "navBarUserContainer"><span>{{ navbar_data.helloText }}</span><img src="{{ navbar_data.pfp or url_for('static', filename='defaultPFP.png') }}" id="navBarPfp"></a></li>
+        {% else %}
             <li><a href="{{ url_for('signup') }}">Sign up</a></li>
-            <li><a href="{{ url_for('login') }}" id ="navBarUserContainer"><span>Log In</span><img src={{navbar_data.pfp}}/ id="navBarPfp"></a></li>
+            <li><a href="{{ url_for('login') }}" id ="navBarUserContainer"><span>Log In</span><img src="{{ navbar_data.pfp or url_for('static', filename='defaultPFP.png') }}" id="navBarPfp"></a></li>
         {% endif %}
     </ul>
 </nav>

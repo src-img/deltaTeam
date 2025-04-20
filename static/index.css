@@ -142,6 +142,32 @@ nav a:hover {
   border-radius: 50px;
 }
 
+/* Side Navbar for Documentation */
+
+.sideNav {
+  height: 100%;
+  width: 15%;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  overflow: auto;
+  background-color: #f0f8ff;
+}
+
+.doc-links {
+  list-style-type: none;
+  padding: 15px;
+  margin: 0;
+}
+
+.doc-links li a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--textBlack)
+}
+
+
 /*MAIN------------------------------------------------*/
 
 main {

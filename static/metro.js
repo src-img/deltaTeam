@@ -17,7 +17,9 @@ let metroSketch = function(p) {
   let record = false;
   let userInput = InputState.addRest;
   let lastUserInput = InputState.addRest; //holds input state of last key press
-  let fourCount = 17;
+  let fourCount;
+  let timeoutID;
+  let timeoutFetch;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;
@@ -99,51 +101,61 @@ let metroSketch = function(p) {
     } else {
         metroPlay.html("Play");
     }
-
     play(inputBPM.value());
   }
 
   function play(BPM) {
     if (metroPlay.html() == "Pause" && showBPM.html() != "Changing BPM") {
       metroSoundTimer++;
-      if(metroSoundTimer % 4 == 0){
+      if(metroSoundTimer == 4){
           metroSound.play();
+          metroSoundTimer = 0;
+          console.log("metronome hit", metroSoundTimer, Date.now())
+      }
+      
+      if(record && fourCount != 0){
+        fourCount--;
+        console.log("fourCount:", fourCount, "metroSoundTimer:", metroSoundTimer)
       }
 
       timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
       timeouts.push(timeoutID);
-
-      if(fourCount == 0){
-        fetch('/metronome', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({'userInput': userInput, 'record': record})
-        })
-        // .then(response => response.json())
-        .then(data => {
-          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-          document.dispatchEvent(toggleNoteDisplayEvent);
-        });
-
-        userInput = InputState.noInput;        
-      }
-
-      if(record && fourCount != 0){
-        console.log(fourCount);
-        fourCount--;
-      }
+      timeoutFetch = setTimeout(() => sendInput(), 100);
+      timeouts.push(timeoutFetch)
+      
     } else {
       clearTimeout(timeoutID);
+      clearTimeout(timeoutFetch);
       metroSound.stop();
     }
 
     if (BPM != inputBPM.value()) {
       clearTimeout(timeoutID);
+      clearTimeout(timeoutFetch);
       metroSound.stop();
+    }
+  }
+  
+
+  function sendInput() {
+    if(fourCount == 0){
+      console.log("fetchnow for metrosSoundTimer ", metroSoundTimer, Date.now())
+      fetch('/metronome', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({'userInput': userInput, 'record': record})
+      })
+      .then(() => {
+        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+        document.dispatchEvent(toggleNoteDisplayEvent);
+      });
+
+      userInput = InputState.noInput;        
     }
   }
 
   document.addEventListener('keydown', (e) => {
+    console.log("metroSoundTimer, keyboardpress milliseconds: ", metroSoundTimer, Date.now())
     const key = e.key;
     let inputTypeSpan = document.getElementsByClassName("trackRecordType")[0];
     if(key == 'a'){
@@ -175,6 +187,8 @@ let metroSketch = function(p) {
 
     if(!record){
       record = true;
+      fourCount = 20 - metroSoundTimer;
+      console.log("Record clicked! fourCount", fourCount, "metroSoundTimer:", metroSoundTimer)
       if(lastUserInput == InputState.addNote){
         inputTypeSpan.innerHTML = "Inputting notes"
       } else if (lastUserInput == InputState.addRest){
@@ -183,7 +197,7 @@ let metroSketch = function(p) {
       userInput = lastUserInput;
     } else {
       record = false;
-      fourCount = 17;
+      fourCount = 16;
       metroSoundTimer = 0;
 
       inputTypeSpan.innerHTML = "";
@@ -199,26 +213,6 @@ let metroSketch = function(p) {
         document.dispatchEvent(toggleNoteDisplayEvent);
       });
     }
-
-    // 
-    // fetch('/grabRecording')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if(data.recording){
-    //             fetch('/grabInputType')
-    //                 .then(response => response.json())
-    //                 .then(data => {
-    //                     console.log(data.state);
-    //                     if(data.state === 1){
-    //                         span.innerHTML = "Inputting notes";
-    //                     } else if (data.state === 2){
-    //                         span.innerHTML = "Inputting rests";
-    //                     }
-    //                 });
-    //         } else {
-    //             span.innerHTML = "";
-    //         }
-    //     });
   });
 };
 

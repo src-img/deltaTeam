@@ -10,7 +10,7 @@ class InputState(Enum):
 noteArray = ["s","e","i","q","qUs","j","jUs","h","hUs","hUe","hUi","d","dUs","dUe","dui","w"]
 restArray = ["S","E","I","Q","QS","J","JS","H","HS","HE","HI","D","DS","DE","DI","W"]
 emptyArray = ["","","","","","","","","","","","","","","",""]
-empty_comp = {'composition': 'g$|', 'sixteenth': 1, 'noteSizeLimit': 15, 'noteSize': 0, 'arrayPtr': emptyArray.copy()}
+empty_comp = {'composition': 'g$|', 'sixteenth': 0, 'noteSizeLimit': 15, 'noteSize': 0, 'arrayPtr': emptyArray.copy()}
 
 class Composition:
     # def __init__(self, comp = "g$|"):
@@ -79,7 +79,15 @@ class Composition:
                 self.noteSizeLimit = 0
 
     def compose(self, state):
-        if self.arrayPtr != emptyArray:
+        if self.arrayPtr == emptyArray:
+            if state == InputState.addNote:
+                self.arrayPtr = noteArray.copy()
+            else:
+                self.arrayPtr = restArray.copy()
+            self.setNoteSizeLimit()
+            self.noteSize = 0
+            self.sixteenth = 1
+        else:
             if state == InputState.addNote or self.noteSize == self.noteSizeLimit or (state == InputState.addRest and self.arrayPtr != restArray):
                 self.composition += self.arrayPtr[self.noteSize]
                 match state:
@@ -90,7 +98,6 @@ class Composition:
                         self.arrayPtr = noteArray.copy()
                     case InputState.addRest:
                         self.arrayPtr = restArray.copy()
-                #self.userInput = InputState.noInput
                 self.setNoteSizeLimit()
                 self.noteSize = 0
             else:
@@ -105,13 +112,6 @@ class Composition:
                 self.sixteenth = 0
             if self.sixteenth % 4 == 0:
                 self.composition += " "
-            self.sixteenth += 1
-        else:
-            if state == InputState.addNote:
-                self.arrayPtr = noteArray.copy()
-            else:
-                self.arrayPtr = restArray.copy()
-            self.noteSize += 1
             self.sixteenth += 1
 
     def printComposition(self):

@@ -103,9 +103,9 @@ def login_submit():
     
     return redirect(url_for('index'))
 
-@app.route("/features")
-def features():
-    return render_template('features.html')
+# @app.route("/features")
+# def features():
+#     return render_template('features.html')
 
 @app.route('/signup')
 def signup():
@@ -195,6 +195,26 @@ def userPage():
     bio = "Ask me about my projector-hating laptop. Former @progressive. All views are my own"
     compositions = [{"name": "axel f crazy frog epic remix"}, {"name": "the farmer in the dell epic remix"}, {"name": "Ballade in the Form of Variations on a Norwegian Folk Song in G minor, Op. 24, TRAP REMIX"}]
     return render_template('userPage.html', pfp = pfp, name = name, username = username, bio = bio, compositions = compositions)
+
+@app.route("/learn")
+def docNotes():
+    return render_template('dNotes.html')
+
+@app.route("/learn/rests")
+def docRests():
+    return render_template('dRests.html')
+
+@app.route("/learn/note_length")
+def docNoteLength():
+    return render_template('dNoteLength.html')
+
+@app.route("/learn/notation")
+def docNotation():
+    return render_template('dNotation.html')
+
+@app.route("/learn/time_signatures")
+def docTimeSignatures():
+    return render_template('dTimeSignatures.html')
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

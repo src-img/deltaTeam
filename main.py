@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, InputState
+from recordUserInput import Composition, InputState, emptyArray
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -182,21 +182,47 @@ def grabInputType():
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
+    data = request.get_json()
     temp.deleteComposition()
-    return jsonify({'recording': temp.getComposition()}) 
+    return jsonify({'data': data}) 
 
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():
     data = request.get_json()
-    if data.get('userInput') == 1:
-        temp.compose(InputState.addNote)
-    elif data.get('userInput') == 2:
-        temp.compose(InputState.addRest)
+
+    if data.get('record') == True:
+        if data.get('userInput') == 1:
+            temp.compose(InputState.addNote)
+        elif data.get('userInput') == 2:
+            temp.compose(InputState.addRest)
+        else:
+            temp.compose(InputState.noInput)
+        temp.printComposition()
+    elif data.get('record') == False: # NOT WORKING YET
+        print("No functionality yet!")
+        # while temp.sixteenth != 16:
+        #         temp.compose(InputState.addRest)
+        # temp.compose(InputState.addRest)
+        # temp.arrayPtr = emptyArray
     else:
-        temp.compose(InputState.noInput)
-    temp.printComposition()
+        print("METRONOME RECORD HANDLE ERROR")
 
+    # Adding the new measures to the database
+    if session.get("userID") != None and session.get("songID") != None:
+        measuresList = temp.getCompMeasureList()
+        result, error = db.fetchSong(session.get("songID")) 
+        songMeasureLen = 0        
 
+        if result != []:
+            if result[4] != None:
+                songMeasureLen = len(result[4])
+        #print(songMeasureLen)
+        
+        print("measures list: ", measuresList)
+        if measuresList != None:
+            if len(measuresList) > songMeasureLen:
+                print("measures list of songLen: ", measuresList[songMeasureLen])
+                db.addMeasure(session["songID"], measuresList[songMeasureLen])
 
     return jsonify({"data": data})
 

@@ -1,6 +1,12 @@
 let METRO_DIV = "trackBarBPMContainer";
 
 let metroSketch = function(p) {
+  const InputState = {
+    addNote: 1,
+    addRest: 2,
+    noInput: 3
+  };
+
   let metroSound;
   let metroGraphic;
   let canvas;
@@ -8,6 +14,10 @@ let metroSketch = function(p) {
   let metroPlay;
   let showBPM;
   let metroSoundTimer = 0;
+  let record = false;
+  let userInput = InputState.addRest;
+  let lastUserInput = InputState.addRest; //holds input state of last key press
+  let fourCount = 17;
 
   const SIZE_X = 50;
   const SIZE_Y = 50;
@@ -79,7 +89,7 @@ let metroSketch = function(p) {
 
   function toggle() {
     if (metroPlay.html() == "Play") {
-      //fixxes bug of refreshing while playing
+      //fixes bug of refreshing while playing
         for(let i = 0; i < timeouts.length; ++i){
           clearTimeout(timeouts[i]);
         }
@@ -100,15 +110,25 @@ let metroSketch = function(p) {
           metroSound.play();
       }
 
-      const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-      document.dispatchEvent(toggleNoteDisplayEvent);
-        
-      fetch('/metronome')
-      .then(response => response.json())
-      .then(data => {
-        //console.log(data.currentNote);
-      });
-        
+      if(fourCount == 0){
+        fetch('/metronome', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({'userInput': userInput, 'record': record})
+        })
+        .then(response => response.json())
+        .then(data => {
+          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+          document.dispatchEvent(toggleNoteDisplayEvent);
+        });
+
+        userInput = InputState.noInput;        
+      }
+
+      if(record && fourCount != 0){
+        fourCount--;
+      }
+    
       timeoutID = setTimeout(() => play(BPM), 60000 / BPM);
       timeouts.push(timeoutID);
     } else {
@@ -122,33 +142,80 @@ let metroSketch = function(p) {
     }
   }
 
-  document.addEventListener('toggleAction', (e) => {
-    if(metroPlay.html() == "Play") toggle();
+  document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    let inputTypeSpan = document.getElementsByClassName("trackRecordType")[0];
+    if(key == 'a'){
+      userInput = InputState.addNote;
+      lastUserInput = userInput;
+      if(record) inputTypeSpan.innerHTML = "Inputting notes";
+    } else if (key == 's'){
+      userInput = InputState.addRest;
+      lastUserInput = userInput;
+      if(record) inputTypeSpan.innerHTML = "Inputting rests";
+    }
+  });
+
+  document.addEventListener('toggleAction', () => {
+    if((metroPlay.html() == "Play" && !record) || (metroPlay.html() == "Pause" && record)) toggle();
     if(inputBPM.elt.disabled){
         inputBPM.removeAttribute('disabled');
     } else {
         inputBPM.attribute('disabled', 'true');
     }
 
-    let span = document.getElementsByClassName("trackRecordType")[0];
-    fetch('/grabRecording')
-        .then(response => response.json())
-        .then(data => {
-            if(data.recording){
-                fetch('/grabInputType')
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data.state);
-                        if(data.state === 1){
-                            span.innerHTML = "Inputting notes";
-                        } else if (data.state === 2){
-                            span.innerHTML = "Inputting rests";
-                        }
-                    });
-            } else {
-                span.innerHTML = "";
-            }
-        });
+    if(metroPlay.elt.disabled){
+      metroPlay.removeAttribute('disabled');
+    } else {
+      metroPlay.attribute('disabled', 'true');
+    }
+
+    let inputTypeSpan = document.getElementsByClassName("trackRecordType")[0];
+
+    if(!record){
+      record = true;
+      if(lastUserInput == InputState.addNote){
+        inputTypeSpan.innerHTML = "Inputting notes"
+      } else if (lastUserInput == InputState.addRest){
+        inputTypeSpan.innerHTML = "Inputting rests"
+      }
+    } else {
+      record = false;
+      fourCount = 17;
+
+      inputTypeSpan.innerHTML = "";
+
+      fetch('/metronome', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({'userInput': userInput, 'record': record})
+      })
+      .then(response => response.json())
+      .then(data => {
+        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+        document.dispatchEvent(toggleNoteDisplayEvent);
+      });
+    }
+
+    // 
+    // fetch('/grabRecording')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if(data.recording){
+    //             fetch('/grabInputType')
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     console.log(data.state);
+    //                     if(data.state === 1){
+    //                         span.innerHTML = "Inputting notes";
+    //                     } else if (data.state === 2){
+    //                         span.innerHTML = "Inputting rests";
+    //                     }
+    //                 });
+    //         } else {
+    //             span.innerHTML = "";
+    //         }
+    //     });
   });
 };
 

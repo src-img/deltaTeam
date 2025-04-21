@@ -1,12 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeltaBeatz - FAQ</title>
+    <link rel="stylesheet" href="../static/index.css">
+</head>
 <body>
     <header>
-        <h1>here is the FAQ page </h1>
-        <nav>
-            <ul class="nav-links">
-             {% include 'navbar.html' %} 
-            </ul>
-        </nav>
+        {% include 'navbar.html' %}
     </header>
+    <main class="container">
+        <section id="faq" class="card">
+            <div class="card-header">Frequently Asked Questions</div>
+            <div class="card-content">
+                <details>
+                    <summary><strong>Do I need to create an account to use DeltaBeatz?</strong></summary>
+                    <p>No account is needed! You can tap out beats and get your results instantly without signing up.</p>
+                </details>
+                <details>
+                    <summary><strong>Can I export my beat notations?</strong></summary>
+                    <p>Not yet, but there is plans to do so, keeping checking back to see when its added</p>
+                </details>
+                <details>
+                    <summary><strong>Is DeltaBeatz compatible with mobile devices?</strong></summary>
+                    <p>Not yet, and there is currently no plans to do so.</p>
+                </details>
+                <details>
+                    <summary><strong>What types of beats can I tap out?</strong></summary>
+                    <p>You can tap out simple or complex rhythms — DeltaBeatz supports various time signatures, BPMs and note values.</p>
+                </details>
+                <details>
+                    <summary><strong>Can I save and revisit my sessions?</strong></summary>
+                    <p>Currently, we do not store user sessions. However, the plan is we will be making that avalilable soon/p>
+                </details>
+            </div>
+        </section>
+
+        <section id="contact" class="card">
+            <div class="card-header">Need More Help?</div>
+            <div class="card-content">
+                <p>If your question wasn't answered above, feel free to reach out to us via the team member's emails or the github</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; This work is done by Delta-Team. All rights reserved.</p>
+    </footer>
+</body>
 </html>

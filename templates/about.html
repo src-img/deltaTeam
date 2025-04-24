@@ -1,54 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DeltaBeatz</title>
-    <link rel="stylesheet" href="../static/index.css">
-</head>
-<body>
-    <header style="background-color: white; color: black; padding: 10px 0; text-align: center;">
-        {% include 'navbar.html' %}
-    </header>
+    <link rel="stylesheet" href="../static/index.css" />
+  </head>
+  <body>
+    <header>{% include 'navbar.html' %}</header>
     <main class="container">
-        <section id="faq" class="card">
-            <div class="card-header">Frequently Asked Questions</div>
-            <div class="card-content">
-                <details>
-                    <summary><strong>What is this website?</strong></summary>
-                    <p>DeltaBeatz serves as a tool to find the beats of measures and how long notes will last, like quarter, half etc.</p>
-                </details>
-                <details>
-                    <summary><strong>How do I create notes?</strong></summary>
-                    <p>Simply tap out the beat of the song you want to know, then it will state the BPM that you are tapping as well as the type of notes that you are tapping</p>
-                </details>
-            </div>
-        </section>
-        
-        <section id="about" class="card">
-            <div class="card-header">About Us</div>
-            <div class="card-content">
-                <p>Welcome to DeltaBeatz, your go-to platform for effortless beat creation. Whether you're a student, professional, or a person that just can't get the tune, our tool simplifies the process. Our goal is to help you stay organized with a seamless and simple experience.</p>
-            </div>
-        </section>
-        
-        <section id="tutorial" class="card">
-            <div class="card-header">How to Use DeltaBeatz</div>
-            <div class="card-content">
-                <ol>
-                    <li>Enter your information in the input fields.</li>
-                    <li>Create a track</li>
-                    <li>Press record</li>
-                    <li>Tap out your beats</li>
-                    <li>Press record again to stop the recording</li>
-                    <li>Your completed notation form will be displayed</li>
-                </ol>
-            </div>
-        </section>
+      <section id="about" class="card">
+        <div class="card-header">About Us</div>
+        <div class="card-content">
+          <p>
+            Welcome to DeltaBeatz, your go-to platform for effortless beat
+            creation. Whether you're a student, professional, or a person that
+            just can't get the tune, our tool simplifies the process. Our goal
+            is to help you stay organized with a seamless and simple experience.
+          </p>
+        </div>
+      </section>
+
+      <section id="tutorial" class="card">
+        <div class="card-header">Key Features</div>
+        <div class="card-content">
+          <ol>
+            <li>
+              <strong>Beat Detection:</strong> Instantly detect the tempo of
+              your taps and convert them into musical beats.
+            </li>
+            <li>
+              <strong>Note Duration Calculation:</strong> Calculates whether
+              you're tapping out quarter notes, eighth notes, or anything in
+              between.
+            </li>
+            <li>
+              <strong>Visual Feedback:</strong> Real-time display of your taps
+              and musical notation.
+            </li>
+            <li>
+              <strong>Custom Beats Per Minute:</strong> Choose the exact rhythm
+              you want to have and the speed you desire.
+            </li>
+            <li>
+              <strong>Track Recording:</strong> Record a full tapping session
+              and play it back visually as sheet music.
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="tutorial" class="card">
+        <div class="card-header">How to Use DeltaBeatz</div>
+        <div class="card-content">
+          <ol>
+            <li>Enter a BPM into the metronome using the slider.</li>
+            <li>When ready to tap, press record.</li>
+            <li>After 4 clicks of the metronome, the recording will start.</li>
+            <li>Press record again to stop the recording</li>
+            <li>
+              Your completed notation form will be displayed, and can be played
+              back using the play button on the top trackbar.
+            </li>
+          </ol>
+        </div>
+      </section>
     </main>
-    
+
     <footer>
-        <p>&copy; This work is done by Delta-Team. All rights reserved.</p>
+      <p>&copy; This work is done by Delta-Team. All rights reserved.</p>
     </footer>
-</body>
+  </body>
 </html>

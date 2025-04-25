@@ -14,6 +14,61 @@ const observer = new MutationObserver((mutationsList) => {
   });
 });
 
+let trackOptions = [
+  {
+    "name": "Bass Drum",
+    "path": './static/assets/sounds/bassdrum.wav'
+  },
+  {
+    "name": "Closed Hi-Hat",
+    "path": './static/assets/sounds/closedhihat.wav'
+  },
+  {
+    "name": "Cowbell",
+    "path": './static/assets/sounds/cowbell.wav'
+  },
+  {
+    "name": "Floor Tom",
+    "path": './static/assets/sounds/floortom.wav'
+  },
+  {
+    "name": "Hi Tom",
+    "path": './static/assets/sounds/hitom.wav'
+  },
+  {
+    "name": "Low Tom",
+    "path": './static/assets/sounds/lowtom.wav'
+  },
+  {
+    "name": "Open Hi-Hat",
+    "path": './static/assets/sounds/openhihat.wav'
+  },
+  {
+    "name": "Rimshot",
+    "path": './static/assets/sounds/rimshot.wav'
+  },
+  {
+    "name": "Snare",
+    "path": './static/assets/sounds/snare.wav'
+  },
+  {
+    "name": "Bell",
+    "path": './static/assets/sounds/bong.wav'
+  },
+  {
+    "name": "Sans",
+    "path": './static/assets/sounds/sans.wav'
+  },
+  {
+    "name": "Splat",
+    "path": './static/assets/sounds/splat.wav'
+  },
+  {
+    "name": "Whip Crack",
+    "path": './static/assets/sounds/whipcrack.wav'
+  }
+]
+let selectedTrack = trackOptions[0];
 
 let skeletonSketch = function(p) {
   let playButton;
@@ -168,7 +223,7 @@ let skeletonSketch = function(p) {
     trackBarBackingContainer.id("trackBarBackingContainer");
     trackBarBackingContainer.parent(trackBar);
     
-    let badText = p.createP("Backing Track");
+    let badText = p.createP("Playback Sound");
     badText.style("color", "black");
     badText.style("text-align", "right");
     badText.style("margin", "0");
@@ -180,6 +235,7 @@ let skeletonSketch = function(p) {
     trackDropdown.class("trackDropdown");
     trackDropdown.style("margin-left", "10px");
     trackDropdown.parent(trackBarBackingContainer);
+    
 
     let editButton = p.createImg("static/assets/editButton/editButton.png", "Edit");
     editButton.id("editButton");
@@ -188,9 +244,13 @@ let skeletonSketch = function(p) {
     editButton.parent(trackBarBackingContainer);
 
     // Populate dropdown with track names
-    trackDropdown.option("Select Track");
+    for (let trackOption of trackOptions) {
+      trackDropdown.option(trackOption.name);
+    }
     trackDropdown.changed(() => {
-      let selectedTrack = trackDropdown.value();
+      let actualIndex = trackDropdown.elt.selectedIndex;
+      console.log(trackOptions[actualIndex])
+      selectedTrack = trackOptions[actualIndex];
       console.log("Selected Track:", selectedTrack);
     });
 
@@ -217,3 +277,4 @@ let skeletonSketch = function(p) {
 }
 
 new p5(skeletonSketch, SKELETON_DIV);
+

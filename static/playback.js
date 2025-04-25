@@ -4,6 +4,7 @@ let test3 = "|mnoq|";
 let test4 = "|Hqq|qqqq|qqqq|qyyy|yyyy|yyyy|mmnq|";
 let test5 = "|qqqUseUs|qqqq|qqqq|";
 
+
 let playbackSketch = function(p) {
     let sound;
     let BPM;
@@ -12,7 +13,10 @@ let playbackSketch = function(p) {
     let timeouts = [];
 
     p.preload = function() {
-        sound = p.loadSound('./static/assets/sounds/snare.mp3');
+        for (let trackOption of trackOptions) {
+            trackOption.soundData = p.loadSound(trackOption.path);
+        }
+        console.log(trackOptions[0].soundData)
     }
 
     // Main Functions
@@ -239,6 +243,7 @@ let playbackSketch = function(p) {
     // to be frank, i have no clue how this is working
     // it plays the notes based on intervals provided in playback()
     function playNotes(noteDurations, rests) {
+        sound = selectedTrack.soundData;
         if(!isPlaying){
             isPlaying = true;
             let currentTime = 0; 
@@ -258,6 +263,8 @@ let playbackSketch = function(p) {
     }
     let comp = ""
     document.addEventListener('togglePlayback', () => {
+        console.log(sound);
+        console.log("bananaphone!")
         let button = document.getElementById("playTracks");
         if(button.innerHTML == "Pause"){
             // figure out this -------
@@ -286,3 +293,4 @@ let playbackSketch = function(p) {
     });
 }
 new p5(playbackSketch);
+

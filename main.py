@@ -130,8 +130,9 @@ def signup_submit():
     print("girl")
     return redirect(url_for('login'))
 
-@app.route("/saveButton")
+@app.route("/save", methods=['POST'])
 def save():
+    temp = Composition(session['currentComposition'])
     # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
         measuresList = temp.getCompMeasureList()
@@ -141,6 +142,7 @@ def save():
 
         if measuresList != None:
             for measure in measuresList:
+                print(measure)
                 db.addMeasure(session["songID"], measure)
 
     return jsonify({"message": "Successfully saved song! Yay!"})

@@ -91,32 +91,65 @@ class databaseManager():
         print("attempting to add measures")
 
         self.lock.acquire(True)
-
-        #if self.valid.match(notes):
-        #    print("valid string of notes")
-        #else:
-        #    print("not valid string of notes. error. not adding measure")
-        #    error = "Invalid measure note string"
-        #    success = False
-        #    return success, error, None
-
         try:
-            res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
-            if res == None: 
-                self.cursor.execute("INSERT INTO Measure(notes) VALUES(?)", [notes])
+            res = self.cursor.execute(
+                "SELECT measure_id FROM Measure WHERE notes = ?", 
+                (notes,)
+            ).fetchone()
+            #print("printing res", res) 
+            if res:  # Measure exists
+                id = res[0]
+            else:    # New measure
+                self.cursor.execute(
+                    "INSERT INTO Measure (notes) VALUES (?)", 
+                    (notes,)
+                )
+                id = self.cursor.lastrowid
+
+
+                print(res)
         except sqlite3.Error as e:
             print("Error inserting measure", e)
             error = e
 
-        id = self.cursor.lastrowid
         #print("measure ID: ", id)
 
         try:
-            self.cursor.execute("UPDATE Song SET measures = json_insert(measures, '$.measuresList[#]', (?)) WHERE song_id=(?)", (id, song_id))
+            print("inserting ", notes, " into song ", song_id)
+            #self.cursor.execute("UPDATE Song SET measures = json_insert(measures, '$.measuresList[#]', (?)) WHERE song_id=(?)", (id, song_id))
+            #res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
+            #print(res)
+
+            song_data = self.cursor.execute(
+                "SELECT measures FROM Song WHERE song_id=?", 
+                (song_id,)
+            ).fetchone()
+        
+            if song_data and song_data[0]:
+                # Parse existing JSON
+                measures = json.loads(song_data[0])
+                if 'measuresList' not in measures:
+                    measures['measuresList'] = []
+            else:
+                # Initialize new JSON structure
+                measures = {'measuresList': []}
+            #print("here are the id's", id) 
+            # Append the new measure ID
+            measures['measuresList'].append(id)
+        
+            # Update the song with the modified measures
+            self.cursor.execute(
+                "UPDATE Song SET measures=? WHERE song_id=?",
+                (json.dumps(measures), song_id)
+            )
+ 
+
+
         except sqlite3.Error as e:
             print("Error inserting measure into song JSON")
             error = e
-       
+        
+
         self.lock.release()
         return success, error, id
 
@@ -164,7 +197,7 @@ class databaseManager():
         self.lock.acquire(True)
         try:
             self.cursor.execute("UPDATE Song SET measures = ? WHERE song_id=?", (measuresJSON, song_id))
-            print("Removing song ", song_id, " from db...")
+            print("Clearing song ", song_id, " from db...")
         except sqlite3.Error as e:
             print("There was an error removing song ", song_id)
             error = e

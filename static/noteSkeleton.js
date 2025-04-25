@@ -209,6 +209,13 @@ let skeletonSketch = function(p) {
     saveButton.id("saveTracks");
     saveButton.parent(trackBarPropertyContainer);
     
+    saveButton.mousePressed(() => {
+        fetch("/save", { method: "POST" })
+        .then(response => response.text())
+        .then(data => console.log("Saved!", data))
+        .catch(err => console.error("Error saving:", err));
+    });
+
     new track(p, 10, 35);
   }
 

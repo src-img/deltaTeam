@@ -46,8 +46,22 @@ let metroSketch = function(p) {
       inputBPM.input(inputHandler);
       inputBPM.id("metroSlider");
       inputBPM.parent(div);
+    
       window.getCurrentBPM = () => parseInt(inputBPM.value() / 4);
-      
+     
+      muteButton = p.createButton("Mute");
+      muteButton.id("metroMute");
+      muteButton.parent(div);
+      muteButton.mousePressed(() => {
+        if(muteButton.html() == "Mute"){
+          muteButton.html("Unmute");
+          metroSound.setVolume(0);
+        } else if (muteButton.html() == "Unmute"){
+          muteButton.html("Mute");
+          metroSound.setVolume(1);
+        }
+      })
+
       metroPlay = p.createButton("Play");
       metroPlay.mousePressed(toggle);
       //metroPlay.position(185, 270);

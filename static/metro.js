@@ -34,9 +34,9 @@ let metroSketch = function(p) {
   p.setup = function() {
       let div = document.getElementById(METRO_DIV);
 
-      canvas = p.createCanvas(SIZE_X, SIZE_Y);
-      canvas.id("metroImg");
-      canvas.parent(div);
+      // canvas = p.createCanvas(SIZE_X, SIZE_Y);
+      // canvas.id("metroImg");
+      // canvas.parent(div);
 
      // p.image(metroGraphic, 0, 0, SIZE_X, SIZE_Y); // Applied to canvas element
       

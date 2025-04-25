@@ -3,7 +3,7 @@ window.metrognome = null;
 function setup() {
     const canvas = createCanvas(50, 50);
     canvas.id("gnomeCanvas");
-    canvas.parent("gnome"); 
+    canvas.parent(document.getElementById("trackBarBPMContainer")); 
   
     loadAnimations(this);
     metrognome = new Gnome(this, 25, 25, 48); 
@@ -11,7 +11,7 @@ function setup() {
   }
   
   function draw() {
-    background(230);
+    background(255);
     if (metrognome) metrognome.display();
   }
   
@@ -22,7 +22,7 @@ class Gnome {
     this.size = size;
     this.x = x;
     this.y = y;
-    this.frame = 0;
+    this.frame = 8;
   }
 
   nextBeat() {
@@ -30,7 +30,7 @@ class Gnome {
   }
   
   setIdle() {
-    this.frame = 0; 
+    this.frame = 8; 
   }
   display() {
     const p = this.p;
@@ -47,7 +47,7 @@ function loadAnimations(p) {
   window.animations = {};
   window.animations["gnome"] = [];
 
-  for (let i = 1; i <= 8; i++) {
+  for (let i = 1; i <= 9; i++) {
     const frameNum = String(i).padStart(3, '0');
     window.animations["gnome"].push(p.loadImage(`/static/assets/gnome/gnome${frameNum}.png`));
   }

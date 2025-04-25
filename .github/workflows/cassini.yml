@@ -30,11 +30,11 @@ jobs:
           repository: src-img/deltaTeam
       - name: Copy code to server
         run: |
-          $RUN 'mkdir -p /root/web'
-          $RUN 'rm -r /root/web/*'
-          $COPY -r database $TARGET:/root/web/database
-          $COPY -r static $TARGET:/root/web/static
-          $COPY -r templates $TARGET:/root/web/templates
-          $COPY main.py $TARGET:/root/web
-          $COPY recordUserInput.py $TARGET:/root/web
-          $RUN 'ls -1a /root/web'
+          $RUN 'mkdir -p /home/web'
+          $RUN 'rm -r /home/web/*'
+          $COPY -r database $TARGET:/home/web/database
+          $COPY -r static $TARGET:/home/web/static
+          $COPY -r templates $TARGET:/home/web/templates
+          $COPY main.py $TARGET:/home/web
+          $COPY recordUserInput.py $TARGET:/home/web
+          $RUN 'ls -1a /home/web'

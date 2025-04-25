@@ -44,6 +44,7 @@ let skeletonSketch = function(p) {
       this.nameField = this.p.createInput();
       this.nameField.class("trackName");
       this.nameField.parent(this.buttonContainerRowA);
+      this.nameField.attribute("required", "");
       
       this.recordButton = this.p.createButton("-");
       this.recordButton.class("trackRecord");

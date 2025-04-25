@@ -200,7 +200,7 @@ button:hover {
   display: flex;
   width: 100%;
   height: 50px;
-  justify-content: space-between;
+  justify-content: center;
   top: 200;
   display: sticky;
   padding: 10px 0px;
@@ -227,7 +227,7 @@ button:hover {
 
 #trackBarBPMContainer > span {
   color: var(--textBlack);
-  width: 200px;
+  width: 100px;
 }
 
 #trackBarBackingContainer {

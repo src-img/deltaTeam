@@ -235,13 +235,6 @@ let skeletonSketch = function(p) {
     trackDropdown.class("trackDropdown");
     trackDropdown.style("margin-left", "10px");
     trackDropdown.parent(trackBarBackingContainer);
-    
-
-    let editButton = p.createImg("static/assets/editButton/editButton.png", "Edit");
-    editButton.id("editButton");
-    editButton.class("trackBarButton");
-    editButton.style("margin-left", "10px");
-    editButton.parent(trackBarBackingContainer);
 
     // Populate dropdown with track names
     for (let trackOption of trackOptions) {

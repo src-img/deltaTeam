@@ -2,7 +2,7 @@ name: cassini-deployment
 
 on:
   push:
-    branches: ['main', 'automate-deploy']
+    branches: ['main']
   workflow_dispatch:
 
 env:
@@ -28,7 +28,6 @@ jobs:
           repository: src-img/deltaTeam
       - name: Copy code to server
         run: |
-          $RUN 'ls -la'
           $RUN 'rm -r web'
           $RUN 'mkdir -p web'
           $COPY -r database $TARGET:web/database

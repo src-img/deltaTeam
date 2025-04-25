@@ -7,26 +7,13 @@
             <span></span>
         </div>
         <div id="navLinksContainer">
-            <li id="siteTitle"><a href="{{ url_for('index') }}">DeltaBeatz</a></li>
-            <li><a href="/learn">Learn</a></li>
             <li><a href="{{ url_for('about') }}">About</a></li>
             <li><a href="{{ url_for('faq') }}">FAQ</a></li>
             {% if navbar_data.loggedIn %}
-            <li>
-              <a
-                href="{{ url_for('profile', username=navbar_data.username) }}"
-                id="navBarUserContainer"
-                ><span>{{ navbar_data.helloText }}</span><img src={{navbar_data.pfp}}/
-                id="navBarPfp"></a
-              >
-            </li>
+                <li><a href="{{ url_for('userPage') }}" id="navBarUserContainer"><span>{{ navbar_data.username }}</span><img src={{navbar_data.pfp}}/ id="navBarPfp"></a></li>
             {% else %}
-            <li><a href="{{ url_for('signup') }}">Sign up</a></li>
-            <li>
-              <a href="{{ url_for('login') }}" id="navBarUserContainer"
-                ><span>Log In</span><img src={{navbar_data.pfp}}/ id="navBarPfp"></a
-              >
-            </li>
+                <li><a href="{{ url_for('signup') }}">Sign up</a></li>
+                <li><a href="{{ url_for('login') }}" id="navBarUserContainer"><span>Log In</span><img src={{navbar_data.pfp}}/ id="navBarPfp"></a></li>
             {% endif %}
         </div>
     </ul>
@@ -96,6 +83,24 @@
         border-radius: 50%;
         margin-left: 5px;
     }
+    #siteTitle {
+        height: 100%; /* Match the height of the navigation bar */
+        display: flex;
+        align-items: center; /* Vertically center the text */
+    }
+
+    #siteTitle a {
+        text-decoration: none; /* Remove underline */
+        color: white; /* Ensure text color matches the navbar */
+        padding: 5px 20px; /* Add consistent padding */
+        display: inline-block; /* Ensure proper hover area */
+        background-color: transparent; /* No background by default */
+    }
+
+    #siteTitle a:hover {
+        background-color: #3aa89e; /* Match the hover color to the navbar */
+        border-radius: 4px; /* Optional: Add rounded corners for hover effect */
+    }
     @media (max-width: 768px) {
         #hamburgerMenu {
             display: flex;
@@ -103,8 +108,8 @@
         #navLinksContainer {
             display: none;
             flex-direction: column;
-            margin-top: 210px;
-            background-color: #47C7BE; /* Match the navigation bar color */
+            margin-top: 180px;
+            background-color: #47C7BE;
             position: absolute;
             right: 0; /* Ensure it stays on the right side */
         }

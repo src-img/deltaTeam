@@ -272,6 +272,10 @@ let skeletonSketch = function(p) {
     saveButton = p.createButton("Save");
     saveButton.id("saveTracks");
     saveButton.parent(trackBarPropertyContainer);
+
+    newButton = p.createButton("New");
+    newButton.id("newTracks");
+    newButton.parent(trackBarPropertyContainer);
     
     saveButton.mousePressed(() => {
         fetch("/save", { method: "POST" })

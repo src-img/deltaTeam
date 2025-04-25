@@ -29,9 +29,11 @@ jobs:
       - name: Copy code to server
         run: |
           $RUN 'ls -la'
-          $COPY -r database $TARGET:/root/web/database
-          $COPY -r static $TARGET:/root/web/static
-          $COPY -r templates $TARGET:/root/web/templates
-          $COPY main.py $TARGET:/root/web
-          $COPY recordUserInput.py $TARGET:/root/web
-          $RUN 'ls -1a /root/web'
+          $RUN 'mkdir -p web'
+          $RUN 'rm -r web/*'
+          $COPY -r database $TARGET:web/database
+          $COPY -r static $TARGET:web/static
+          $COPY -r templates $TARGET:web/templates
+          $COPY main.py $TARGET:web
+          $COPY recordUserInput.py $TARGET:web
+          $RUN 'ls -1a web'

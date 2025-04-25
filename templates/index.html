@@ -15,6 +15,9 @@
   </head>
   <body>
     <header>{% include 'navbar.html' %}</header>
+    <div id="trackBarBPMContainer">
+      <div id="gnome"></div> 
+    </div>    
     <main>
       <div id="p5Container">
         <div id="noteSkeletonContainer" class="container"></div>
@@ -24,6 +27,7 @@
 
     <a href="{{ url_for('about') }}">
       <img src="{{ url_for('static', filename='metroGnome.jpg') }}" alt="My Image" style="position: fixed; bottom: 20px; right: 20px; width: 8%" />
+      <script src="{{ url_for('static', filename='metrognome.js') }}"></script>
     </a>
   </body>
 </html>

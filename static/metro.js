@@ -38,15 +38,16 @@ let metroSketch = function(p) {
       canvas.id("metroImg");
       canvas.parent(div);
 
-      p.image(metroGraphic, 0, 0, SIZE_X, SIZE_Y); // Applied to canvas element
-
+     // p.image(metroGraphic, 0, 0, SIZE_X, SIZE_Y); // Applied to canvas element
+      
       inputBPM = p.createSlider(240, 600, 240, 4);
       //inputBPM.position(50, 280);
       inputBPM.size(100);
       inputBPM.input(inputHandler);
       inputBPM.id("metroSlider");
       inputBPM.parent(div);
-
+      window.getCurrentBPM = () => parseInt(inputBPM.value() / 4);
+      
       metroPlay = p.createButton("Play");
       metroPlay.mousePressed(toggle);
       //metroPlay.position(185, 270);
@@ -110,9 +111,13 @@ let metroSketch = function(p) {
       if(metroSoundTimer == 4){
           metroSound.play();
           metroSoundTimer = 0;
+          if (window.metrognome) {
+            window.metrognome.nextBeat();
+          }
+          
           console.log("metronome hit", metroSoundTimer, Date.now())
       }
-      
+  
       if(record && fourCount != 0){
         fourCount--;
         console.log("fourCount:", fourCount, "metroSoundTimer:", metroSoundTimer)
@@ -127,6 +132,10 @@ let metroSketch = function(p) {
       clearTimeout(timeoutID);
       clearTimeout(timeoutFetch);
       metroSound.stop();
+
+      if (window.metrognome) {
+        window.metrognome.setIdle();
+      }
     }
 
     if (BPM != inputBPM.value()) {

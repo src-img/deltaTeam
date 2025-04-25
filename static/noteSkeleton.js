@@ -44,6 +44,7 @@ let skeletonSketch = function(p) {
       this.nameField = this.p.createInput();
       this.nameField.class("trackName");
       this.nameField.parent(this.buttonContainerRowA);
+      this.nameField.attribute("required", "");
       
       this.recordButton = this.p.createButton("-");
       this.recordButton.class("trackRecord");
@@ -203,6 +204,10 @@ let skeletonSketch = function(p) {
       const togglePlay = new CustomEvent('togglePlay', {detail:{}});
       document.dispatchEvent(togglePlay);
     });
+
+    saveButton = p.createButton("Save");
+    saveButton.id("saveTracks");
+    saveButton.parent(trackBarPropertyContainer);
     
     new track(p, 10, 35);
   }

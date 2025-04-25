@@ -82,7 +82,7 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_submit():
-    email = request.form['username']
+    email = request.form['email']
     password = request.form['password']
     
     result, error = db.fetchUser(email)

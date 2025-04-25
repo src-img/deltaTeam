@@ -29,8 +29,8 @@ jobs:
       - name: Copy code to server
         run: |
           $RUN 'ls -la'
+          $RUN 'rm -r web'
           $RUN 'mkdir -p web'
-          $RUN 'rm -r web/*'
           $COPY -r database $TARGET:web/database
           $COPY -r static $TARGET:web/static
           $COPY -r templates $TARGET:web/templates

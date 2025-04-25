@@ -25,7 +25,7 @@
 @font-face {
   font-family: 'Futura';
   src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format("opentype");
-  font-style: bold;
+  font-style: normal;
   font-weight: 600;
 }
 
@@ -113,6 +113,20 @@ ul#navList > li {
   font-size: 48px;
   width: 25%;
   font-weight: 600 !important;
+}
+
+@media (max-width: 768px) {
+  #siteTitle {
+    font-size: 36px;
+    width: 35%;
+  }
+}
+
+@media (max-width: 480px) {
+  #siteTitle {
+    font-size: 24px;
+    width: 50%;
+  }
 }
 
 

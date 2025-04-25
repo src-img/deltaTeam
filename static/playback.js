@@ -78,7 +78,7 @@ let playbackSketch = function(p) {
         case 'U':
             result += '+';
             break;
-        case 'V':
+        case 'v':
             result += '+';
             break;
             

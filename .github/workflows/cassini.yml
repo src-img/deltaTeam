@@ -28,6 +28,7 @@ jobs:
           repository: src-img/deltaTeam
       - name: Copy code to server
         run: |
+          $RUN 'ls -la'
           $RUN 'mkdir -p /root/web'
           $RUN 'rm -r /root/web/*'
           $COPY -r database $TARGET:/root/web/database

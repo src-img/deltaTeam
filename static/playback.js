@@ -264,7 +264,6 @@ let playbackSketch = function(p) {
     let comp = ""
     document.addEventListener('togglePlayback', () => {
         console.log(sound);
-        console.log("bananaphone!")
         let button = document.getElementById("playTracks");
         if(button.innerHTML == "Pause"){
             // figure out this -------

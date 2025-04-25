@@ -8,13 +8,13 @@ on:
 env:
   HOST: cassini.cs.kent.edu
   USER: deltabeatz
-  PASSWORD: ${{ secret.PASSWORD }}
+  PASSWORD: ${{ secrets.PASSWORD }}
   TARGET: deltabeatz@cassini.cs.kent.edu
   RUN: ssh -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no deltabeatz@cassini.cs.kent.edu
   COPY: scp -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 
 
 jobs:
-  unit_testing:
+  deploy_to_server:
     runs-on: ubuntu-latest
     steps:
       - name: Install ssh key

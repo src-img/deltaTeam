@@ -27,11 +27,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: src-img/deltaTeam
-      - name: Ping the server
-        run: |
-          $RUN 'ls -la'
-          echo "hello" >hello.txt
-          $COPY hello.txt $TARGET:/tmp
       - name: Copy code to server
         run: |
           $RUN 'mkdir -p /root/web'

@@ -1,0 +1,38 @@
+name: cassini-deployment
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+env:
+  HOST: cassini.cs.kent.edu
+  USER: deltabeatz
+  TARGET: deltabeatz@cassini.cs.kent.edu
+  RUN: ssh -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no deltabeatz@cassini.cs.kent.edu
+  COPY: scp -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 
+
+jobs:
+  deploy_to_server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install ssh key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.ID_RSA }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      - name: Get repo code
+        uses: actions/checkout@v2
+        with:
+          repository: src-img/deltaTeam
+      - name: Copy code to server
+        run: |
+          $RUN 'rm -r web'
+          $RUN 'mkdir -p web'
+          $COPY -r database $TARGET:web/database
+          $COPY -r static $TARGET:web/static
+          $COPY -r templates $TARGET:web/templates
+          $COPY main.py $TARGET:web
+          $COPY recordUserInput.py $TARGET:web
+          $RUN 'ls -1a web'

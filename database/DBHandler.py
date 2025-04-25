@@ -341,9 +341,9 @@ class databaseManager():
         success = True
         error = None
 
-        self.lock.aquire(True)
+        self.lock.acquire(True)
         try:
-            self.cursor.execute("UPDATE Song SET song_name = " + song_name + "WHERE song_id=(?)", [song_id])
+            self.cursor.execute("UPDATE Song SET song_name = '" + song_name + "' WHERE song_id=(?)", [song_id])
         except sqlite3.Error as e:
             print("There was an error changing song name")
             error = e
@@ -454,7 +454,10 @@ if __name__ == "__main__":
     assert(result[3] == None)
     assert(result[4] == [])
     print(result)
-   
+    db.printAll() 
+
+    result, err = db.changeSongName(1, "changing name")
+    print(err)
     print("\nPrint all before removal test...")
     db.printAll()
 

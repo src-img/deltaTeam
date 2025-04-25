@@ -147,6 +147,19 @@ def save():
 
     return jsonify({"message": "Successfully saved song! Yay!"})
 
+@app.route('/save_text', methods=['POST'])
+def save_text():
+    data = request.get_json()
+    print(data)
+    text_content = data['content']
+    print(text_content)
+    if session.get("userID") != None and session.get("songID") != None:
+        db.changeSongName(session.get("songID"), str(text_content))
+
+    return jsonify({"message": "Successfully saved song name! Yay!"})
+
+
+
 @app.route("/loadSong")
 def load():
     data = 'g$|' #temporary, db needs to send song here

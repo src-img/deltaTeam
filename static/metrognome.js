@@ -26,7 +26,8 @@ class Gnome {
   }
 
   nextBeat() {
-    this.frame = (this.frame + 1) % window.animations["gnome"].length;
+    if (this.frame == 8) this.frame = 0;
+    else this.frame = (this.frame + 1) % (8);
   }
   
   setIdle() {

@@ -44,6 +44,7 @@ let skeletonSketch = function(p) {
       this.nameField = this.p.createInput();
       this.nameField.class("trackName");
       this.nameField.parent(this.buttonContainerRowA);
+      this.nameField.attribute("required", "");
       
       this.recordButton = this.p.createButton("-");
       this.recordButton.class("trackRecord");
@@ -82,9 +83,12 @@ let skeletonSketch = function(p) {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({key: 'value'})
-          });
-          const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+      
+          })
+          .then(data => {const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
           document.dispatchEvent(toggleNoteDisplayEvent);
+        1 })
+          
         }
       });
 
@@ -200,6 +204,10 @@ let skeletonSketch = function(p) {
       const togglePlay = new CustomEvent('togglePlay', {detail:{}});
       document.dispatchEvent(togglePlay);
     });
+
+    saveButton = p.createButton("Save");
+    saveButton.id("saveTracks");
+    saveButton.parent(trackBarPropertyContainer);
     
     new track(p, 10, 35);
   }

@@ -1,5 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify, redirect, url_for, abort
-from recordUserInput import Composition, InputState, emptyArray
+from recordUserInput import Composition, InputState, emptyArray, empty_comp
 from database.DBHandler import databaseManager
 from datetime import timedelta
 
@@ -9,8 +9,8 @@ app.permanent_session_lifetime = timedelta(days=1)
 db = databaseManager("testDB")
 success, error = db.connect()
 
-temp = Composition()
-lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
+# temp = Composition()
+# lastInputState = InputState.addRest #this will allow the visual representation of what's being inputted work a little better
 
 @app.context_processor
 def injectNavBarDetails():
@@ -42,7 +42,8 @@ def index():
             success, error, id = db.addSong(session["userID"], session["username"] + " song")
             session["songID"] = id
             db.commit()
-        
+    if session.get("currentCompostion") == None:
+        session["currentComposition"] = empty_comp
     return render_template('index.html')
 
 @app.route("/userpage/<username>")
@@ -81,7 +82,7 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_submit():
-    email = request.form['username']
+    email = request.form['email']
     password = request.form['password']
     
     result, error = db.fetchUser(email)
@@ -102,9 +103,9 @@ def login_submit():
     
     return redirect(url_for('index'))
 
-@app.route("/features")
-def features():
-    return render_template('features.html')
+# @app.route("/features")
+# def features():
+#     return render_template('features.html')
 
 @app.route('/signup')
 def signup():
@@ -144,52 +145,30 @@ def save():
 
     return jsonify({"message": "Successfully saved song! Yay!"})
 
+@app.route("/loadSong")
+def load():
+    data = 'g$|' #temporary, db needs to send song here
+    temp = Composition(session["currentComposition"])
+    temp.loadNewComposition(data)
+    session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
+    return jsonify({"message": "Hopefully this loaded"})
+
 @app.route("/compositionString")
 def compositionString():
-    # data = {temp.getComposition()}
+    temp = Composition(session['currentComposition']) # create temporary instance of class using session 
     return render_template('compositionString.html', current_composition = temp.getComposition(), future_note = temp.getFutureNote())
-
-# @app.route("/keyboard_event", methods=['POST'])
-# def handle_keyboard_event():
-#     global lastInputState
-#     data = request.get_json()
-#     keyPressed = data.get("key")
-#     if keyPressed == 'a':
-#         temp.userInput = InputState.addNote
-#         lastInputState = temp.userInput
-#     elif keyPressed == 's':
-#         temp.userInput = InputState.addRest
-#         lastInputState = temp.userInput
-#     print(f"Key pressed: {keyPressed}")
-
-#     return jsonify({"message": "Key received successfully"})
-
-@app.route('/grabInputType')
-def grabInputType():
-    global lastInputState
-    if(temp.userInput == lastInputState):
-        if(temp.userInput == InputState.addNote):
-            data = 1
-        elif(temp.userInput == InputState.addRest):
-            data = 2
-    else:
-        if(lastInputState == InputState.addNote):
-            data = 1
-        elif(lastInputState == InputState.addRest):
-            data = 2
-    
-    return jsonify({'state': data})
 
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
     data = request.get_json()
-    temp.deleteComposition()
+    # temp.deleteComposition()
+    session["currentComposition"] = empty_comp
     return jsonify({'data': data}) 
 
 @app.route("/metronome", methods=['POST'])
 def handle_metronome():
     data = request.get_json()
-
+    temp = Composition(session["currentComposition"])
     if data.get('record') == True:
         if data.get('userInput') == 1:
             temp.compose(InputState.addNote)
@@ -198,37 +177,15 @@ def handle_metronome():
         else:
             temp.compose(InputState.noInput)
         temp.printComposition()
-    elif data.get('record') == False: # NOT WORKING YET
-        print("No functionality yet!")
-        # while temp.sixteenth != 16:
-        #         temp.compose(InputState.addRest)
-        # temp.compose(InputState.addRest)
-        # temp.arrayPtr = emptyArray
+    elif data.get('record') == False: 
+        while temp.sixteenth != 16:
+            temp.compose(InputState.addRest)
+        temp.compose(InputState.addRest)
+        temp.arrayPtr = emptyArray
     else:
         print("METRONOME RECORD HANDLE ERROR")
-
-    # Adding the new measures to the database
-    if session.get("userID") != None and session.get("songID") != None:
-        measuresList = temp.getCompMeasureList()
-        result, error = db.fetchSong(session.get("songID")) 
-        songMeasureLen = 0        
-
-        if result != []:
-            if result[4] != None:
-                songMeasureLen = len(result[4])
-        #print(songMeasureLen)
-        
-        print("measures list: ", measuresList)
-        if measuresList != None:
-            if len(measuresList) > songMeasureLen:
-                print("measures list of songLen: ", measuresList[songMeasureLen])
-                db.addMeasure(session["songID"], measuresList[songMeasureLen])
-
+    session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
     return jsonify({"data": data})
-
-# @app.route("/compositionGrab", methods=['GET'])
-# def compGrab():
-#     return render_template('playbackString.html', playback = temp.getComposition())
 
 @app.route("/userPage")
 def userPage():
@@ -238,6 +195,26 @@ def userPage():
     bio = "Ask me about my projector-hating laptop. Former @progressive. All views are my own"
     compositions = [{"name": "axel f crazy frog epic remix"}, {"name": "the farmer in the dell epic remix"}, {"name": "Ballade in the Form of Variations on a Norwegian Folk Song in G minor, Op. 24, TRAP REMIX"}]
     return render_template('userPage.html', pfp = pfp, name = name, username = username, bio = bio, compositions = compositions)
+
+@app.route("/learn")
+def docNotes():
+    return render_template('dNotes.html')
+
+@app.route("/learn/rests")
+def docRests():
+    return render_template('dRests.html')
+
+@app.route("/learn/note_length")
+def docNoteLength():
+    return render_template('dNoteLength.html')
+
+@app.route("/learn/notation")
+def docNotation():
+    return render_template('dNotation.html')
+
+@app.route("/learn/time_signatures")
+def docTimeSignatures():
+    return render_template('dTimeSignatures.html')
 
 if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, use_reloader=False)

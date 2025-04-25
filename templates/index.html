@@ -1,40 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>DeltaBeatz</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/fish_johnson.png')}}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css')}}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/fish_johnson.png')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css')}}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
     <script src="{{ url_for('static', filename='noteSkeleton.js')}}"></script>
     <script src="{{ url_for('static', filename='metro.js') }}"></script>
     <script src="{{ url_for('static', filename='eventListeners.js') }}"></script>
     <script src="{{ url_for('static', filename='playback.js') }}"></script>
-</head>
-<body>
-    <header>
-        {% include 'navbar.html' %}
-    </header>
+  </head>
+  <body>
+    <header>{% include 'navbar.html' %}</header>
     <main>
-        <div id="p5Container">
-            <div id="noteSkeletonContainer" class="container"></div>
-            <!--<div id="trackerContainer" class="container"></div>-->
-        </div>
+      <div id="p5Container">
+        <div id="noteSkeletonContainer" class="container"></div>
+        <!--<div id="trackerContainer" class="container"></div>-->
+      </div>
     </main>
 
     <a href="{{ url_for('about') }}">
-      <img
-        src="{{ url_for('static', filename='metroGnome.jpg') }}"
-        alt="My Image"
-        style="position: fixed; bottom: 20px; right: 20px; width: 8%;"
-      />
+      <img src="{{ url_for('static', filename='metroGnome.jpg') }}" alt="My Image" style="position: fixed; bottom: 20px; right: 20px; width: 8%" />
     </a>
-
-</body>
+  </body>
 </html>
-
-
-
-

@@ -20,6 +20,6 @@ toDB = temp.getCompMeasureList()
 print("measureList to DB: ", temp.getCompMeasureList())
 temp.composition = ""
 
-# takes in dictionary Measurelist and turns it back into original testString
+# takes in list Measurelist and turns it back into original testString
 temp.loadComposition(testMeasureList)
 temp.printComposition()

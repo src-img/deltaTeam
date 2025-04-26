@@ -84,7 +84,7 @@ class Composition:
     def loadComposition(self, measureList):
         result = "g$|"
         for measure in measureList.values():
-            if measure[-1] == "U": # if end of measure is 'U' then it deletes it and adds 'v'
+            if measure[-1] == "U": # if end of measure is 'U' then it deletes'U' and adds 'v'
                 measure = measure[:-1]
                 result += measure
                 result += 'v'

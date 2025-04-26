@@ -148,10 +148,10 @@ def save():
 
 @app.route("/loadSong")
 def load():
-    data = request.get_json()
-    dictSong = db.fetchSong(data.songName).get_json()
+    data = request.get_json() # to get song name 
+    dictSong = db.fetchSong(data.songName) # not sure if this is right
     temp = Composition(session["currentComposition"])
-    temp.loadComposition(dictSong)
+    temp.loadComposition(dictSong) # loadComposition takes a dict, wasn't sure if it was that or a list
     session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
     return jsonify({"message": "Hopefully this loaded"})
 

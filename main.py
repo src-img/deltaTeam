@@ -152,8 +152,8 @@ def load():
     song = db.fetchSong(data.songName) # not sure if this is right
     measureList = []
     for i in song[4]:
-        measure = db.fetchMeasure(i)[2]
-        measureList.append(measure)
+        measure = db.fetchMeasure(i)
+        measureList.append(measure[2])
     temp = Composition(session["currentComposition"])
     temp.loadComposition(measureList)
     session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session

@@ -9,7 +9,7 @@ testString = "g$|nnsmeUs|jEnUovoUNEjevMnnn|nnyy|eEnUnmv"
 
 
 # measure list that should be stored in db after .getCompMeasureList() 
-testMeasureList = {0: "nnsmeUs", 1: "jEnUoU", 2: "oUNEjeU", 3: "Mnnn", 4: "nnyy", 5: "eEnUnmU"}
+testMeasureList = ["nnsmeUs", "jEnUoU", "oUNEjeU", "Mnnn", "nnyy", "eEnUnmU"]
 
 temp = Composition(empty_comp)
 temp.composition = testString

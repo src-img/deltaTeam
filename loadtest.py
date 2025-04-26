@@ -7,6 +7,8 @@ from datetime import timedelta
 
 testString = "g$|nnsmeUs|jEnUovoUNEjevMnnn|nnyy|eEnUnmv"
 
+
+# measure list that should be stored in db after .getCompMeasureList() 
 testMeasureList = {0: "nnsmeUs", 1: "jEnUoU", 2: "oUNEjeU", 3: "Mnnn", 4: "nnyy", 5: "eEnUnmU"}
 
 temp = Composition(empty_comp)
@@ -17,5 +19,7 @@ temp.printComposition()
 toDB = temp.getCompMeasureList()
 print("measureList to DB: ", temp.getCompMeasureList())
 temp.composition = ""
+
+# takes in dictionary Measurelist and turns it back into original testString
 temp.loadComposition(testMeasureList)
 temp.printComposition()

@@ -15,8 +15,6 @@ temp = Composition(empty_comp)
 temp.composition = testString
 temp.printComposition()
 
-
-toDB = temp.getCompMeasureList()
 print("measureList to DB: ", temp.getCompMeasureList())
 temp.composition = ""
 

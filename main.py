@@ -148,10 +148,10 @@ def save():
 
 @app.route("/loadSong/<songID>")
 def load():
-    song, err = db.fetchSong(songID) # not sure if this is right
+    song = db.fetchSong(songID)
     measureList = []
     for i in song[4]:
-        measure = db.fetchMeasure(i)
+        measure, err = db.fetchMeasure(i)
         measureList.append(measure[2])
     temp = Composition(session["currentComposition"])
     temp.loadComposition(measureList)

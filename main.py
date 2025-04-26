@@ -146,17 +146,16 @@ def save():
 
     return jsonify({"message": "Successfully saved song! Yay!"})
 
-@app.route("/loadSong")
+@app.route("/loadSong/<songID>")
 def load():
-    data = request.get_json() # to get song name 
-    song = db.fetchSong(data.songName) # not sure if this is right
+    song, err = db.fetchSong(songID) # not sure if this is right
     measureList = []
     for i in song[4]:
         measure = db.fetchMeasure(i)
         measureList.append(measure[2])
     temp = Composition(session["currentComposition"])
     temp.loadComposition(measureList)
-    session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
+    session["currentComposition"] = temp.to_dict() 
     return jsonify({"message": "Hopefully this loaded"})
 
 @app.route("/compositionString")

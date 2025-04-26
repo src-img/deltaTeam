@@ -147,7 +147,7 @@ def save():
     return jsonify({"message": "Successfully saved song! Yay!"})
 
 @app.route("/loadSong/<songID>")
-def load():
+def load(songID):
     song = db.fetchSong(songID)
     measureList = []
     for i in song[4]:

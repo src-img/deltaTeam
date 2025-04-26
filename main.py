@@ -152,7 +152,7 @@ def load():
     song = db.fetchSong(data.songName) # not sure if this is right
     measureList = []
     for i in song[4]:
-        measure = db.fetchMeasure(i)
+        measure = db.fetchMeasure(i)[2]
         measureList.append(measure)
     temp = Composition(session["currentComposition"])
     temp.loadComposition(measureList)

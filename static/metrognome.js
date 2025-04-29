@@ -3,7 +3,6 @@ window.metrognome = null;
 function setup() {
     const canvas = createCanvas(50, 50);
     canvas.id("gnomeCanvas");
-    canvas.parent(document.getElementById("trackBarBPMContainer")); 
   
     loadAnimations(this);
     metrognome = new Gnome(this, 25, 25, 48); 

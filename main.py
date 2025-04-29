@@ -82,7 +82,7 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_submit():
-    email = request.form['email']
+    email = request.form['username']
     password = request.form['password']
     
     result, error = db.fetchUser(email)
@@ -130,11 +130,11 @@ def signup_submit():
     print("girl")
     return redirect(url_for('login'))
 
-@app.route("/save", methods=['POST'])
+@app.route("/saveButton")
 def save():
-    temp = Composition(session['currentComposition'])
     # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
+        temp = Composition(session["currentComposition"])
         measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID")) 
         db.clearSong(session["songID"])
@@ -142,30 +142,20 @@ def save():
 
         if measuresList != None:
             for measure in measuresList:
-                print(measure)
                 db.addMeasure(session["songID"], measure)
 
     return jsonify({"message": "Successfully saved song! Yay!"})
 
-@app.route('/save_text', methods=['POST'])
-def save_text():
-    data = request.get_json()
-    print(data)
-    text_content = data['content']
-    print(text_content)
-    if session.get("userID") != None and session.get("songID") != None:
-        db.changeSongName(session.get("songID"), str(text_content))
-
-    return jsonify({"message": "Successfully saved song name! Yay!"})
-
-
-
-@app.route("/loadSong")
-def load():
-    data = 'g$|' #temporary, db needs to send song here
+@app.route("/loadSong/<songID>")
+def load(songID):
+    song = db.fetchSong(songID)
+    measureList = []
+    for i in song[4]:
+        measure, err = db.fetchMeasure(i)
+        measureList.append(measure[2])
     temp = Composition(session["currentComposition"])
-    temp.loadNewComposition(data)
-    session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
+    temp.loadComposition(measureList)
+    session["currentComposition"] = temp.to_dict() 
     return jsonify({"message": "Hopefully this loaded"})
 
 @app.route("/compositionString")
@@ -176,7 +166,6 @@ def compositionString():
 @app.route('/deleteRecording', methods=['POST'])
 def delete_Comp():
     data = request.get_json()
-    # temp.deleteComposition()
     session["currentComposition"] = empty_comp
     return jsonify({'data': data}) 
 

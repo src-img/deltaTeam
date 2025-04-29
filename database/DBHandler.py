@@ -10,7 +10,7 @@ class databaseManager():
         self.connection = None
         self.lock = threading.Lock()
         # Regex input validation
-        self.valid = re.compile(r'^[SEQHWseqhwSEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehvVUiddUsdUeduiwyY.+|()]*$')
+        #self.valid = re.compile(r'^[SEQHWseqhwSEIQQSJJSHSHEHIDDSDEDIWseiqqUsjjUshhUshUehvVUiddUsdUeduiwyY.+|()]*$')
 
     
     # Connecting to database
@@ -91,32 +91,65 @@ class databaseManager():
         print("attempting to add measures")
 
         self.lock.acquire(True)
-
-        if self.valid.match(notes):
-            print("valid string of notes")
-        else:
-            print("not valid string of notes. error. not adding measure")
-            error = "Invalid measure note string"
-            success = False
-            return success, error, None
-
         try:
-            res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
-            if res == None: 
-                self.cursor.execute("INSERT INTO Measure(notes) VALUES(?)", [notes])
+            res = self.cursor.execute(
+                "SELECT measure_id FROM Measure WHERE notes = ?", 
+                (notes,)
+            ).fetchone()
+            #print("printing res", res) 
+            if res:  # Measure exists
+                id = res[0]
+            else:    # New measure
+                self.cursor.execute(
+                    "INSERT INTO Measure (notes) VALUES (?)", 
+                    (notes,)
+                )
+                id = self.cursor.lastrowid
+
+
+                print(res)
         except sqlite3.Error as e:
             print("Error inserting measure", e)
             error = e
 
-        id = self.cursor.lastrowid
         #print("measure ID: ", id)
 
         try:
-            self.cursor.execute("UPDATE Song SET measures = json_insert(measures, '$.measuresList[#]', (?)) WHERE song_id=(?)", (id, song_id))
+            print("inserting ", notes, " into song ", song_id)
+            #self.cursor.execute("UPDATE Song SET measures = json_insert(measures, '$.measuresList[#]', (?)) WHERE song_id=(?)", (id, song_id))
+            #res = self.cursor.execute("SELECT * FROM Measure WHERE notes=(?)", [notes]).fetchone()
+            #print(res)
+
+            song_data = self.cursor.execute(
+                "SELECT measures FROM Song WHERE song_id=?", 
+                (song_id,)
+            ).fetchone()
+        
+            if song_data and song_data[0]:
+                # Parse existing JSON
+                measures = json.loads(song_data[0])
+                if 'measuresList' not in measures:
+                    measures['measuresList'] = []
+            else:
+                # Initialize new JSON structure
+                measures = {'measuresList': []}
+            #print("here are the id's", id) 
+            # Append the new measure ID
+            measures['measuresList'].append(id)
+        
+            # Update the song with the modified measures
+            self.cursor.execute(
+                "UPDATE Song SET measures=? WHERE song_id=?",
+                (json.dumps(measures), song_id)
+            )
+ 
+
+
         except sqlite3.Error as e:
             print("Error inserting measure into song JSON")
             error = e
-       
+        
+
         self.lock.release()
         return success, error, id
 
@@ -155,6 +188,24 @@ class databaseManager():
         self.lock.release()
          
         return success, error
+    
+    def clearSong(self, song_id):
+        success = True
+        error = None
+        measuresJSON = '{ "measuresList":[] }'
+
+        self.lock.acquire(True)
+        try:
+            self.cursor.execute("UPDATE Song SET measures = ? WHERE song_id=?", (measuresJSON, song_id))
+            print("Clearing song ", song_id, " from db...")
+        except sqlite3.Error as e:
+            print("There was an error removing song ", song_id)
+            error = e
+ 
+        self.lock.release()
+         
+        return success, error
+
 
     def removeMeasure(self, song_id, position):
         success = True
@@ -290,9 +341,9 @@ class databaseManager():
         success = True
         error = None
 
-        self.lock.aquire(True)
+        self.lock.acquire(True)
         try:
-            self.cursor.execute("UPDATE Song SET song_name = " + song_name + "WHERE song_id=(?)", [song_id])
+            self.cursor.execute("UPDATE Song SET song_name = '" + song_name + "' WHERE song_id=(?)", [song_id])
         except sqlite3.Error as e:
             print("There was an error changing song name")
             error = e
@@ -403,7 +454,10 @@ if __name__ == "__main__":
     assert(result[3] == None)
     assert(result[4] == [])
     print(result)
-   
+    db.printAll() 
+
+    result, err = db.changeSongName(1, "changing name")
+    print(err)
     print("\nPrint all before removal test...")
     db.printAll()
 
@@ -468,5 +522,12 @@ if __name__ == "__main__":
     succ, err = db.removeMeasure(4,1)
     assert(succ == True)
     assert(err == None)
+    
 
+    succ, err, id = db.addMeasure(4, "Q")
+    succ, err, id = db.addMeasure(4, "V")
+    succ, err, id = db.addMeasure(4, "v")
+    db.printAll()
+
+    succ, err = db.clearSong(4)
     db.printAll()

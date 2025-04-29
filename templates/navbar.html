@@ -1,14 +1,129 @@
 <nav id="navContainer">
     <ul class="nav-links" id="navList">
         <li id="siteTitle"><a href="{{ url_for('index') }}">DeltaBeatz</a></li>
-        <li><a href="{{ url_for('about') }}">About</a></li>
-        <li><a href="{{ url_for('features') }}">Features</a></li>
-        <li><a href="{{ url_for('faq') }}">FAQ</a></li>
-        {% if navbar_data.loggedIn %}
-            <li><a href="{{ url_for('profile', username=navbar_data.username) }}" id = "navBarUserContainer"><span>{{ navbar_data.helloText }}</span><img src="{{ navbar_data.pfp or url_for('static', filename='defaultPFP.png') }}" id="navBarPfp"></a></li>
-        {% else %}
-            <li><a href="{{ url_for('signup') }}">Sign up</a></li>
-            <li><a href="{{ url_for('login') }}" id ="navBarUserContainer"><span>Log In</span><img src="{{ navbar_data.pfp or url_for('static', filename='defaultPFP.png') }}" id="navBarPfp"></a></li>
-        {% endif %}
+        <div id="hamburgerMenu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div id="navLinksContainer">
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+            {% if navbar_data.loggedIn %}
+                <li><a href="{{ url_for('userPage') }}" id="navBarUserContainer"><span>{{ navbar_data.username }}</span><img src={{navbar_data.pfp}}/ id="navBarPfp"></a></li>
+            {% else %}
+                <li><a href="{{ url_for('signup') }}">Sign up</a></li>
+                <li><a href="{{ url_for('login') }}" id="navBarUserContainer"><span>Log In</span><img src={{navbar_data.pfp}}/ id="navBarPfp"></a></li>
+            {% endif %}
+        </div>
     </ul>
 </nav>
+<script>
+    function toggleMenu() {
+        const navLinksContainer = document.getElementById('navLinksContainer');
+        navLinksContainer.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function(event) {
+        const navLinksContainer = document.getElementById('navLinksContainer');
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        if (!navLinksContainer.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+            navLinksContainer.classList.remove('show');
+        }
+    });
+</script>
+<style>
+    #navContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+    #navList {
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    #hamburgerMenu {
+        display: none;
+        cursor: pointer;
+        flex-direction: column;
+        gap: 5px;
+    }
+    #hamburgerMenu span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: white;
+    }
+    #navLinksContainer {
+        display: flex;
+        flex: 1;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: #47C7BE; /* Match the navigation bar color */
+    }
+    #navLinksContainer li a {
+        font-weight: normal;
+        font-family: inherit;
+        text-align: center;
+        padding: 10px 15px;
+    }
+    #navBarUserContainer {
+        display: flex;
+        align-items: center;
+    }
+    #navBarPfp {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        margin-left: 5px;
+    }
+    #siteTitle {
+        height: 100%; /* Match the height of the navigation bar */
+        display: flex;
+        align-items: center; /* Vertically center the text */
+    }
+
+    #siteTitle a {
+        text-decoration: none; /* Remove underline */
+        color: white; /* Ensure text color matches the navbar */
+        padding: 5px 20px; /* Add consistent padding */
+        display: inline-block; /* Ensure proper hover area */
+        background-color: transparent; /* No background by default */
+    }
+
+    #siteTitle a:hover {
+        background-color: #3aa89e; /* Match the hover color to the navbar */
+        border-radius: 4px; /* Optional: Add rounded corners for hover effect */
+    }
+    @media (max-width: 768px) {
+        #hamburgerMenu {
+            display: flex;
+        }
+        #navLinksContainer {
+            display: none;
+            flex-direction: column;
+            margin-top: 180px;
+            background-color: #47C7BE;
+            position: absolute;
+            right: 0; /* Ensure it stays on the right side */
+        }
+        #navLinksContainer.show {
+            display: flex;
+        }
+        #navLinksContainer li {
+            width: 110%; /* Ensure full width for dropdown items */
+        }
+        #navLinksContainer li a {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+        }
+    }
+</style>

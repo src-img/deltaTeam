@@ -1,5 +1,6 @@
 const SKELETON_DIV = "noteSkeletonContainer";
 
+let autoScroll = false;
 const observer = new MutationObserver((mutationsList) => {
   // Loop through all mutations to handle them
   
@@ -7,19 +8,71 @@ const observer = new MutationObserver((mutationsList) => {
     // Ensure that the target element exists and is scrollable
     const target = mutation.target;
 
-    fetch('/grabRecording')
-        .then(response => response.json())
-        .then(data => {
-            if(target && target.scroll && data.recording){
-              target.parentElement.scrollLeft = target.parentElement.scrollWidth;
-            }
-        });
+    if(target && target.scroll && autoScroll){
+      target.parentElement.scrollLeft = target.parentElement.scrollWidth;
+    }
   });
 });
 
+let trackOptions = [
+  {
+    "name": "Bass Drum",
+    "path": './static/assets/sounds/bassdrum.wav'
+  },
+  {
+    "name": "Closed Hi-Hat",
+    "path": './static/assets/sounds/closedhihat.wav'
+  },
+  {
+    "name": "Cowbell",
+    "path": './static/assets/sounds/cowbell.wav'
+  },
+  {
+    "name": "Floor Tom",
+    "path": './static/assets/sounds/floortom.wav'
+  },
+  {
+    "name": "Hi Tom",
+    "path": './static/assets/sounds/hitom.wav'
+  },
+  {
+    "name": "Low Tom",
+    "path": './static/assets/sounds/lowtom.wav'
+  },
+  {
+    "name": "Open Hi-Hat",
+    "path": './static/assets/sounds/openhihat.wav'
+  },
+  {
+    "name": "Rimshot",
+    "path": './static/assets/sounds/rimshot.wav'
+  },
+  {
+    "name": "Snare",
+    "path": './static/assets/sounds/snare.wav'
+  },
+  {
+    "name": "Bell",
+    "path": './static/assets/sounds/bong.wav'
+  },
+  {
+    "name": "Sans",
+    "path": './static/assets/sounds/sans.wav'
+  },
+  {
+    "name": "Splat",
+    "path": './static/assets/sounds/splat.wav'
+  },
+  {
+    "name": "Whip Crack",
+    "path": './static/assets/sounds/whipcrack.wav'
+  }
+]
+let selectedTrack = trackOptions[0];
 
 let skeletonSketch = function(p) {
   let playButton;
+  let deleteEnabled = true;
 
   class track {
     constructor(p5, x, y){
@@ -46,7 +99,19 @@ let skeletonSketch = function(p) {
       this.nameField = this.p.createInput();
       this.nameField.class("trackName");
       this.nameField.parent(this.buttonContainerRowA);
-      
+      this.nameField.attribute("required", "");
+
+      this.nameField.elt.addEventListener('blur', () => {
+          const text = this.nameField.value();
+          if (text) {  // Only send if not empty
+           fetch('/save_text', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({content: text})
+            });
+          }
+      });
+
       this.recordButton = this.p.createButton("-");
       this.recordButton.class("trackRecord");
       this.recordButton.parent(this.buttonContainerRowA);
@@ -58,57 +123,39 @@ let skeletonSketch = function(p) {
 
         if (rButton.classList.contains('trackRecordOn')) rButton.classList.remove('trackRecordOn');
         else rButton.classList.add('trackRecordOn'); //trackRecordOn needs to be lower in the css to take priority
-        
-        fetch('/recording', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
-        });
 
         const toggleMetroEvent = new CustomEvent('toggleAction', {detail:{}});
         document.dispatchEvent(toggleMetroEvent);
+
+        if(!autoScroll){
+          autoScroll = true;
+        } else {
+          autoScroll = false;
+        }
       })
       
       this.buttonContainerRowB = this.p.createDiv();
       this.buttonContainerRowB.class("buttonContainerRowB buttonContainerRow");
       this.buttonContainerRowB.parent(this.buttonContainer);
-
-      this.muteButton = this.p.createButton(".");
-      //this.muteButton = this.p.createImg("skeletonAssets/unmutedIcon.png", "Mute");
-      this.muteButton.mousePressed(() => {
-        if (this.muteButton.style('background').includes('unmutedIcon.png')) {
-          this.muteButton.style('background-image', 'url(../static/assets/skeleton/mutedIcon.png)');
-          this.muted = true;
-        } else {
-          this.muteButton.style('background-image', 'url(../static/assets/skeleton/unmutedIcon.png)');
-          this.muted = false;
-        }
-      });
-      this.muteButton.class("trackMute");
-      this.muteButton.parent(this.buttonContainerRowB);
-      
-      this.isoButton = this.p.createButton(".");
-      //NO FUNCTIONALITY YET
-      this.isoButton.class("trackIso");
-      this.isoButton.parent(this.buttonContainerRowB);
       
       this.deleteButton = this.p.createButton(".");
       //this.deleteButton = this.p.createImg("skeletonAssets/deleteIcon.png", "Delete");;
-      //THERE IS FUNCTIONALITY BUT IT EATS THE IDS WHEN YOU DELETE SOMETHING 
-      //the display is nice but internally your ids are absolutely screwed. only of note if we need them tho lol
-      //also for consideration: actually only deleting the final track and shifting everything else's data down. but that seems. harder
       this.deleteButton.class("trackDelete");
       this.deleteButton.parent(this.buttonContainerRowB);
       this.deleteButton.mousePressed(() => {
-        console.log("delete!")
-        fetch('/deleteRecording', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({key: 'value'})
-        });
-
-        const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
-        document.dispatchEvent(toggleNoteDisplayEvent);
+        if(deleteEnabled){
+          console.log("delete!")
+          fetch('/deleteRecording', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({key: 'value'})
+      
+          })
+          .then(data => {const toggleNoteDisplayEvent = new CustomEvent('toggleNotes', {detail:{}});
+          document.dispatchEvent(toggleNoteDisplayEvent);
+        1 })
+          
+        }
       });
 
       this.buttonContainerRowC = this.p.createDiv();
@@ -188,7 +235,7 @@ let skeletonSketch = function(p) {
     trackBarBackingContainer.id("trackBarBackingContainer");
     trackBarBackingContainer.parent(trackBar);
     
-    let badText = p.createP("Backing Track");
+    let badText = p.createP("Playback Sound");
     badText.style("color", "black");
     badText.style("text-align", "right");
     badText.style("margin", "0");
@@ -201,16 +248,14 @@ let skeletonSketch = function(p) {
     trackDropdown.style("margin-left", "10px");
     trackDropdown.parent(trackBarBackingContainer);
 
-    let editButton = p.createImg("static/assets/editButton/editButton.png", "Edit");
-    editButton.id("editButton");
-    editButton.class("trackBarButton");
-    editButton.style("margin-left", "10px");
-    editButton.parent(trackBarBackingContainer);
-
     // Populate dropdown with track names
-    trackDropdown.option("Select Track");
+    for (let trackOption of trackOptions) {
+      trackDropdown.option(trackOption.name);
+    }
     trackDropdown.changed(() => {
-      let selectedTrack = trackDropdown.value();
+      let actualIndex = trackDropdown.elt.selectedIndex;
+      console.log(trackOptions[actualIndex])
+      selectedTrack = trackOptions[actualIndex];
       console.log("Selected Track:", selectedTrack);
     });
 
@@ -223,9 +268,28 @@ let skeletonSketch = function(p) {
       const togglePlay = new CustomEvent('togglePlay', {detail:{}});
       document.dispatchEvent(togglePlay);
     });
+
+    saveButton = p.createButton("Save");
+    saveButton.id("saveTracks");
+    saveButton.parent(trackBarPropertyContainer);
     
+    saveButton.mousePressed(() => {
+        fetch("/save", { method: "POST" })
+        .then(response => response.text())
+        .then(data => console.log("Saved!", data))
+        .catch(err => console.error("Error saving:", err));
+    });
+
     new track(p, 10, 35);
   }
+
+  document.addEventListener('toggleAction', () => {
+    if(deleteEnabled){
+      deleteEnabled = false;
+    } else {
+      deleteEnabled = true;
+    }
+  });
 }
 
 new p5(skeletonSketch, SKELETON_DIV);

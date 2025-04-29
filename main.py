@@ -41,9 +41,14 @@ def index():
         if session.get("songID") == None:
             success, error, id = db.addSong(session["userID"], session["username"] + " song")
             session["songID"] = id
+
             db.commit()
-    if session.get("currentCompostion") == None:
+    print("before", session.get("currentComposition"))
+    if session.get("currentComposition") == None:
         session["currentComposition"] = empty_comp
+
+    print(session.get("currentComposition"))
+    print("working on song,",session.get("songID"))
     return render_template('index.html')
 
 @app.route("/userpage/<username>")
@@ -55,11 +60,18 @@ def profile(username):
         abort(404, description="User not found")
     
     songsResult = db.fetchUserSongsNames(userResult[0])
-    print(songsResult)
+    songsIDs = db.fetchUserSongsID(userResult[0])
     
+    songsIDs = list(songsIDs)
+    songsResult = list(songsResult)
+
+    
+    songAll = list(zip(songsIDs, songsResult))
+
+    print(songAll)
     user_data = {
         "username": userResult[3],
-        "songs": songsResult
+        "songs": songAll
     }
     
     return render_template("userPage.html", user_data=user_data)
@@ -82,7 +94,7 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_submit():
-    email = request.form['username']
+    email = request.form['email']
     password = request.form['password']
     
     result, error = db.fetchUser(email)
@@ -130,10 +142,15 @@ def signup_submit():
     print("girl")
     return redirect(url_for('login'))
 
-@app.route("/saveButton")
+@app.route("/save", methods=["POST"])
 def save():
     # Adding the new measures to the database
     if session.get("userID") != None and session.get("songID") != None:
+        res, err = db.fetchSong(session.get("songID"))
+        if res[1] != session.get("userID"):
+            print("this isnt your song")
+            return jsonify({"message": "This is not your song. Can't overrite it!"})
+
         temp = Composition(session["currentComposition"])
         measuresList = temp.getCompMeasureList()
         result, error = db.fetchSong(session.get("songID")) 
@@ -148,15 +165,18 @@ def save():
 
 @app.route("/loadSong/<songID>")
 def load(songID):
-    song = db.fetchSong(songID)
+    song, err = db.fetchSong(songID)
     measureList = []
-    for i in song[4]:
-        measure, err = db.fetchMeasure(i)
-        measureList.append(measure[2])
+    if song[4] != None:
+        for i in song[4]:
+            measure, err = db.fetchMeasure(i)
+            measureList.append(measure[1])
     temp = Composition(session["currentComposition"])
     temp.loadComposition(measureList)
-    session["currentComposition"] = temp.to_dict() 
-    return jsonify({"message": "Hopefully this loaded"})
+    session["songID"] = songID
+    session["currentComposition"] = temp.to_dict()
+    print(session.get("currentComposition"))
+    return redirect(url_for('index'))
 
 @app.route("/compositionString")
 def compositionString():

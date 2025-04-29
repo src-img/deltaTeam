@@ -320,6 +320,15 @@ class databaseManager():
 
         return names
 
+    def fetchUserSongsID(self, user_id):
+        result, error = self.fetchUserSongs(user_id)
+        ID = []
+
+        for song in result:
+            ID.append(song[0])
+
+        return ID
+
     def fetchMeasure(self, measure_id):
         result = []
         error = None

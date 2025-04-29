@@ -32,10 +32,10 @@
         <div class="userCompositions">
             <h2>Compositions</h2>
             <div class="compContainer">
-                {% for song in user_data.songs -%}
+                {% for id, name in user_data.songs %}
                 <div class="compDisplayContainer">
                     <img src="../static/assets/img/notePlaceholder.png"/>
-                    <p>{{song}}</p>
+		    <p><a href="/loadSong/{{id}}"<span>{{name}}</span></p>
                 </div>
                 {%- endfor %}
             </div>

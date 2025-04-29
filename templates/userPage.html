@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - DeltaBeatz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+
 </head>
 
 <body>
@@ -12,11 +13,10 @@
     <header>
         {% include 'navbar.html' %}
     </header>
-
     <div class="userPageContainer"> 
         <div class="userInfo">
             <div class="userPFP">
-                <img src={{pfp}}/>
+                <img src="/static/default.png">
             </div>
             <div class="userAbout">
                 <div class="userName">
@@ -24,10 +24,10 @@
                     <p>@{{user_data.username}}</p>
                 </div>
                 <div class="bio">
+                    <p>Bio</p>
                     {{bio}}
-                </div>
-
             </div>
+        </div>
         </div>
         <div class="userCompositions">
             <h2>Compositions</h2>

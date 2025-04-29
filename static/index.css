@@ -463,7 +463,7 @@ textarea {
 }
 
 footer {
-  background-color: #87cefa;
+  background-color: var(--medBlue);
   padding: 15px 0;
   text-align: center;
   color: #fff;

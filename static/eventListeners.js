@@ -67,3 +67,42 @@ document.addEventListener('toggleEndOfPlayback', () => {
     let button = document.getElementById("playTracks");
     button.innerHTML = "Play";
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const popups = document.querySelectorAll(".popup");
+    let currentPopupIndex = 0;
+  
+    function showPopup(index) {
+      popups.forEach((popup) => popup.classList.remove("active"));
+  
+      const popup = popups[index];
+      if (popup) {
+        popup.classList.add("active");
+        const targetSelector = popup.getAttribute("data-target");
+        if (targetSelector) {
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            const targetRect = targetElement.getBoundingClientRect();
+            popup.style.top = `${targetRect.top + window.scrollY - popup.offsetHeight + 200}px`;
+            popup.style.left = `${targetRect.left + window.scrollX}px`;
+          }
+        }
+      }
+    }
+    showPopup(currentPopupIndex);
+  
+    // Add event listeners to buttons
+    popups.forEach((popup, index) => {
+      const nextButton = popup.querySelector("button");
+      if (nextButton) {
+        nextButton.addEventListener("click", () => {
+          currentPopupIndex++;
+          if (currentPopupIndex < popups.length) {
+            showPopup(currentPopupIndex);
+          } else {
+            document.getElementById("popup-container").style.display = "none";
+          }
+        });
+      }
+    });
+  });

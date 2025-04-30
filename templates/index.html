@@ -22,6 +22,41 @@
       </div>
     </main>
 
+    <div id="popup-container">
+      <div class="popup" id="popup-1">
+        <h2>Welcome to deltabeatz!</h2>
+        <p>This tutorial will show you how to use the application.</p>
+        <button id="next-1">Next</button>
+      </div>
+      <div class="popup" id="popup-2" data-target="#noteSkeletonContainer">
+        <h2>Trackbar</h2>
+        <p>This trackbar contains a play button, save button, metronome, and sound select. These can be used to interact with a composition.</p>
+        <button id="next-2">Next</button>
+      </div>
+      <div class="popup" id="popup-3" data-target="trackBar">
+        <h2>Record Compositions</h2>
+        <p>
+          To record a composition, click the red recording button. 4 clicks will play and a countdown will occur, then you can start tapping the key
+          "A" to the beat of your rhythm!
+        </p>
+        <p>Once finished, click the red recording button, and the recording will stop.</p>
+        <button id="next-3">Next</button>
+      </div>
+      <div class="popup" id="popup-4" data-target="p5Container">
+        <h2>Playing the Composition</h2>
+        <p>
+          Once you are done recording, you can click the "Play" button in the top left to hear what you input! You can also change the sound that is
+          played.
+        </p>
+        <button id="next-4">Next</button>
+      </div>
+      <div class="popup" id="popup-5">
+        <h2>You're ready to go!</h2>
+        <p>If you need any more help, click the little gnome buddy down in the bottom for more help. Have fun!</p>
+        <button id="finish">Finish</button>
+      </div>
+    </div>
+
     <a href="{{ url_for('about') }}">
       <img src="{{ url_for('static', filename='metroGnome.jpg') }}" alt="My Image" style="position: fixed; bottom: 20px; right: 20px; width: 8%" />
     </a>

@@ -1,64 +1,64 @@
 /*sSETUP --------------------------------------------------------------*/
 
 :root {
-  --lightBlue: #47C7BE;
-  --medBlue: #249AA6;
-  --darkBlue: #20657E;
-  --lightOrange: #F18956;
-  --darkOrange: #CC4B29;
+  --lightBlue: #47c7be;
+  --medBlue: #249aa6;
+  --darkBlue: #20657e;
+  --lightOrange: #f18956;
+  --darkOrange: #cc4b29;
   --textBlack: #212528;
 }
 
 @font-face {
-  font-family: 'Musisync';
-  src: url('./assets/fonts/musisync/musisync.ttf') format('truetype');
+  font-family: "Musisync";
+  src: url("./assets/fonts/musisync/musisync.ttf") format("truetype");
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Medium/Futura Medium.otf') format('opentype');
+  font-family: "Futura";
+  src: url("./assets/fonts/futura/Futura Medium/Futura Medium.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Bold/Futura Bold.otf') format("opentype");
-  font-style: normal;
+  font-family: "Futura";
+  src: url("./assets/fonts/futura/Futura Bold/Futura Bold.otf") format("opentype");
+  font-style: bold;
   font-weight: 600;
 }
 
 @font-face {
-  font-family: 'Futura';
-  src: url('./assets/fonts/futura/Futura Light/Futura Light.otf') format('opentype');
+  font-family: "Futura";
+  src: url("./assets/fonts/futura/Futura Light/Futura Light.otf") format("opentype");
   font-style: normal;
   font-weight: 200;
 }
 
 @font-face {
-  font-family: 'Futura Condensed';
-  src: url('./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf') format('opentype');
+  font-family: "Futura Condensed";
+  src: url("./assets/fonts/futura/Futura Medium Condensed/Futura Medium Condensed.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
-} 
+}
 
 @font-face {
-  font-family: 'Futura Condensed';
-  src: url('./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf') format('opentype');
+  font-family: "Futura Condensed";
+  src: url("./assets/fonts/futura/Futura Light Condensed/Futura Light Condensed.otf") format("opentype");
   font-style: normal;
   font-weight: 200;
 }
 
 body {
-  font-family: 'Futura', sans-serif;
+  font-family: "Futura", sans-serif;
   font-weight: 400;
   font-style: normal;
   background-color: white;
   color: var(--textBlack);
   margin: 0;
   padding: 0;
-  width: 100%
+  width: 100%;
 }
 
 .container {
@@ -89,7 +89,7 @@ nav {
   justify-content: space-evenly;
   width: 100%;
   height: 70px;
-  font-family: 'Futura';
+  font-family: "Futura";
   font-weight: 600;
 }
 
@@ -105,7 +105,7 @@ ul#navList > li {
   flex-direction: column;
   padding: 0px;
   margin: 0px;
-  font-family: 'Futura', sans-serif;
+  font-family: "Futura", sans-serif;
   font-weight: 400 !important;
 }
 
@@ -128,7 +128,6 @@ ul#navList > li {
     width: 50%;
   }
 }
-
 
 nav a {
   color: #fff;
@@ -178,7 +177,7 @@ nav a:hover {
   display: block;
   padding: 8px 16px;
   text-decoration: none;
-  color: var(--textBlack)
+  color: var(--textBlack);
 }
 
 /* Documentation Styles */
@@ -206,6 +205,36 @@ button {
 
 button:hover {
   background-color: var(--darkOrange);
+}
+
+/* Tutorial Popups --------------------------------------- */
+
+#popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.popup {
+  /* Each popup is invisible by default, the event listener will make them visible.*/
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 2px solid black;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px black;
+}
+
+.popup.active {
+  display: block;
 }
 
 /*TRACKBAR ------------------------------------------------*/
@@ -268,7 +297,7 @@ button:hover {
   display: flex;
   height: 200px;
   min-width: 400px;
-  width:100%;
+  width: 100%;
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -278,9 +307,10 @@ button:hover {
   display: none;
 }
 
-.noteContainer { /*some of these properties can probably be deleted, but it's very tenuous, so... whatever. way it works is button is sticky, on a higher layer, and has a background color, so the scroll effect is chill.*/
+.noteContainer {
+  /*some of these properties can probably be deleted, but it's very tenuous, so... whatever. way it works is button is sticky, on a higher layer, and has a background color, so the scroll effect is chill.*/
   width: 50px;
-  font-family: 'Musisync';
+  font-family: "Musisync";
   font-size: 100px;
   min-width: min-content;
   flex-wrap: nowrap;
@@ -318,12 +348,11 @@ button:hover {
   justify-content: space-between;
 }
 
-
 .trackName {
   margin-bottom: 0px !important; /*this is not my problem right now i truly cant be bothered*/
   height: 20px;
   width: 65% !important;
-  font-family: 'Futura Condensed', sans-serif;
+  font-family: "Futura Condensed", sans-serif;
   font-weight: 200;
   font-size: 24px;
 }
@@ -333,7 +362,7 @@ button:hover {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px;
-  color: #FF3365;
+  color: #ff3365;
   width: 40px;
   height: 40px;
 }
@@ -343,10 +372,13 @@ button:hover {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px;
-  color: #FF8F8F;
+  color: #ff8f8f;
 }
 
-.trackRecord:hover, .trackMute:hover, .trackIso:hover, .trackDelete:hover {
+.trackRecord:hover,
+.trackMute:hover,
+.trackIso:hover,
+.trackDelete:hover {
   filter: brightness(80%);
   background-color: white;
 }
@@ -376,7 +408,7 @@ button:hover {
   height: 40px;
 }
 
-.trackDelete{
+.trackDelete {
   background: url(./assets/skeleton/deleteIcon.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -386,11 +418,15 @@ button:hover {
   height: 40px;
 }
 
-input[type='range'] {
+input[type="range"] {
   -webkit-appearance: none !important;
   background: var(--medBlue);
   border-radius: 25px;
-  height:7px;
+  height: 7px;
+}
+
+.recording-active {
+  outline: 5px solid red;
 }
 
 /* USER PAGE -------------------------------------------------------------------------------------------------*/
@@ -508,10 +544,6 @@ input[type='range'] {
   text-align: center;
   margin: 0;
 }
-
-
-
-
 
 /* Card Components */
 .card {

@@ -102,7 +102,18 @@ let skeletonSketch = function(p) {
       this.nameField.class("trackName");
       this.nameField.parent(this.buttonContainerRowA);
       this.nameField.attribute("required", "");
-      
+
+      this.nameField.elt.addEventListener('blur', () => {
+          const text = this.nameField.value();
+          if (text) {  // Only send if not empty
+           fetch('/save_text', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({content: text})
+            });
+          }
+      });
+
       this.recordButton = this.p.createButton("-");
       this.recordButton.class("trackRecord");
       this.recordButton.parent(this.buttonContainerRowA);
@@ -264,6 +275,13 @@ let skeletonSketch = function(p) {
     saveButton.id("saveTracks");
     saveButton.parent(trackBarPropertyContainer);
     
+    saveButton.mousePressed(() => {
+        fetch("/save", { method: "POST" })
+        .then(response => response.text())
+        .then(data => console.log("Saved!", data))
+        .catch(err => console.error("Error saving:", err));
+    });
+
     new track(p, 10, 35);
   }
 

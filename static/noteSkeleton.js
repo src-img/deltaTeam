@@ -315,8 +315,10 @@ function waitForElement(id, callback){
 }
 
 waitForElement('trackBarBPMContainer', function(){
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
   waitForElement('gnomeCanvas', function(){
     document.getElementById("trackBarBPMContainer").appendChild(document.getElementById('gnomeCanvas')) //puts animated gnome in position. there was a loading issue
+  })
+  waitForElement('defaultCanvas1', function(){
+    document.getElementById("defaultCanvas1").remove();
   })
 });

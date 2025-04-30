@@ -14,6 +14,8 @@ const observer = new MutationObserver((mutationsList) => {
   });
 });
 
+
+let canvas;
 let trackOptions = [
   {
     "name": "Bass Drum",
@@ -208,7 +210,7 @@ let skeletonSketch = function(p) {
   p.setup = function(){
     let div = document.getElementById(SKELETON_DIV);
 
-    let canvas = p.createCanvas(0, 0);
+    canvas = p.createCanvas(0, 0);
     p.background(0);
     canvas.id("trackCanvas");
     canvas.parent(div);
@@ -293,3 +295,20 @@ let skeletonSketch = function(p) {
 }
 
 new p5(skeletonSketch, SKELETON_DIV);
+
+function waitForElement(id, callback){
+  var hang = setInterval(function(){
+      if(document.getElementById(id)){
+          clearInterval(hang);
+          console.log('tried')
+          callback();
+      }
+  }, 100);
+}
+
+waitForElement('trackBarBPMContainer', function(){
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+  waitForElement('gnomeCanvas', function(){
+    document.getElementById("trackBarBPMContainer").appendChild(document.getElementById('gnomeCanvas')) //puts animated gnome in position. there was a loading issue
+  })
+});

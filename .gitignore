@@ -174,3 +174,4 @@ cython_debug/
 .vscode
 database/test
 testDB
+testDB-journal

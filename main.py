@@ -248,7 +248,7 @@ def save_text():
 
     return jsonify({"message": "Successfully saved song name! Yay!"})
 
-@app.route("/userpage")
+@app.route("/userPage")
 def userPage():
     pfp = "../static/assets/img/drd.jpg"
     name = "Dr. D"

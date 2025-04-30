@@ -284,6 +284,24 @@ let skeletonSketch = function(p) {
         .catch(err => console.error("Error saving:", err));
     });
 
+    newButton.mousePressed(() => {
+
+      // const my_url = "{{ url_for('my_route', param1='value1', param2='value2') }}";
+      // const dynamic_url = {{ url_for('profile', username=navbar_data.username) }};
+      // "id="navBarUserContainer"><span>{{ navbar_data.helloText }}
+
+      fetch("/new", { method: "POST" })
+      // .then(response => response.text())
+      .then(data => console.log("NewSong!", data))
+      .then(() =>{
+        fetch("/compositionString")
+            .then(response => {return response.text();})
+            .then((html) => document.getElementsByClassName("noteContainer")[0].innerHTML = html);
+      }
+      )
+      .catch(err => console.error("Error saving:", err));
+  });
+
     new track(p, 10, 35);
   }
 

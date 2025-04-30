@@ -163,6 +163,32 @@ def save():
 
     return jsonify({"message": "Successfully saved song! Yay!"})
 
+
+
+
+
+
+
+@app.route("/new", methods=["POST"])
+def new():
+    if session.get("userID") != None:
+        songName = "untitled"
+        res, err, songID = db.addSong(session.get("userID"), songName)
+    # return redirect(url_for('loadSong', songID = songID))
+    song, err = db.fetchSong(songID)
+    measureList = []
+    if song[4] != None:
+        for i in song[4]:
+            measure, err = db.fetchMeasure(i)
+            measureList.append(measure[1])
+    temp = Composition(session["currentComposition"])
+    temp.loadComposition(measureList)
+    session["songID"] = songID
+    session["currentComposition"] = temp.to_dict()
+    print(session.get("currentComposition"))
+    return jsonify({"message": "message"})
+
+
 @app.route("/loadSong/<songID>")
 def load(songID):
     song, err = db.fetchSong(songID)

@@ -211,6 +211,17 @@ def handle_metronome():
     session["currentComposition"] = temp.to_dict() # convert temporary instance of class to dictionary and store it in session
     return jsonify({"data": data})
 
+@app.route('/save_text', methods=['POST'])
+def save_text():
+    data = request.get_json()
+    print(data)
+    text_content = data['content']
+    print(text_content)
+    if session.get("userID") != None and session.get("songID") != None:
+        db.changeSongName(session.get("songID"), str(text_content))
+
+    return jsonify({"message": "Successfully saved song name! Yay!"})
+
 @app.route("/userPage")
 def userPage():
     pfp = "../static/assets/img/drd.jpg"
